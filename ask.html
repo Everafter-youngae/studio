@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4efe8">
+  <meta name="description" content="Everafter 사회 문의 — 두 사람의 이야기를 들려주세요.">
+  <title>문의하기 | Everafter 永愛</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="subpage">
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header solid-header">
+    <a class="brand-mark" href="index.html"><span>EVERAFTER</span><small>永 愛</small></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="site-nav"><a href="index.html">Home</a><a href="review.html">Records</a><a class="active" href="ask.html">Contact</a></nav>
+  </header>
+
+  <main class="subpage-main">
+    <section class="subpage-hero ask-hero">
+      <div class="subpage-number">01</div>
+      <div class="subpage-title reveal">
+        <p class="eyebrow burgundy">Begin your first page</p>
+        <h1>당신의 첫 장은<br>어떤 이야기인가요?</h1>
+        <p>결혼식은 모두 같지만, 이야기는 모두 다릅니다.<br>두 사람의 이야기를 들려주세요.</p>
+      </div>
+    </section>
+
+    <section class="ask-layout">
+      <aside class="ask-note reveal">
+        <p class="eyebrow burgundy">Before we begin</p>
+        <p>아직 정해지지 않은 내용이 있어도 괜찮습니다. 현재 알고 있는 이야기부터 편하게 남겨주세요.</p>
+      </aside>
+      <form class="inquiry-form standalone-form reveal" id="inquiryForm">
+        <label>두 사람의 이름<input name="names" autocomplete="name" required></label>
+        <label>예식 날짜<input type="date" name="date" required></label>
+        <label>예식 장소<input name="venue" required></label>
+        <label>연락처<input name="contactInfo" autocomplete="tel" required></label>
+        <label class="full">남기고 싶은 이야기<textarea name="message" placeholder="두 분의 이야기와 원하는 예식 분위기를 들려주세요."></textarea></label>
+        <button type="submit">문의 내용 복사하기</button>
+        <p class="form-status" id="formStatus" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer><span>Everafter 永愛</span><a href="index.html">Back to home</a><span>© 2026 Everafter</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
