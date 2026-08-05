@@ -20,6 +20,12 @@ Then visit `http://localhost:8000/index.html`. Changes to `.html`, `.css`, or `.
 
 Deployed via GitHub Pages directly from the `main` branch, root folder (`Settings → Pages → Deploy from a branch → main /(root)`). All links must stay relative so the site works both locally and on Pages.
 
+**Every commit on `main` auto-pushes to `origin/main`** via a local `post-commit` git hook (`.git/hooks/post-commit`, not tracked by git — machine-local only). There is no staging branch or review step: whatever is committed goes live on GitHub Pages within about a minute. Practical implications:
+
+- Verify a change actually works (see Development above) *before* committing — don't commit half-finished work as a checkpoint.
+- Never use `git commit --amend` or history rewrites on `main` here; the hook only fires on new commits, and rewriting history after it already pushed will fight with the remote.
+- If working from a machine without this hook installed, push manually after committing.
+
 ## Architecture
 
 - `index.html` — main landing page (hero + story sections)
