@@ -1,3 +1,23 @@
+const siteHeader = document.querySelector('.site-header');
+const headerHero = document.querySelector('.hero, .review-hero, .subpage-hero');
+const headerHeroCopy = headerHero?.querySelector('.hero-copy, .review-hero-copy, .subpage-title');
+function updateHeaderState() {
+  if (!siteHeader || !headerHero) return;
+  const headerH = siteHeader.offsetHeight;
+  // Go solid as soon as the hero's own copy block scroll up to meet the
+  // header, not only once the whole hero section has passed — the text
+  // collides with the fixed header well before the hero fully scrolls away.
+  const pastHero = headerHeroCopy
+    ? headerHeroCopy.getBoundingClientRect().top < headerH + 16
+    : window.scrollY > headerHero.offsetHeight - headerH;
+  siteHeader.classList.toggle('is-scrolled', pastHero);
+}
+if (siteHeader && headerHero) {
+  window.addEventListener('scroll', updateHeaderState, { passive: true });
+  window.addEventListener('resize', updateHeaderState);
+  updateHeaderState();
+}
+
 const progressCopy = document.getElementById('progressCopy');
 const sections = [...document.querySelectorAll('[data-progress]')];
 if (progressCopy && sections.length) {
