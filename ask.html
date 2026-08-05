@@ -33,20 +33,23 @@
       <aside class="ask-note reveal">
         <p class="eyebrow burgundy">Before we begin</p>
         <p>아직 정해지지 않은 내용이 있어도 괜찮습니다. 현재 알고 있는 이야기부터 편하게 남겨주세요.</p>
+        <a class="outline-link ig-link" href="https://ig.me/m/ever.after_youngae" target="_blank" rel="noopener">인스타그램 DM으로 바로 문의하기</a>
       </aside>
       <form class="inquiry-form standalone-form reveal" id="inquiryForm">
         <label>두 사람의 이름<input name="names" autocomplete="name" required></label>
-        <label>예식 날짜<input type="date" name="date" required></label>
+        <label>예식 날짜<input type="text" name="date" id="weddingDate" inputmode="numeric" autocomplete="off" placeholder="2026.11.14" maxlength="10" pattern="\d{4}\.\d{2}\.\d{2}" title="예: 2026.11.14" required></label>
         <label>예식 장소<input name="venue" required></label>
         <label>연락처<input name="contactInfo" autocomplete="tel" required></label>
         <label class="full">남기고 싶은 이야기<textarea name="message" placeholder="두 분의 이야기와 원하는 예식 분위기를 들려주세요."></textarea></label>
-        <button type="submit">문의 내용 복사하기</button>
+        <button type="submit">인스타그램 DM으로 문의 보내기</button>
+        <p class="form-hint">제출하면 인스타그램 DM 창이 새로 열리고, 입력하신 내용이 자동으로 복사됩니다. 열린 창에 붙여넣어 보내주세요.</p>
         <p class="form-status" id="formStatus" aria-live="polite"></p>
+        <pre class="form-copy-box" id="formCopyBox" hidden></pre>
       </form>
     </section>
   </main>
 
-  <footer><span>Everafter 永愛</span><a href="index.html">Back to home</a><span>© 2026 Everafter</span></footer>
+  <footer><span>Everafter 永愛</span><a href="index.html">Back to home</a><a href="https://www.instagram.com/ever.after_youngae" target="_blank" rel="noopener">@ever.after_youngae</a><span>© 2026 Everafter</span></footer>
   <script src="script.js"></script>
 </body>
 </html>

@@ -54,10 +54,24 @@ if (menuToggle && siteNav) {
   siteNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>siteNav.classList.remove('open')));
 }
 
+const dateInput = document.getElementById('weddingDate');
+if (dateInput) {
+  dateInput.addEventListener('input', () => {
+    const digits = dateInput.value.replace(/\D/g, '').slice(0, 8);
+    let formatted = digits.slice(0, 4);
+    if (digits.length > 4) formatted += '.' + digits.slice(4, 6);
+    if (digits.length > 6) formatted += '.' + digits.slice(6, 8);
+    dateInput.value = formatted;
+  });
+}
+
+const INSTAGRAM_DM_URL = 'https://ig.me/m/ever.after_youngae';
+
 const form = document.getElementById('inquiryForm');
 const formStatus = document.getElementById('formStatus');
+const formCopyBox = document.getElementById('formCopyBox');
 if (form && formStatus) {
-  form.addEventListener('submit', async (event) => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
     const data = new FormData(form);
     const text = [
@@ -68,11 +82,22 @@ if (form && formStatus) {
       `연락처: ${data.get('contactInfo')}`,
       `남기고 싶은 이야기: ${data.get('message') || '없음'}`
     ].join('\n');
-    try {
-      await navigator.clipboard.writeText(text);
-      formStatus.textContent = '문의 내용을 복사했습니다. 카카오톡이나 DM에 붙여 넣어 보내주세요.';
-    } catch {
-      formStatus.textContent = '복사하지 못했습니다. 입력 내용을 직접 선택해 복사해주세요.';
+
+    // window.open must run synchronously in the submit handler so
+    // Safari still counts it as user-gesture-triggered.
+    const dmWindow = window.open(INSTAGRAM_DM_URL, '_blank', 'noopener');
+
+    if (formCopyBox) {
+      formCopyBox.textContent = text;
+      formCopyBox.hidden = false;
     }
+
+    const popupBlockedNote = dmWindow ? '' : ` 팝업이 차단되었다면 인스타그램(@ever.after_youngae)에서 직접 DM을 보내주세요.`;
+
+    navigator.clipboard?.writeText(text).then(() => {
+      formStatus.textContent = `문의 내용을 복사했습니다. 새로 열린 인스타그램 DM 창에 붙여넣어 보내주세요.${popupBlockedNote}`;
+    }).catch(() => {
+      formStatus.textContent = `아래 내용을 직접 복사해서 인스타그램 DM에 붙여넣어 보내주세요.${popupBlockedNote}`;
+    });
   });
 }
