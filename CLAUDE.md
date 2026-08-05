@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Everafter (永愛) is a static marketing site for a wedding-ceremony emcee ("사회") service, deployed via GitHub Pages. There is no build system, package manager, or framework — just hand-written HTML/CSS/JS served directly.
 
+This repo is the public brand/landing site only (hero, story, testimonials, initial inquiry form). The actual client-facing tooling — MC script builder, couple questionnaire, script review, and post-ceremony "story" archive, all backed by a Google Apps Script API — lives in the sibling repo `Everafter-youngae/wedding-mc` (deployed at `everafter-youngae.github.io/wedding-mc/`), which is a separate codebase with its own visual language (functional/app-like, not the ivory/burgundy editorial look here) and its own CLAUDE.md. The two are not code-linked: once someone inquires through this site, onboarding into wedding-mc happens manually (the MC creates the client's record there and sends them a personalized link). Don't assume shared components, styles, or data between the two repos.
+
 ## Development
 
 There is no build/lint/test tooling in this repo. To preview locally, serve the directory with any static file server and open in a browser, e.g.:
