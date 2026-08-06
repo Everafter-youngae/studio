@@ -1,3 +1,15 @@
+const priceToggle = document.getElementById('priceToggle');
+const priceDetail = document.getElementById('priceDetail');
+const priceSealLabel = document.getElementById('priceSealLabel');
+if (priceToggle && priceDetail) {
+  priceToggle.addEventListener('click', () => {
+    const willOpen = priceToggle.getAttribute('aria-expanded') !== 'true';
+    priceToggle.setAttribute('aria-expanded', String(willOpen));
+    priceDetail.hidden = !willOpen;
+    if (priceSealLabel) priceSealLabel.textContent = willOpen ? '접어두기' : '본식 사회 비용 열어보기';
+  });
+}
+
 const siteHeader = document.querySelector('.site-header');
 const headerHero = document.querySelector('.hero, .review-hero, .subpage-hero');
 const headerHeroCopy = headerHero?.querySelector('.hero-copy, .review-hero-copy, .subpage-title');
