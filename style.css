@@ -76,7 +76,9 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:26px 30px;bor
 .price-amount{margin:8px 0 20px;font-family:var(--serif-en);font-size:44px;color:var(--burgundy)}
 .price-amount span{font-family:var(--serif-ko);font-size:16px;margin-left:4px;color:var(--muted)}
 .price-desc{margin:0 0 28px;font-family:var(--serif-ko);font-size:15px;color:#5c544f;line-height:1.9}
-.price-includes{list-style:none;margin:0;padding:22px 0 0;border-top:1px solid var(--line);display:grid;gap:12px}
+.price-includes-group{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.price-includes-label{margin:0 0 14px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.price-includes{list-style:none;margin:0;padding:0;display:grid;gap:12px}
 .price-includes li{font-size:14px;color:var(--charcoal);padding-left:22px;position:relative}
 .price-includes li::before{content:'✓';position:absolute;left:0;color:var(--burgundy);font-size:12px}
 @keyframes price-open{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
