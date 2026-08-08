@@ -28,9 +28,11 @@ function parseJsonSafe_(text) {
 
 function doPost(e) {
   try {
-    // wedding-mc 관리자 도구에서 오는 요청은 JSON 본문(Content-Type: text/plain)으로 옵니다.
-    // 홈페이지 문의 폼은 일반 폼 제출(e.parameter)로 오므로 이 분기에 걸리지 않습니다.
-    if (e.postData && e.postData.type === 'text/plain') {
+    // wedding-mc 관리자 도구에서 오는 요청은 JSON 본문으로 옵니다. Content-Type 헤더 문자열은
+    // 브라우저/환경에 따라 charset 등이 붙어 정확히 비교하기 unreliable하므로,
+    // "JSON으로 파싱되고 알려진 type 값을 가지고 있는가"만으로 판단합니다.
+    // 홈페이지 문의 폼(멀티파트 폼 제출)은 이 형태로 파싱될 수 없어 자연스럽게 아래로 내려갑니다.
+    if (e.postData && e.postData.contents) {
       const data = parseJsonSafe_(e.postData.contents);
       if (data && data.type === 'updateStatus') {
         if (!isAdmin_(data.token)) return json_({ ok: false, error: 'unauthorized' });
