@@ -97,39 +97,47 @@ if (dateInput) {
   });
 }
 
-const INSTAGRAM_DM_URL = 'https://ig.me/m/ever.after_youngae';
+// Google Apps Script Web App URL — deploy apps-script/inquiry-handler.gs
+// (see apps-script/README.md) and paste the resulting /exec URL here.
+const INQUIRY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzrhR-cqAzaY6ZaEwaid1US8wApfLWsuIldYYLJEyWkx5jOUB7dl_YF8PB9GlLhsN4c/exec';
 
 const form = document.getElementById('inquiryForm');
 const formStatus = document.getElementById('formStatus');
-const formCopyBox = document.getElementById('formCopyBox');
 if (form && formStatus) {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const data = new FormData(form);
-    const text = [
-      '[Everafter 사회 문의]','',
-      `두 사람의 이름: ${data.get('names')}`,
-      `예식 날짜: ${data.get('date')}`,
-      `예식 장소: ${data.get('venue')}`,
-      `연락처: ${data.get('contactInfo')}`,
-      `남기고 싶은 이야기: ${data.get('message') || '없음'}`
-    ].join('\n');
 
-    // window.open must run synchronously in the submit handler so
-    // Safari still counts it as user-gesture-triggered.
-    const dmWindow = window.open(INSTAGRAM_DM_URL, '_blank', 'noopener');
-
-    if (formCopyBox) {
-      formCopyBox.textContent = text;
-      formCopyBox.hidden = false;
+    // Honeypot: bots tend to fill every field, real users never see this one.
+    if (form.elements.website?.value) {
+      formStatus.textContent = '문의가 접수되었습니다. 확인 후 연락드리겠습니다.';
+      form.reset();
+      return;
     }
 
-    const popupBlockedNote = dmWindow ? '' : ` 팝업이 차단되었다면 인스타그램(@ever.after_youngae)에서 직접 DM을 보내주세요.`;
+    if (!INQUIRY_ENDPOINT || INQUIRY_ENDPOINT.startsWith('PASTE_')) {
+      formStatus.textContent = '문의 접수 연결이 아직 설정되지 않았습니다. 인스타그램(@ever.after_youngae)으로 직접 DM 부탁드립니다.';
+      return;
+    }
 
-    navigator.clipboard?.writeText(text).then(() => {
-      formStatus.textContent = `문의 내용을 복사했습니다. 새로 열린 인스타그램 DM 창에 붙여넣어 보내주세요.${popupBlockedNote}`;
-    }).catch(() => {
-      formStatus.textContent = `아래 내용을 직접 복사해서 인스타그램 DM에 붙여넣어 보내주세요.${popupBlockedNote}`;
-    });
+    const submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+    formStatus.textContent = '보내는 중입니다…';
+
+    const data = new FormData(form);
+
+    // Apps Script Web Apps don't send CORS headers, so the response is
+    // opaque under no-cors — we can't read it, only tell whether the
+    // request itself went out. That's enough to confirm delivery.
+    fetch(INQUIRY_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
+      .then(() => {
+        formStatus.textContent = '문의가 접수되었습니다. 확인 후 남겨주신 연락처로 답변드리겠습니다.';
+        form.reset();
+      })
+      .catch(() => {
+        formStatus.textContent = '전송에 실패했습니다. 잠시 후 다시 시도하시거나, 인스타그램(@ever.after_youngae)으로 DM 부탁드립니다.';
+      })
+      .finally(() => {
+        if (submitButton) submitButton.disabled = false;
+      });
   });
 }
