@@ -33,7 +33,10 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 /* 대문 사진은 원본 색 그대로 둡니다.
    예전에는 여기서 grayscale(1) 로 흑백을 입혔는데, 컬러 사진으로 갈아끼워도
    다시 흑백이 되어버려 헷갈립니다. 흑백으로 보이길 원하면 사진 자체를 흑백으로 준비하세요. */
-.hero-media{position:absolute;inset:0}.hero-media img{object-position:center 46%}
+/* 세로 사진을 가로 화면에 채우면 띠 하나만 보입니다. 46% 였을 때는 오리 윗부분에서
+   잘렸습니다. 70% 로 내리면 오리가 온전히 들어오고 오른쪽 버들가지 끝도 걸칩니다.
+   (세로 화면에서는 사진 전체 높이가 보이므로 이 값이 영향을 주지 않습니다) */
+.hero-media{position:absolute;inset:0}.hero-media img{object-position:center 70%}
 /* 대문 사진이 밝으면 오른쪽 아래 흰 글씨가 묻히므로, 아래쪽을 조금 더 깔아둡니다 */
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.06),rgba(0,0,0,0) 50%),linear-gradient(0deg,rgba(15,10,8,.52),rgba(15,10,8,.14) 34%,transparent 54%)}
 .hero-copy{position:absolute;right:6vw;bottom:9vh;z-index:2;color:#fff;text-align:right;will-change:transform,opacity}.hero-copy h1{margin:10px 0 14px;font-family:var(--serif-ko);font-weight:300;font-size:clamp(30px,4.8vw,76px);line-height:1.42;letter-spacing:-.035em}.hero-note{margin:0 0 18px;font-family:var(--serif-en);font-size:15px;font-style:italic;letter-spacing:.045em;color:rgba(255,255,255,.78)}.eyebrow{margin:0;font-size:9px;letter-spacing:.18em;text-transform:uppercase}.eyebrow.burgundy{color:var(--burgundy)}.eyebrow.light{color:rgba(255,255,255,.74)}
