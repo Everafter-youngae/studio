@@ -49,9 +49,10 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .voice-lead{margin:0 0 40px;font-family:var(--serif-ko);font-size:16px;color:#5c544f;line-height:1.9}
 .voice-player{display:grid;grid-template-columns:auto 1fr;gap:0 20px;align-items:center;
   margin:0;padding:22px 26px;border:1px solid var(--line);border-radius:2px;background:var(--ivory);text-align:left}
+/* 휴대폰 기본 터치 표시(반투명 검정)를 끕니다. 누른 느낌은 아래 :active 로 줍니다. */
 .voice-toggle{display:flex;align-items:center;justify-content:center;width:56px;height:56px;padding:0;
   border:1px solid var(--burgundy);border-radius:50%;background:var(--burgundy);color:#fff;cursor:pointer;
-  transition:background .25s,transform .25s}
+  -webkit-tap-highlight-color:transparent;transition:background .25s,transform .25s}
 .voice-toggle:hover{background:var(--burgundy-deep)}
 .voice-toggle:active{transform:scale(.95)}
 .voice-toggle:focus-visible{outline:2px solid var(--burgundy);outline-offset:3px}
@@ -67,10 +68,14 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .voice-seek::before{content:'';position:absolute;left:0;right:0;height:2px;background:var(--line)}
 .voice-fill{position:absolute;left:0;height:2px;width:0;background:var(--burgundy);pointer-events:none}
 .voice-fill::after{content:'';position:absolute;right:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--burgundy)}
+/* 끌기 손잡이는 눈에 보이지 않지만(위치 표시는 위의 빨간 점이 맡습니다) 손가락으로
+   집을 수 있어야 하므로 넉넉히 둡니다. 대신 터치 표시를 꺼야 합니다 — 그대로 두면
+   손을 댈 때 손잡이 크기만 한 반투명 회색 동그라미가 빨간 점 위에 덮입니다. */
 .voice-seek input[type=range]{position:relative;z-index:1;width:100%;height:20px;margin:0;padding:0;
-  -webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
-.voice-seek input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:transparent}
-.voice-seek input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:transparent}
+  -webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;
+  -webkit-tap-highlight-color:transparent}
+.voice-seek input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:20px;border:0;border-radius:0;background:transparent}
+.voice-seek input[type=range]::-moz-range-thumb{width:22px;height:20px;border:0;border-radius:0;background:transparent}
 .voice-seek input[type=range]:focus-visible{outline:2px solid var(--burgundy);outline-offset:4px;border-radius:2px}
 .voice-time{margin:10px 0 0;font-family:var(--serif-en);font-size:13px;letter-spacing:.06em;color:var(--muted)}
 /* 내려받기 안내는 기본으로 보인다 — 자바스크립트가 돌지 않으면 재생 버튼이 먹지 않으므로
