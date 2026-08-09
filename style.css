@@ -71,7 +71,9 @@ img{display:block;width:100%;height:100%;object-fit:cover}
    .voice-seek 자체가 손가락으로 누를 자리(20px)이고, 보이는 선은 그 안의 .voice-rail 이다. */
 .voice-seek{position:relative;height:20px;display:flex;align-items:center;cursor:pointer;
   outline:none;-webkit-tap-highlight-color:transparent;
-  touch-action:none;             /* 가로로 끌 때 화면이 같이 스크롤되지 않게 */
+  /* pan-y: 세로로 넘기는 손짓은 브라우저(=페이지 스크롤)에 남겨두고 가로만 가져옵니다.
+     none 으로 두면 이 20px 띠에서 시작한 스와이프가 전부 막혀 페이지가 안 움직입니다. */
+  touch-action:pan-y;
   -webkit-user-select:none;user-select:none}
 .voice-rail{position:relative;width:100%;height:2px;background:var(--line)}
 .voice-fill{position:absolute;left:0;top:0;height:2px;width:0;background:var(--burgundy)}
@@ -119,7 +121,12 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:26px 30px;bor
   .records cite{font-size:11px}
   .record-controls span{font-size:13px}
 }
-@media(max-width:900px){.site-nav{display:none}.menu-toggle{display:block}.site-nav.open{position:absolute;display:flex;top:54px;right:18px;flex-direction:column;gap:10px;padding:16px;background:rgba(244,239,232,.94)}.hero-copy{right:7vw;bottom:8vh}.intro{padding:110px 8vw 90px 14vw}.body-copy,.editorial-grid,.contact-grid{grid-template-columns:1fr}.editorial{padding:120px 8vw 100px 14vw}.editorial-lead{position:static}.contact{padding:120px 8vw 100px 14vw}.note{grid-template-columns:42px 110px 1fr}.records-copy{left:10vw;right:8vw}.image-story-copy{left:10vw}.pricing{padding:120px 8vw 100px 14vw}}
+@media(max-width:900px){
+/* 메뉴에서 앵커를 눌렀을 때 부드럽게 미끄러지는 연출은 데스크톱까지만. 휴대폰,
+   특히 카카오톡 인앱 브라우저에서는 이 애니메이션이 눈에 띄게 느리고 중간에
+   손으로 끊을 수도 없어서 화면이 멈춘 것처럼 보입니다. */
+html{scroll-behavior:auto}
+.site-nav{display:none}.menu-toggle{display:block}.site-nav.open{position:absolute;display:flex;top:54px;right:18px;flex-direction:column;gap:10px;padding:16px;background:rgba(244,239,232,.94)}.hero-copy{right:7vw;bottom:8vh}.intro{padding:110px 8vw 90px 14vw}.body-copy,.editorial-grid,.contact-grid{grid-template-columns:1fr}.editorial{padding:120px 8vw 100px 14vw}.editorial-lead{position:static}.contact{padding:120px 8vw 100px 14vw}.note{grid-template-columns:42px 110px 1fr}.records-copy{left:10vw;right:8vw}.image-story-copy{left:10vw}.pricing{padding:120px 8vw 100px 14vw}}
 @media(max-width:600px){.site-header{padding:18px}.chapter-index{left:18px;top:24px}.hero-copy{left:18px;right:18px;bottom:8vh;text-align:left}.hero-copy h1{font-size:30px}.hero-note{font-size:13px;margin-bottom:15px}.intro,.editorial,.contact{padding-left:58px;padding-right:24px}.intro{min-height:auto;padding-top:110px;padding-bottom:90px}.body-copy{gap:38px}.image-story-copy{left:58px;right:24px;bottom:10vh}.image-story-copy h2{font-size:29px}.note{grid-template-columns:34px 1fr;gap:10px}.note p{grid-column:2}.records-copy{left:58px;right:24px}.records blockquote{font-size:27px}.contact-grid{gap:40px}.inquiry-form{grid-template-columns:1fr}.inquiry-form .full,.inquiry-form button,.form-status{grid-column:1}footer{display:block;padding-left:18px;line-height:2.1}footer span,footer a{display:block}.pricing{padding-left:58px;padding-right:24px}.price-amount{font-size:36px}.price-extra-head{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.reveal,.image-zoom img{transition:none}.image-zoom img{transform:none!important}}
 

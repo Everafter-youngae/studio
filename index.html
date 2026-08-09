@@ -19,8 +19,8 @@
   <meta name="twitter:image" content="https://everafter-youngae.github.io/studio/assets/og-duck.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=15">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Noto+Sans+KR:wght@300&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=16">
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -76,7 +76,9 @@
     </section>
 
     <section class="image-story leaves-section" id="ceremony">
-      <div class="image-story-media parallax-media"><img src="assets/leaves.jpg" alt="초록빛 잎사귀 사이로 번지는 햇빛"></div>
+      <!-- 첫 화면에 없는 사진입니다. 미리 받으면 대문 사진·글꼴과 회선을 다투다가
+           처음 스크롤이 버벅이므로, 다가올 때 받도록 미룹니다. -->
+      <div class="image-story-media parallax-media"><img src="assets/leaves.jpg" alt="초록빛 잎사귀 사이로 번지는 햇빛" loading="lazy" decoding="async"></div>
       <div class="image-story-shade"></div>
       <div class="chapter-index light">02</div>
       <div class="image-story-copy reveal">
@@ -93,7 +95,10 @@
         <p class="voice-lead lines"><span>같은 문장이라도 어떤 목소리로 전해지는지에 따라 기억은 조금 달라집니다.</span><span>실제 예식에서 함께한 한 장면을 담았습니다.</span></p>
 
         <figure class="voice-player">
-          <audio id="voiceAudio" preload="metadata" src="assets/voice-sample-1.m4a"></audio>
+          <!-- preload="none": metadata 로 두면 첫 화면에도 없는 이 음성 224KB를 진입하자마자
+               대문 사진·글꼴과 함께 받아옵니다. 길이(0:13)는 아래에 미리 적어두었고, 재생을
+               누른 뒤 실제 길이로 바로잡습니다. -->
+          <audio id="voiceAudio" preload="none" src="assets/voice-sample-1.m4a"></audio>
           <button type="button" class="voice-toggle" id="voiceToggle" aria-label="목소리로 전하는 이야기 재생">
             <span class="voice-icon" aria-hidden="true"></span>
           </button>
@@ -214,6 +219,6 @@
   </main>
 
   <footer><span>Everafter 永愛</span><a href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">@everafter_youngae</a><a href="https://everafter-youngae.github.io/wedding-mc/story.html" target="_blank" rel="noopener">두 분의 이야기 찾기</a><span>부부라는 이름의 프롤로그.</span><span>© 2026 Everafter</span></footer>
-  <script src="script.js?v=15"></script>
+  <script src="script.js?v=16"></script>
 </body>
 </html>

@@ -102,12 +102,13 @@ if (voiceAudio) {
 
   const onMeta = () => {
     totalEl.textContent = clock(voiceAudio.duration);
-    player.classList.add('voice-ready');
     paint();
   };
+  // 내려받기 안내를 감추는 기준은 '파일이 도착했는가'가 아니라 '재생 버튼이 작동하는가'
+  // 입니다. 자바스크립트가 여기까지 왔으면 버튼은 듣습니다. 이 판단을 파일 도착과 떼어
+  // 놓은 덕분에 음성을 preload="none" 으로 미뤄둘 수 있습니다.
+  player.classList.add('voice-ready');
   voiceAudio.addEventListener('loadedmetadata', onMeta);
-  // preload="metadata" 는 요소가 파싱되는 즉시 받아오기 시작하므로, 이 스크립트가
-  // 문서 끝에서 실행될 때는 이미 끝나 있을 수 있습니다. 그러면 위 이벤트는 오지 않습니다.
   if (voiceAudio.readyState >= 1) onMeta();
   voiceAudio.addEventListener('timeupdate', paint);
   voiceAudio.addEventListener('error', () => {
@@ -152,24 +153,49 @@ if (voiceAudio) {
   };
   const preview = (ratio) => setUI(ratio, ratio * (voiceAudio.duration || 0));
 
-  seek.addEventListener('pointerdown', (e) => {
+  // 손가락이 막대에 닿았다고 해서 곧바로 붙잡으면 안 됩니다. 이 막대는 카드 폭 전체를
+  // 가로지르는 20px 띠라, 여기서 시작한 세로 스와이프까지 가로채면 페이지가 아예
+  // 스크롤되지 않습니다(실제로 그랬습니다). 그래서 닿은 뒤 방향이 드러날 때까지
+  // 기다렸다가, 가로로 끄는 것이 분명해진 뒤에만 손짓을 가져옵니다.
+  let gesture = null;
+
+  const startScrub = (e) => {
     scrubbing = true;
-    scrubRatio = ratioAt(e.clientX);
-    preview(scrubRatio);
     // 손가락이 막대 밖으로 나가도 계속 따라오도록 붙잡습니다.
     try { seek.setPointerCapture(e.pointerId); } catch (err) {}
-    e.preventDefault();
+  };
+
+  seek.addEventListener('pointerdown', (e) => {
+    gesture = { id: e.pointerId, x: e.clientX, y: e.clientY };
+    // 마우스는 끌어도 화면이 스크롤되지 않으므로 기다릴 이유가 없습니다.
+    if (e.pointerType === 'mouse') {
+      startScrub(e);
+      scrubRatio = ratioAt(e.clientX);
+      preview(scrubRatio);
+    }
   });
   seek.addEventListener('pointermove', (e) => {
-    if (!scrubbing) return;
+    if (!gesture || e.pointerId !== gesture.id) return;
+    if (!scrubbing) {
+      const dx = Math.abs(e.clientX - gesture.x);
+      const dy = Math.abs(e.clientY - gesture.y);
+      if (dy > 8 && dy >= dx) { gesture = null; return; } // 세로로 넘기는 중 — 스크롤에 양보합니다
+      if (dx < 6) return;                                 // 아직 어느 쪽인지 모릅니다
+      startScrub(e);
+    }
     scrubRatio = ratioAt(e.clientX);
     preview(scrubRatio);
   });
   const endScrub = (e) => {
-    if (!scrubbing) return;
-    scrubbing = false;
-    try { seek.releasePointerCapture(e.pointerId); } catch (err) {}
-    seekTo(scrubRatio);
+    if (!gesture || e.pointerId !== gesture.id) return;
+    if (scrubbing) {
+      scrubbing = false;
+      try { seek.releasePointerCapture(e.pointerId); } catch (err) {}
+      seekTo(scrubRatio);
+    } else if (e.type === 'pointerup') {
+      seekTo(ratioAt(e.clientX)); // 끌지 않고 톡 눌렀을 때는 그 자리로 옮깁니다
+    }
+    gesture = null;
     paint();
   };
   seek.addEventListener('pointerup', endScrub);
