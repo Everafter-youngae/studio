@@ -80,7 +80,9 @@ function syncHeroVideo(){
     v.muted = true;
     v.loop = true;
     v.playsInline = true;
-    v.src = 'assets/hero.mp4';
+    // 파일명을 유지한 채 영상을 갈아끼우면 브라우저가 예전 것을 계속 쓰므로
+    // 영상을 교체할 때마다 아래 숫자를 올려주세요.
+    v.src = 'assets/hero.mp4?v=3';
     heroMediaBox.appendChild(v);
     v.play().catch(() => {}); // 막히면 아래 이미지가 그대로 보이므로 조용히 넘어갑니다
   } else if (!wanted && existing) {
