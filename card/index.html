@@ -174,20 +174,15 @@
   .link-row .lbl{font-family:var(--serif-en);font-size:15px;letter-spacing:.08em;color:var(--burgundy)}
   .link-row .val{font-size:12.5px;color:var(--muted);text-align:right}
   .link-row:hover .val{color:var(--charcoal)}
-  /* 문의만 면으로 깔아 살짝 띄웁니다. 나머지 줄은 선만 있는 목록이라
-     이 블록 하나가 자연스럽게 눈이 머무는 자리가 됩니다. */
-  .cta{
-    display:flex;flex-direction:column;gap:7px;
-    margin-top:26px;padding:24px 22px;
-    background:rgba(113,31,27,.05);border:1px solid rgba(113,31,27,.1);
+  /* 문의 줄은 다른 줄과 형태·글자를 똑같이 두고 음영만 더합니다.
+     음영이 글자보다 조금 넓게 깔리도록 좌우 패딩을 주고, 그만큼 음수 마진으로
+     당겨서 글자 시작점은 위 두 줄과 정확히 같은 자리에 둡니다. */
+  .link-row--main{
+    background:rgba(113,31,27,.05);
+    margin:0 -12px;padding:20px 14px;
     transition:background .4s ease;
   }
-  .cta:hover{background:rgba(113,31,27,.085)}
-  .cta-lbl{
-    font-family:var(--serif-en);font-size:14px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--burgundy);
-  }
-  .cta-txt{font-family:var(--serif-ko);font-size:17px;letter-spacing:-.02em;color:var(--charcoal)}
+  .link-row--main:hover{background:rgba(113,31,27,.085)}
 
   footer{
     padding:52px 0 66px;text-align:center;
@@ -395,13 +390,13 @@
             <span class="lbl">Homepage</span>
             <span class="val">Everafter 永愛 ↗</span>
           </a>
+          <!-- 위 두 줄과 형태는 같고, 음영만 깔아 문의로 눈이 가게 합니다.
+               바깥으로 나가는 링크는 모두 새 탭이라(↗) 명함은 뒤에 남습니다. -->
+          <a class="link-row link-row--main" href="../ask.html" target="_blank" rel="noopener">
+            <span class="lbl">Inquiry</span>
+            <span class="val">이야기 들려주기 ↗</span>
+          </a>
         </div>
-        <!-- 문의가 이 명함의 목적지라 유일하게 면으로 눌러 강조합니다.
-             바깥으로 나가는 링크는 모두 새 탭이라(↗) 명함은 뒤에 그대로 남습니다. -->
-        <a class="cta reveal" href="../ask.html" target="_blank" rel="noopener">
-          <span class="cta-lbl">Inquiry</span>
-          <span class="cta-txt">이야기 들려주기 ↗</span>
-        </a>
       </div>
     </section>
   </main>
