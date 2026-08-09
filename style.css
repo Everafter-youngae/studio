@@ -74,9 +74,16 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .voice-seek input[type=range]{position:relative;z-index:1;width:100%;height:20px;margin:0;padding:0;
   -webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;
   -webkit-tap-highlight-color:transparent}
-.voice-seek input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:20px;border:0;border-radius:0;background:transparent}
-.voice-seek input[type=range]::-moz-range-thumb{width:22px;height:20px;border:0;border-radius:0;background:transparent}
-.voice-seek input[type=range]:focus-visible{outline:2px solid var(--burgundy);outline-offset:4px;border-radius:2px}
+/* 손잡이는 보이지 않지만, 브라우저가 터치 표시를 그리면 손잡이 모양 그대로 나온다.
+   그래서 눈에 보이는 빨간 점(8px)과 크게 차이나지 않게 두고 둥글게 유지한다.
+   막대 아무 데나 눌러도 그 자리로 이동하므로 이 크기로도 조작에 문제가 없다. */
+.voice-seek input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border:0;border-radius:50%;background:transparent}
+.voice-seek input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radius:50%;background:transparent}
+/* 포커스 표시를 진행바 전체에 두르면 막대만 한 네모가 생긴다. 게다가 range 는
+   크롬에서 손가락으로 눌러도 :focus-visible 이 걸려 그 네모가 그대로 보인다.
+   그래서 위치를 나타내는 빨간 점에만 옅은 테를 두른다. */
+.voice-seek input[type=range]:focus{outline:none}
+.voice-seek input[type=range]:focus-visible ~ .voice-fill::after{box-shadow:0 0 0 4px rgba(113,31,27,.22)}
 .voice-time{margin:10px 0 0;font-family:var(--serif-en);font-size:13px;letter-spacing:.06em;color:var(--muted)}
 /* 내려받기 안내는 기본으로 보인다 — 자바스크립트가 돌지 않으면 재생 버튼이 먹지 않으므로
    그때 남는 유일한 길이다. 재생 준비가 끝나면(.voice-ready) 감춘다. */
