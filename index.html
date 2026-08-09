@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4efe8">
-  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIyIiBmaWxsPSIjNzExZjFiIi8+PHRleHQgeD0iNTAiIHk9IjcwIiBmb250LXNpemU9IjU4IiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ05vdG8gU2VyaWYgS1InLCBzZXJpZiIgZmlsbD0iI2Y0ZWZlOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5rC4PC90ZXh0Pjwvc3ZnPgo=">
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIyIiBmaWxsPSIjNzExZjFiIi8+PHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMuNiwyNC4yKSBzY2FsZSguNTYpIiBmaWxsPSIjZjRlZmU4IiBkPSJNMTAgNTYgQzI4IDQwIDUwIDMyIDcwIDM0IEM4NCAyNCAxMDAgMTQgMTIwIDYgQzExMCAyNCA5OCAzOCA4NCA0NiBDODggNTggOTAgNzIgOTAgODYgQzgyIDc0IDc0IDYyIDY4IDUyIEM0OCA1NCAyNiA1OCAxMCA1NiBaIi8+PC9zdmc+Cg==">
   <meta name="description" content="Everafter 永愛 — 부부라는 이름의 프롤로그.">
   <title>Everafter 永愛</title>
   <meta property="og:type" content="website">
@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -91,21 +91,23 @@
       <div class="voice-copy reveal">
         <p class="eyebrow burgundy">Listen</p>
         <h2>어떤 목소리로 진행하는지,<br>먼저 들어보세요.</h2>
-        <p class="voice-lead lines"><span>실제 예식에서 진행한 한 대목입니다.</span><span>글로 설명하기 어려운 속도와 호흡이 담겨 있습니다.</span></p>
+        <p class="voice-lead lines"><span>같은 문장이라도<br>어떤 목소리로 전해지는지에 따라<br>기억은 조금 달라집니다.</span><span>실제 예식에서 함께한<br>한 장면을 담았습니다.</span></p>
 
         <figure class="voice-player">
           <audio id="voiceAudio" preload="metadata" src="assets/voice-sample-1.m4a"></audio>
-          <button type="button" class="voice-toggle" id="voiceToggle" aria-label="사회자 목소리 샘플 재생">
+          <button type="button" class="voice-toggle" id="voiceToggle" aria-label="목소리로 전하는 이야기 재생">
             <span class="voice-icon" aria-hidden="true"></span>
           </button>
           <div class="voice-track">
-            <p class="voice-name">사회자 목소리 샘플</p>
+            <p class="voice-name"><span aria-hidden="true">🎧</span> 목소리로 전하는 이야기</p>
             <div class="voice-seek">
+              <!-- 파형은 script.js가 폭에 맞춰 그립니다. 가운데가 하트로 부풀어 오르는 모양이고,
+                   재생된 만큼만 잘라 버건디로 덧그립니다. 소리 자체를 분석한 파형은 아닙니다. -->
+              <svg class="voice-wave" id="voiceWave" aria-hidden="true" focusable="false" preserveAspectRatio="none"></svg>
               <input type="range" id="voiceSeek" min="0" max="1000" value="0" step="1"
                      aria-label="재생 위치" aria-valuetext="0초">
-              <div class="voice-fill" id="voiceFill"></div>
             </div>
-            <p class="voice-time"><span id="voiceNow">0:00</span> / <span id="voiceTotal">0:25</span></p>
+            <p class="voice-time"><span id="voiceNow">0:00</span> / <span id="voiceTotal">0:13</span></p>
           </div>
           <figcaption class="voice-fallback">
             재생이 되지 않으면 <a href="assets/voice-sample-1.m4a" download>파일로 내려받아</a> 들어보실 수 있습니다.
@@ -212,6 +214,6 @@
   </main>
 
   <footer><span>Everafter 永愛</span><a href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">@everafter_youngae</a><a href="https://everafter-youngae.github.io/wedding-mc/story.html" target="_blank" rel="noopener">두 분의 이야기 찾기</a><span>부부라는 이름의 프롤로그.</span><span>© 2026 Everafter</span></footer>
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>
