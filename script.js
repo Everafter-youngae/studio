@@ -139,14 +139,17 @@ if (voiceAudio) {
     const m = Math.floor(sec / 60);
     return m + ':' + String(Math.floor(sec % 60)).padStart(2, '0');
   };
+  // 막대·시간·읽어주기용 값을 한 번에 맞춥니다.
+  const setUI = (ratio, sec) => {
+    fill.style.width = (ratio * 100) + '%';
+    nowEl.textContent = clock(sec);
+    seek.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
+    seek.setAttribute('aria-valuetext', Math.round(sec) + '초');
+  };
   const paint = () => {
     const d = voiceAudio.duration;
-    if (!isFinite(d) || d <= 0) return;
-    const ratio = voiceAudio.currentTime / d;
-    fill.style.width = (ratio * 100) + '%';
-    if (!scrubbing) seek.value = String(Math.round(ratio * 1000));
-    nowEl.textContent = clock(voiceAudio.currentTime);
-    seek.setAttribute('aria-valuetext', Math.round(voiceAudio.currentTime) + '초');
+    if (!isFinite(d) || d <= 0 || scrubbing) return;
+    setUI(voiceAudio.currentTime / d, voiceAudio.currentTime);
   };
 
   const onMeta = () => {
@@ -185,25 +188,60 @@ if (voiceAudio) {
     }
   });
 
-  // 스크럽 중에는 timeupdate 가 값을 되돌리지 않도록 잠급니다.
-  const startScrub = () => { scrubbing = true; };
-  const applyScrub = () => {
+  // 진행 막대 조작. <input type="range"> 를 쓰지 않으므로 누르기·끌기·키보드를
+  // 직접 처리합니다. 그 대신 브라우저가 손잡이 자리에 무언가를 그리는 일이 없습니다.
+  const rail = seek.querySelector('.voice-rail');
+  let scrubRatio = 0;
+
+  const ratioAt = (clientX) => {
+    const r = rail.getBoundingClientRect();
+    if (!r.width) return 0;
+    return Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+  };
+  const seekTo = (ratio) => {
     const d = voiceAudio.duration;
-    if (isFinite(d) && d > 0) voiceAudio.currentTime = (seek.value / 1000) * d;
+    if (isFinite(d) && d > 0) voiceAudio.currentTime = ratio * d;
+  };
+  const preview = (ratio) => setUI(ratio, ratio * (voiceAudio.duration || 0));
+
+  seek.addEventListener('pointerdown', (e) => {
+    scrubbing = true;
+    scrubRatio = ratioAt(e.clientX);
+    preview(scrubRatio);
+    // 손가락이 막대 밖으로 나가도 계속 따라오도록 붙잡습니다.
+    try { seek.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault();
+  });
+  seek.addEventListener('pointermove', (e) => {
+    if (!scrubbing) return;
+    scrubRatio = ratioAt(e.clientX);
+    preview(scrubRatio);
+  });
+  const endScrub = (e) => {
+    if (!scrubbing) return;
     scrubbing = false;
+    try { seek.releasePointerCapture(e.pointerId); } catch (err) {}
+    seekTo(scrubRatio);
     paint();
   };
-  seek.addEventListener('pointerdown', startScrub);
-  seek.addEventListener('keydown', startScrub);
-  seek.addEventListener('input', () => {
+  seek.addEventListener('pointerup', endScrub);
+  seek.addEventListener('pointercancel', endScrub);
+
+  seek.addEventListener('keydown', (e) => {
     const d = voiceAudio.duration;
-    if (isFinite(d) && d > 0) {
-      fill.style.width = (seek.value / 10) + '%';
-      nowEl.textContent = clock((seek.value / 1000) * d);
-    }
+    if (!isFinite(d) || d <= 0) return;
+    const cur = voiceAudio.currentTime / d;
+    let next = null;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp')   next = cur + .05;
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowDown') next = cur - .05;
+    if (e.key === 'Home') next = 0;
+    if (e.key === 'End')  next = 1;
+    if (next === null) return;
+    e.preventDefault();
+    next = Math.min(1, Math.max(0, next));
+    seekTo(next);
+    setUI(next, next * d);
   });
-  seek.addEventListener('change', applyScrub);
-  seek.addEventListener('pointerup', applyScrub);
 }
 
 const menuToggle = document.querySelector('.menu-toggle');

@@ -62,28 +62,19 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .is-playing .voice-icon{width:4px;height:16px;margin-left:0;border:0;background:currentColor;
   box-shadow:8px 0 0 currentColor;transform:translateX(-4px)}
 .voice-name{margin:0 0 10px;font-family:var(--serif-ko);font-size:15px;color:var(--charcoal)}
-/* 진행 막대: 눈에 보이는 건 .voice-fill, 조작은 그 위에 투명하게 깔린 range 가 받는다.
-   range 를 그대로 꾸미면 브라우저마다 트랙/썸 의사요소가 달라 손이 많이 간다. */
-.voice-seek{position:relative;height:20px;display:flex;align-items:center}
-.voice-seek::before{content:'';position:absolute;left:0;right:0;height:2px;background:var(--line)}
-.voice-fill{position:absolute;left:0;height:2px;width:0;background:var(--burgundy);pointer-events:none}
+/* 진행 막대. <input type="range"> 를 쓰지 않고 직접 만든다 — 휴대폰 브라우저가
+   손잡이 자리에 그리는 동그라미·네모가 -webkit-tap-highlight-color 로도 꺼지지
+   않는 경우가 있어서다. 여기서는 브라우저가 그리는 것이 하나도 없다.
+   .voice-seek 자체가 손가락으로 누를 자리(20px)이고, 보이는 선은 그 안의 .voice-rail 이다. */
+.voice-seek{position:relative;height:20px;display:flex;align-items:center;cursor:pointer;
+  outline:none;-webkit-tap-highlight-color:transparent;
+  touch-action:none;             /* 가로로 끌 때 화면이 같이 스크롤되지 않게 */
+  -webkit-user-select:none;user-select:none}
+.voice-rail{position:relative;width:100%;height:2px;background:var(--line)}
+.voice-fill{position:absolute;left:0;top:0;height:2px;width:0;background:var(--burgundy)}
 .voice-fill::after{content:'';position:absolute;right:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--burgundy)}
-/* 끌기 손잡이는 눈에 보이지 않지만(위치 표시는 위의 빨간 점이 맡습니다) 손가락으로
-   집을 수 있어야 하므로 넉넉히 둡니다. 대신 터치 표시를 꺼야 합니다 — 그대로 두면
-   손을 댈 때 손잡이 크기만 한 반투명 회색 동그라미가 빨간 점 위에 덮입니다. */
-.voice-seek input[type=range]{position:relative;z-index:1;width:100%;height:20px;margin:0;padding:0;
-  -webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;
-  -webkit-tap-highlight-color:transparent}
-/* 손잡이는 보이지 않지만, 브라우저가 터치 표시를 그리면 손잡이 모양 그대로 나온다.
-   그래서 눈에 보이는 빨간 점(8px)과 크게 차이나지 않게 두고 둥글게 유지한다.
-   막대 아무 데나 눌러도 그 자리로 이동하므로 이 크기로도 조작에 문제가 없다. */
-.voice-seek input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border:0;border-radius:50%;background:transparent}
-.voice-seek input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radius:50%;background:transparent}
-/* 포커스 표시를 진행바 전체에 두르면 막대만 한 네모가 생긴다. 게다가 range 는
-   크롬에서 손가락으로 눌러도 :focus-visible 이 걸려 그 네모가 그대로 보인다.
-   그래서 위치를 나타내는 빨간 점에만 옅은 테를 두른다. */
-.voice-seek input[type=range]:focus{outline:none}
-.voice-seek input[type=range]:focus-visible ~ .voice-fill::after{box-shadow:0 0 0 4px rgba(113,31,27,.22)}
+/* 키보드로 왔을 때만 위치 점에 옅은 테를 둘러 어디에 있는지 알린다. */
+.voice-seek:focus-visible .voice-fill::after{box-shadow:0 0 0 4px rgba(113,31,27,.22)}
 .voice-time{margin:10px 0 0;font-family:var(--serif-en);font-size:13px;letter-spacing:.06em;color:var(--muted)}
 /* 내려받기 안내는 기본으로 보인다 — 자바스크립트가 돌지 않으면 재생 버튼이 먹지 않으므로
    그때 남는 유일한 길이다. 재생 준비가 끝나면(.voice-ready) 감춘다. */

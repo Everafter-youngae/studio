@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=10">
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -100,10 +100,13 @@
           </button>
           <div class="voice-track">
             <p class="voice-name"><span aria-hidden="true">🎧</span> 목소리로 전하는 이야기</p>
-            <div class="voice-seek">
-              <input type="range" id="voiceSeek" min="0" max="1000" value="0" step="1"
-                     aria-label="재생 위치" aria-valuetext="0초">
-              <div class="voice-fill" id="voiceFill"></div>
+            <!-- <input type="range"> 를 쓰지 않습니다. 휴대폰 브라우저가 손잡이 자리에
+                 제멋대로 동그라미·네모를 그리는데 -webkit-tap-highlight-color 로도
+                 꺼지지 않는 경우가 있어, 슬라이더를 직접 만들었습니다. -->
+            <div class="voice-seek" id="voiceSeek" role="slider" tabindex="0"
+                 aria-label="재생 위치" aria-valuemin="0" aria-valuemax="100"
+                 aria-valuenow="0" aria-valuetext="0초">
+              <div class="voice-rail"><div class="voice-fill" id="voiceFill"></div></div>
             </div>
             <p class="voice-time"><span id="voiceNow">0:00</span> / <span id="voiceTotal">0:13</span></p>
           </div>
@@ -212,6 +215,6 @@
   </main>
 
   <footer><span>Everafter 永愛</span><a href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">@everafter_youngae</a><a href="https://everafter-youngae.github.io/wedding-mc/story.html" target="_blank" rel="noopener">두 분의 이야기 찾기</a><span>부부라는 이름의 프롤로그.</span><span>© 2026 Everafter</span></footer>
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>
