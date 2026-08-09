@@ -55,8 +55,43 @@ const imageObserver = new IntersectionObserver((entries) => {
 }, { threshold: .25 });
 document.querySelectorAll('.image-zoom').forEach(el => imageObserver.observe(el));
 
+// 대문 영상은 세로(9:16)라 가로 화면에 채우면 가운데 32%만 남고 잘립니다.
+// 그래서 세로 화면일 때만 영상을 얹고, 그 외에는 기존 튤립 이미지를 그대로 둡니다.
+// CSS로 숨기기만 하면 데스크톱에서도 영상을 내려받게 되므로 아예 DOM에 넣지 않습니다.
+const heroMediaBox = document.querySelector('.hero-media');
+const heroVideoQuery = window.matchMedia('(max-width:900px) and (orientation:portrait)');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+function syncHeroVideo(){
+  if (!heroMediaBox) return;
+  const wanted = heroVideoQuery.matches && !reduceMotion.matches;
+  const existing = heroMediaBox.querySelector('video');
+  if (wanted && !existing) {
+    const v = document.createElement('video');
+    // iOS Safari는 muted를 '속성'으로 갖고 있어야 자동재생을 허용합니다.
+    // 프로퍼티(v.muted=true)만 주면 막히는 경우가 있어 둘 다 지정합니다.
+    // 속성은 src를 넣기 전에 걸어둬야 합니다.
+    v.setAttribute('muted', '');
+    v.setAttribute('playsinline', '');   // 전체화면으로 튀어나가지 않게
+    v.setAttribute('webkit-playsinline', '');
+    v.setAttribute('autoplay', '');
+    v.setAttribute('loop', '');
+    v.setAttribute('preload', 'auto');
+    v.setAttribute('aria-hidden', 'true');
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.src = 'assets/hero.mp4';
+    heroMediaBox.appendChild(v);
+    v.play().catch(() => {}); // 막히면 아래 이미지가 그대로 보이므로 조용히 넘어갑니다
+  } else if (!wanted && existing) {
+    existing.remove();
+  }
+}
+syncHeroVideo();
+heroVideoQuery.addEventListener('change', syncHeroVideo);
+reduceMotion.addEventListener('change', syncHeroVideo);
+
 const parallaxMedia = document.querySelector('.parallax-media');
-const heroMedia = document.querySelector('.hero-media img');
 const heroCopy = document.querySelector('.hero-copy');
 function updateParallax(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -65,16 +100,26 @@ function updateParallax(){
     const offset = Math.max(-70, Math.min(70, -rect.top * .08));
     parallaxMedia.style.transform = `translateY(${offset}px)`;
   }
-  if (heroMedia && heroCopy) {
+  if (heroMediaBox && heroCopy) {
     const y = Math.max(0, window.scrollY);
     const progress = Math.min(1, y / window.innerHeight);
-    heroMedia.style.transform = `scale(${1.02 + progress * .035})`;
+    // 이미지·영상이 함께 있을 수 있으므로 둘 다 같은 값으로 움직입니다
+    heroMediaBox.querySelectorAll('img, video').forEach(el => {
+      el.style.transform = `scale(${1.02 + progress * .035})`;
+    });
     heroCopy.style.transform = `translateY(${-progress * 28}px)`;
     heroCopy.style.opacity = String(1 - progress * .28);
   }
 }
 window.addEventListener('scroll', updateParallax, { passive:true });
 updateParallax();
+
+// 움직임을 줄이도록 설정한 사용자에게는 영상을 멈추고 첫 화면(poster)만 보여줍니다.
+const heroVideo = document.querySelector('.hero-media video');
+if (heroVideo && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  heroVideo.removeAttribute('autoplay');
+  heroVideo.pause();
+}
 
 const menuToggle = document.querySelector('.menu-toggle');
 const siteNav = document.getElementById('site-nav');
