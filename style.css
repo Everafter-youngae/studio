@@ -12,8 +12,15 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--ivory);color:var(--charcoal);font-family:var(--sans);font-weight:300;line-height:1.8;word-break:keep-all;overflow-x:hidden}
+body{margin:0;background:var(--ivory);color:var(--charcoal);font-family:var(--sans);font-weight:300;line-height:1.8;word-break:keep-all;text-wrap:pretty;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
+/* 문장마다 줄을 바꾸는 문단. <br> 대신 쓴다.
+   <br> 은 여백을 줄 수 없어서, 문장이 길어 다음 줄로 넘어가는 순간
+   (모바일에서는 거의 항상) 문장이 끝나 바뀐 줄인지 그냥 넘어간 줄인지
+   구분되지 않는다. 문장을 블록으로 만들어 사이에 한 줄의 절반쯤을 둔다. */
+.lines>span{display:block}
+.lines>span+span{margin-top:.7em}
+h1,h2,h3{text-wrap:balance}
 button,input,textarea{font:inherit}
 img{display:block;width:100%;height:100%;object-fit:cover}
 .grain{position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.035;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitchTiles'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")}
@@ -58,7 +65,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:26px 30px;bor
   .record-controls span{font-size:13px}
 }
 @media(max-width:900px){.site-nav{display:none}.menu-toggle{display:block}.site-nav.open{position:absolute;display:flex;top:54px;right:18px;flex-direction:column;gap:10px;padding:16px;background:rgba(244,239,232,.94)}.hero-copy{right:7vw;bottom:8vh}.intro{padding:110px 8vw 90px 14vw}.body-copy,.editorial-grid,.contact-grid{grid-template-columns:1fr}.editorial{padding:120px 8vw 100px 14vw}.editorial-lead{position:static}.contact{padding:120px 8vw 100px 14vw}.note{grid-template-columns:42px 110px 1fr}.records-copy{left:10vw;right:8vw}.image-story-copy{left:10vw}.pricing{padding:120px 8vw 100px 14vw}}
-@media(max-width:600px){.site-header{padding:18px}.progress-copy{left:18px;bottom:17px}.chapter-index{left:18px;top:24px}.hero-copy{left:18px;right:18px;bottom:8vh;text-align:left}.hero-copy h1{font-size:30px}.hero-note{font-size:13px;margin-bottom:15px}.intro,.editorial,.contact{padding-left:58px;padding-right:24px}.intro{min-height:auto;padding-top:110px;padding-bottom:90px}.body-copy{gap:26px}.image-story-copy{left:58px;right:24px;bottom:10vh}.image-story-copy h2{font-size:29px}.note{grid-template-columns:34px 1fr;gap:10px}.note p{grid-column:2}.records-copy{left:58px;right:24px}.records blockquote{font-size:27px}.contact-grid{gap:40px}.inquiry-form{grid-template-columns:1fr}.inquiry-form .full,.inquiry-form button,.form-status{grid-column:1}footer{display:block;padding-left:18px;line-height:2.1}footer span,footer a{display:block}.pricing{padding-left:58px;padding-right:24px}.price-amount{font-size:36px}.price-extra-head{flex-wrap:wrap}}
+@media(max-width:600px){.site-header{padding:18px}.progress-copy{left:18px;bottom:17px}.chapter-index{left:18px;top:24px}.hero-copy{left:18px;right:18px;bottom:8vh;text-align:left}.hero-copy h1{font-size:30px}.hero-note{font-size:13px;margin-bottom:15px}.intro,.editorial,.contact{padding-left:58px;padding-right:24px}.intro{min-height:auto;padding-top:110px;padding-bottom:90px}.body-copy{gap:38px}.image-story-copy{left:58px;right:24px;bottom:10vh}.image-story-copy h2{font-size:29px}.note{grid-template-columns:34px 1fr;gap:10px}.note p{grid-column:2}.records-copy{left:58px;right:24px}.records blockquote{font-size:27px}.contact-grid{gap:40px}.inquiry-form{grid-template-columns:1fr}.inquiry-form .full,.inquiry-form button,.form-status{grid-column:1}footer{display:block;padding-left:18px;line-height:2.1}footer span,footer a{display:block}.pricing{padding-left:58px;padding-right:24px}.price-amount{font-size:36px}.price-extra-head{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.reveal,.image-zoom img{transition:none}.image-zoom img{transform:none!important}}
 
 /* Price section */
@@ -111,7 +118,8 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:26px 30px;bor
 .consent-box{margin-top:22px;padding:22px 24px;border:1px solid var(--line);background:var(--ivory-soft)}
 .consent-head{margin:0 0 16px;font-size:13px;letter-spacing:.02em;color:var(--charcoal)}
 .consent-head em{font-style:normal;color:var(--burgundy)}
-.consent-box dl{display:grid;grid-template-columns:78px 1fr;gap:7px 14px;margin:0}
+/* 행 간격은 dd 안의 줄 간격(약 23px)보다 넓어야 항목이 서로 구분된다 */
+.consent-box dl{display:grid;grid-template-columns:78px 1fr;gap:24px 14px;margin:0}
 .consent-box dt{color:var(--muted);font-size:11px;letter-spacing:.04em;line-height:1.85}
 .consent-box dd{margin:0;color:var(--charcoal);font-size:12.5px;line-height:1.85}
 .consent-note{margin:16px 0 0;color:var(--muted);font-size:12px;line-height:1.75}
@@ -120,8 +128,10 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:26px 30px;bor
 .consent-agree input{flex:none;width:19px;height:19px;margin:1px 0 0;accent-color:var(--burgundy)}
 @media(max-width:600px){
   .consent-box{padding:18px 16px}
+  /* 한 줄로 쌓이므로 항목명↔내용은 붙이고(2px), 항목 사이만 벌린다 */
   .consent-box dl{grid-template-columns:1fr;gap:2px}
-  .consent-box dt{margin-top:9px}
+  .consent-box dt{margin-top:22px}
+  .consent-box dt:first-of-type{margin-top:0}
 }
 .form-copy-box{grid-column:1/-1;margin:14px 0 0;padding:16px;border:1px solid var(--line);background:var(--ivory-soft);color:var(--charcoal);font-family:var(--sans);font-size:12px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
 .review-hero{position:relative;min-height:82svh;overflow:hidden;color:#fff}.review-hero-copy{position:absolute;left:11vw;bottom:11vh;z-index:3}.review-hero-copy>p:last-child{font-family:var(--serif-ko);color:rgba(255,255,255,.78)}
