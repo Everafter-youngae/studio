@@ -101,6 +101,9 @@ if (dateInput) {
 // (see apps-script/README.md) and paste the resulting /exec URL here.
 const INQUIRY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzrhR-cqAzaY6ZaEwaid1US8wApfLWsuIldYYLJEyWkx5jOUB7dl_YF8PB9GlLhsN4c/exec';
 
+// 개인정보 수집·이용 동의 문구 버전 — ask.html의 동의 박스 내용을 고치면 함께 올려주세요.
+const PRIVACY_VER = '1.0';
+
 const form = document.getElementById('inquiryForm');
 const formStatus = document.getElementById('formStatus');
 if (form && formStatus) {
@@ -124,6 +127,11 @@ if (form && formStatus) {
     formStatus.textContent = '보내는 중입니다…';
 
     const data = new FormData(form);
+
+    // 언제, 어떤 문구에 동의했는지 함께 남깁니다. 문구를 고치면 PRIVACY_VER를 올려주세요
+    // (wedding-mc 쪽 ask.html의 PRIVACY_VER와 같은 뜻으로 맞춰 씁니다).
+    data.set('consentAt', new Date().toISOString());
+    data.set('consentVer', PRIVACY_VER);
 
     // Apps Script Web Apps don't send CORS headers, so the response is
     // opaque under no-cors — we can't read it, only tell whether the

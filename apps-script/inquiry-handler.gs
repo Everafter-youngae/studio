@@ -6,7 +6,10 @@
 
 const NOTIFY_EMAIL = 'juhyeonjeon.lina@gmail.com';
 const SHEET_NAME = '문의';
-const HEADER_ROW = ['접수 시각', '두 사람의 이름', '예식 날짜', '예식 장소', '연락처', '남기고 싶은 이야기', '상태'];
+// 동의 관련 두 칸은 '상태'(7번째) 뒤에 붙입니다. 상태 칸 위치가 바뀌면
+// updateStatus가 엉뚱한 칸에 쓰게 되므로, 새 항목은 반드시 뒤에만 추가하세요.
+const HEADER_ROW = ['접수 시각', '두 사람의 이름', '예식 날짜', '예식 장소', '연락처', '남기고 싶은 이야기', '상태', '개인정보 동의 시각', '동의 문구 버전'];
+const STATUS_COL = 7;
 
 // ---------- 관리자 인증 ----------
 // wedding-mc 관리자 도구가 문의 목록을 읽고 상태를 바꾸려면 이 값을 알아야 합니다.
@@ -38,7 +41,7 @@ function doPost(e) {
         if (!isAdmin_(data.token)) return json_({ ok: false, error: 'unauthorized' });
         const row = Number(data.row);
         if (!row || row < 2) throw new Error('row is required');
-        getOrCreateSheet().getRange(row, 7).setValue(String(data.status || '신규'));
+        getOrCreateSheet().getRange(row, STATUS_COL).setValue(String(data.status || '신규'));
         return json_({ ok: true });
       }
     }
@@ -51,6 +54,12 @@ function doPost(e) {
       return ContentService.createTextOutput('ok');
     }
 
+    // 동의 없이 들어온 제출은 받지 않습니다. 폼에서 이미 막고 있지만,
+    // 폼을 거치지 않은 요청까지 시트에 남지 않도록 여기서 한 번 더 확인합니다.
+    if (!p.consent) {
+      return ContentService.createTextOutput('error: consent required');
+    }
+
     const sheet = getOrCreateSheet();
     sheet.appendRow([
       new Date(),
@@ -59,7 +68,9 @@ function doPost(e) {
       p.venue || '',
       p.contactInfo || '',
       p.message || '',
-      '신규'
+      '신규',
+      p.consentAt || '',
+      p.consentVer || ''
     ]);
 
     MailApp.sendEmail({
@@ -101,7 +112,9 @@ function doGet(e) {
           venue: rows[i][3],
           contactInfo: rows[i][4],
           message: rows[i][5],
-          status: rows[i][6]
+          status: rows[i][6],
+          consentAt: rows[i][7] || '',
+          consentVer: rows[i][8] || ''
         });
       }
       items.reverse();
@@ -121,6 +134,14 @@ function getOrCreateSheet() {
   }
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADER_ROW);
+    return sheet;
+  }
+  // 이미 쓰던 시트라면 뒤에 붙은 새 항목의 제목만 채워 넣습니다.
+  // 기존 칸은 건드리지 않으므로 지금까지 쌓인 문의는 그대로 있습니다.
+  const width = sheet.getLastColumn();
+  if (width < HEADER_ROW.length) {
+    sheet.getRange(1, width + 1, 1, HEADER_ROW.length - width)
+      .setValues([HEADER_ROW.slice(width)]);
   }
   return sheet;
 }

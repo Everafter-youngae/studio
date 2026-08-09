@@ -105,6 +105,21 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:26px 30px;bor
 .ask-note{max-width:310px;color:var(--muted);font-family:var(--serif-ko)}.ask-note .eyebrow{font-family:var(--sans);margin-bottom:18px}.ask-note .ig-link{margin-top:28px;font-family:var(--sans)}.standalone-form{max-width:760px}
 .form-hint{grid-column:1/-1;margin:14px 0 0;color:var(--muted);font-size:12px;line-height:1.7}
 .hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.consent-box{margin-top:22px;padding:22px 24px;border:1px solid var(--line);background:var(--ivory-soft)}
+.consent-head{margin:0 0 16px;font-size:13px;letter-spacing:.02em;color:var(--charcoal)}
+.consent-head em{font-style:normal;color:var(--burgundy)}
+.consent-box dl{display:grid;grid-template-columns:78px 1fr;gap:7px 14px;margin:0}
+.consent-box dt{color:var(--muted);font-size:11px;letter-spacing:.04em;line-height:1.85}
+.consent-box dd{margin:0;color:var(--charcoal);font-size:12.5px;line-height:1.85}
+.consent-note{margin:16px 0 0;color:var(--muted);font-size:12px;line-height:1.75}
+.consent-agree{display:flex!important;flex-direction:row!important;align-items:flex-start;gap:11px;margin-top:18px;padding-top:18px;
+  border-top:1px solid var(--line);color:var(--charcoal)!important;font-size:13.5px!important;line-height:1.7;cursor:pointer}
+.consent-agree input{flex:none;width:19px;height:19px;margin:1px 0 0;accent-color:var(--burgundy)}
+@media(max-width:600px){
+  .consent-box{padding:18px 16px}
+  .consent-box dl{grid-template-columns:1fr;gap:2px}
+  .consent-box dt{margin-top:9px}
+}
 .form-copy-box{grid-column:1/-1;margin:14px 0 0;padding:16px;border:1px solid var(--line);background:var(--ivory-soft);color:var(--charcoal);font-family:var(--sans);font-size:12px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
 .review-hero{position:relative;min-height:82svh;overflow:hidden;color:#fff}.review-hero-copy{position:absolute;left:11vw;bottom:11vh;z-index:3}.review-hero-copy>p:last-child{font-family:var(--serif-ko);color:rgba(255,255,255,.78)}
 .light-header{color:#fff;mix-blend-mode:normal}.review-page .menu-toggle{color:inherit}
