@@ -47,10 +47,8 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .voice-copy{max-width:620px;margin:0 auto;text-align:center}
 .voice h2{margin:16px 0 20px;font-family:var(--serif-ko);font-weight:300;font-size:clamp(26px,3.4vw,44px);line-height:1.55;letter-spacing:-.03em}
 .voice-lead{margin:0 0 40px;font-family:var(--serif-ko);font-size:16px;color:#5c544f;line-height:1.9}
-/* 참고한 형태에 가깝게 폭을 좁게 잡습니다. 카드가 넓어질수록 파형이 가로로 늘어나
-   가운데 하트가 납작해집니다. */
 .voice-player{display:grid;grid-template-columns:auto 1fr;gap:0 20px;align-items:center;
-  max-width:440px;margin:0 auto;padding:22px 24px;border:1px solid var(--line);border-radius:2px;background:var(--ivory);text-align:left}
+  margin:0;padding:22px 26px;border:1px solid var(--line);border-radius:2px;background:var(--ivory);text-align:left}
 .voice-toggle{display:flex;align-items:center;justify-content:center;width:56px;height:56px;padding:0;
   border:1px solid var(--burgundy);border-radius:50%;background:var(--burgundy);color:#fff;cursor:pointer;
   transition:background .25s,transform .25s}
@@ -63,16 +61,16 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .is-playing .voice-icon{width:4px;height:16px;margin-left:0;border:0;background:currentColor;
   box-shadow:8px 0 0 currentColor;transform:translateX(-4px)}
 .voice-name{margin:0 0 10px;font-family:var(--serif-ko);font-size:15px;color:var(--charcoal)}
-/* 진행 막대: 보이는 건 파형 SVG, 조작은 그 위에 투명하게 깔린 range 가 받는다.
+/* 진행 막대: 눈에 보이는 건 .voice-fill, 조작은 그 위에 투명하게 깔린 range 가 받는다.
    range 를 그대로 꾸미면 브라우저마다 트랙/썸 의사요소가 달라 손이 많이 간다. */
-.voice-seek{position:relative;height:58px;display:flex;align-items:center}
-.voice-wave{position:absolute;inset:0;width:100%;height:100%;display:block}
-.voice-wave .wave-dim{fill:#cfc6bd}
-.voice-wave .wave-lit{fill:var(--burgundy)}
-.voice-seek input[type=range]{position:relative;z-index:1;width:100%;height:58px;margin:0;padding:0;
+.voice-seek{position:relative;height:20px;display:flex;align-items:center}
+.voice-seek::before{content:'';position:absolute;left:0;right:0;height:2px;background:var(--line)}
+.voice-fill{position:absolute;left:0;height:2px;width:0;background:var(--burgundy);pointer-events:none}
+.voice-fill::after{content:'';position:absolute;right:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--burgundy)}
+.voice-seek input[type=range]{position:relative;z-index:1;width:100%;height:20px;margin:0;padding:0;
   -webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
-.voice-seek input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:58px;border-radius:12px;background:transparent}
-.voice-seek input[type=range]::-moz-range-thumb{width:24px;height:44px;border:0;border-radius:12px;background:transparent}
+.voice-seek input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:transparent}
+.voice-seek input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:transparent}
 .voice-seek input[type=range]:focus-visible{outline:2px solid var(--burgundy);outline-offset:4px;border-radius:2px}
 .voice-time{margin:10px 0 0;font-family:var(--serif-en);font-size:13px;letter-spacing:.06em;color:var(--muted)}
 /* 내려받기 안내는 기본으로 보인다 — 자바스크립트가 돌지 않으면 재생 버튼이 먹지 않으므로

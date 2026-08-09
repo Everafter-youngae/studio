@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -91,7 +91,7 @@
       <div class="voice-copy reveal">
         <p class="eyebrow burgundy">Listen</p>
         <h2>어떤 목소리로 진행하는지,<br>먼저 들어보세요.</h2>
-        <p class="voice-lead lines"><span>같은 문장이라도<br>어떤 목소리로 전해지는지에 따라<br>기억은 조금 달라집니다.</span><span>실제 예식에서 함께한<br>한 장면을 담았습니다.</span></p>
+        <p class="voice-lead lines"><span>같은 문장이라도 어떤 목소리로 전해지는지에 따라 기억은 조금 달라집니다.</span><span>실제 예식에서 함께한 한 장면을 담았습니다.</span></p>
 
         <figure class="voice-player">
           <audio id="voiceAudio" preload="metadata" src="assets/voice-sample-1.m4a"></audio>
@@ -101,11 +101,9 @@
           <div class="voice-track">
             <p class="voice-name"><span aria-hidden="true">🎧</span> 목소리로 전하는 이야기</p>
             <div class="voice-seek">
-              <!-- 파형은 script.js가 폭에 맞춰 그립니다. 가운데가 하트로 부풀어 오르는 모양이고,
-                   재생된 만큼만 잘라 버건디로 덧그립니다. 소리 자체를 분석한 파형은 아닙니다. -->
-              <svg class="voice-wave" id="voiceWave" aria-hidden="true" focusable="false" preserveAspectRatio="none"></svg>
               <input type="range" id="voiceSeek" min="0" max="1000" value="0" step="1"
                      aria-label="재생 위치" aria-valuetext="0초">
+              <div class="voice-fill" id="voiceFill"></div>
             </div>
             <p class="voice-time"><span id="voiceNow">0:00</span> / <span id="voiceTotal">0:13</span></p>
           </div>
@@ -214,6 +212,6 @@
   </main>
 
   <footer><span>Everafter 永愛</span><a href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">@everafter_youngae</a><a href="https://everafter-youngae.github.io/wedding-mc/story.html" target="_blank" rel="noopener">두 분의 이야기 찾기</a><span>부부라는 이름의 프롤로그.</span><span>© 2026 Everafter</span></footer>
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

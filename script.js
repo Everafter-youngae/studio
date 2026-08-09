@@ -129,108 +129,21 @@ if (voiceAudio) {
   const player  = voiceAudio.closest('.voice-player');
   const toggle  = document.getElementById('voiceToggle');
   const seek    = document.getElementById('voiceSeek');
-  const wave    = document.getElementById('voiceWave');
+  const fill    = document.getElementById('voiceFill');
   const nowEl   = document.getElementById('voiceNow');
   const totalEl = document.getElementById('voiceTotal');
   let scrubbing = false;
-
-  // ── 하트 파형 ────────────────────────────────────────────────────────────
-  // 고전 하트 곡선을 촘촘히 찍어, x 구간마다 위·아래 경계를 뽑아 둡니다.
-  // 막대는 이 경계와 평범한 파형 진폭을 합집합으로 그려서, 가운데로 갈수록
-  // 파형이 하트 모양으로 부풀어 오르게 보입니다.
-  const HEART_BUCKETS = 96;
-  const heartTop = new Array(HEART_BUCKETS).fill(Infinity);
-  const heartBot = new Array(HEART_BUCKETS).fill(-Infinity);
-  (function traceHeart() {
-    let yMin = Infinity, yMax = -Infinity;
-    const pts = [];
-    for (let i = 0; i <= 3000; i++) {
-      const t = (i / 3000) * Math.PI * 2;
-      const s = Math.sin(t);
-      const x = 16 * s * s * s;
-      const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
-      pts.push([x / 16, y]);
-      if (y < yMin) yMin = y;
-      if (y > yMax) yMax = y;
-    }
-    const half = Math.max(Math.abs(yMin), Math.abs(yMax));
-    pts.forEach(([xn, y]) => {
-      const b = Math.min(HEART_BUCKETS - 1, Math.max(0, Math.round((xn + 1) / 2 * (HEART_BUCKETS - 1))));
-      const v = y / half;                       // -1 … 1, 위가 +
-      if (v < heartTop[b]) heartTop[b] = v;
-      if (v > heartBot[b]) heartBot[b] = v;
-    });
-    // 곡선이 스치지 않은 빈 칸은 양옆 값으로 메웁니다.
-    for (let b = 0; b < HEART_BUCKETS; b++) {
-      if (heartTop[b] !== Infinity) continue;
-      let l = b, r = b;
-      while (l >= 0 && heartTop[l] === Infinity) l--;
-      while (r < HEART_BUCKETS && heartTop[r] === Infinity) r++;
-      const src = l >= 0 ? l : r;
-      heartTop[b] = heartTop[src]; heartBot[b] = heartBot[src];
-    }
-  })();
-
-  // 막대 높낮이가 새로 고칠 때마다 달라지면 산만하므로 값을 고정합니다.
-  const jitter = (i) => {
-    const s = Math.sin(i * 12.9898) * 43758.5453;
-    return s - Math.floor(s);
-  };
-
-  function drawWave() {
-    const box = wave.getBoundingClientRect();
-    const W = Math.round(box.width), H = Math.round(box.height);
-    if (W < 40 || H < 10) return;
-    const pitch = 5, barW = 2.4, mid = H / 2;
-    const n = Math.floor((W - barW) / pitch) + 1;
-    const offset = (W - ((n - 1) * pitch + barW)) / 2;
-    // 하트 폭은 반드시 높이에서 끌어옵니다. 전체 폭의 몇 %로 잡으면 막대가 길어질수록
-    // 하트가 가로로 늘어나 알아볼 수 없게 됩니다(폭 500px · 높이 44px 이면 6배 납작해짐).
-    const heartHalf = Math.min(0.45, (H * 1.05) / W);
-    const bars = [];
-    for (let i = 0; i < n; i++) {
-      const x = offset + i * pitch;
-      const u = n === 1 ? 0 : (i / (n - 1)) * 2 - 1;   // -1 … 1
-      // 하트 바깥의 평범한 파형. 하트가 주인공이라 낮게 깝니다.
-      const env = 0.13 + 0.20 * Math.pow(1 - Math.abs(u), 2.2);
-      const amp = (env * (0.55 + 0.45 * jitter(i))) * (H / 2);
-      let top = mid - amp, bot = mid + amp;
-      if (Math.abs(u) <= heartHalf) {
-        // 하트 안에서는 곡선 값만 씁니다. 바깥 파형과 합치면 위쪽 홈과 아래쪽 뾰족한
-        // 끝이 메워져서 하트로 안 보입니다.
-        const hu = u / heartHalf;                      // 하트 안에서의 -1 … 1
-        const b = Math.min(HEART_BUCKETS - 1, Math.max(0, Math.round((hu + 1) / 2 * (HEART_BUCKETS - 1))));
-        const scale = (H / 2) * 0.96;
-        const wob = 0.9 + 0.1 * jitter(i);             // 살짝 들쭉날쭉하게
-        top = mid - heartBot[b] * scale * wob;         // 화면 y 는 아래로 증가
-        bot = mid - heartTop[b] * scale * wob;
-      }
-      const h = Math.max(barW, bot - top);
-      bars.push(`<rect x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${barW}" height="${h.toFixed(1)}" rx="${barW/2}"/>`);
-    }
-    const shape = bars.join('');
-    wave.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    wave.innerHTML =
-      `<defs><clipPath id="voiceClip"><rect id="voiceClipRect" x="0" y="0" width="0" height="${H}"/></clipPath></defs>` +
-      `<g class="wave-dim">${shape}</g>` +
-      `<g class="wave-lit" clip-path="url(#voiceClip)">${shape}</g>`;
-    paint();
-  }
 
   const clock = (sec) => {
     if (!isFinite(sec) || sec < 0) sec = 0;
     const m = Math.floor(sec / 60);
     return m + ':' + String(Math.floor(sec % 60)).padStart(2, '0');
   };
-  const lightUpTo = (ratio) => {
-    const clip = document.getElementById('voiceClipRect');
-    if (clip) clip.setAttribute('width', String(Math.max(0, ratio) * wave.clientWidth));
-  };
   const paint = () => {
     const d = voiceAudio.duration;
     if (!isFinite(d) || d <= 0) return;
     const ratio = voiceAudio.currentTime / d;
-    lightUpTo(ratio);
+    fill.style.width = (ratio * 100) + '%';
     if (!scrubbing) seek.value = String(Math.round(ratio * 1000));
     nowEl.textContent = clock(voiceAudio.currentTime);
     seek.setAttribute('aria-valuetext', Math.round(voiceAudio.currentTime) + '초');
@@ -285,21 +198,12 @@ if (voiceAudio) {
   seek.addEventListener('input', () => {
     const d = voiceAudio.duration;
     if (isFinite(d) && d > 0) {
-      lightUpTo(seek.value / 1000);
+      fill.style.width = (seek.value / 10) + '%';
       nowEl.textContent = clock((seek.value / 1000) * d);
     }
   });
   seek.addEventListener('change', applyScrub);
   seek.addEventListener('pointerup', applyScrub);
-
-  drawWave();
-  // 폭이 바뀌면 막대 수가 달라지므로 다시 그립니다.
-  let redrawTimer;
-  const redraw = () => { clearTimeout(redrawTimer); redrawTimer = setTimeout(drawWave, 150); };
-  window.addEventListener('resize', redraw);
-  window.addEventListener('orientationchange', redraw);
-  // 웹폰트가 늦게 오면 칸 폭이 조금 달라질 수 있어 한 번 더 맞춥니다.
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWave);
 }
 
 const menuToggle = document.querySelector('.menu-toggle');
