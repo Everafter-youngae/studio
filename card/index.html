@@ -59,7 +59,10 @@
   }
 
   /* ---------- 공통 리듬 ---------- */
-  .wrap{max-width:560px;margin:0 auto;padding:0 26px}
+  /* width:100%가 없으면 .wrap이 히어로(플렉스 아이템)와 나머지 섹션(블록)에서
+     서로 다른 방식으로 폭을 잡아, 왼쪽 기준선이 어긋날 수 있습니다.
+     폭을 명시해 두 경우 모두 같은 계산을 타게 합니다. */
+  .wrap{width:100%;max-width:560px;margin:0 auto;padding:0 26px}
   section{padding:84px 0}
   section + section{border-top:1px solid var(--line)}
   .eyebrow{
@@ -98,29 +101,11 @@
     margin-top:7px;font-family:var(--serif-en);font-size:13px;font-style:italic;
     letter-spacing:.09em;color:var(--muted);
   }
-  /* 히어로가 전부 왼쪽 정렬이라 화살표도 같은 선에서 시작해야 합니다.
-     align-items:center로 두면 화살표만 텍스트 위 가운데로 밀려 들어갑니다. */
-  .to-about{
-    display:inline-flex;flex-direction:column;align-items:flex-start;gap:9px;
-    margin-top:64px;align-self:flex-start;
-    font-size:11px;letter-spacing:.14em;color:var(--muted);
-  }
-  .to-about .arw{font-size:13px;line-height:1;animation:drift 2.8s ease-in-out infinite}
-  @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
   /* ---------- 01 소개 ---------- */
   .about p{font-family:var(--serif-ko);font-size:16.5px;line-height:2.15;letter-spacing:-.01em}
   .about p + p{margin-top:26px}
   .about strong{font-weight:400;color:var(--burgundy)}
-  .about .sec-title{margin-bottom:40px}
-  .about > .wrap > div + div{margin-top:34px}
-  /* 이름 풀이는 본문에서 한 칸 떼어 편지 속 각주처럼 앉힙니다. */
-  .name-note{padding:26px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .name-note .name-mark{
-    font-family:var(--serif-ko);font-size:19px;font-weight:400;
-    color:var(--burgundy);letter-spacing:.16em;
-  }
-  .name-note p + p{margin-top:12px;font-family:var(--sans);font-size:13.5px;line-height:2;color:var(--muted)}
 
   /* ---------- 02 Process ---------- */
   .flow{margin-top:36px;position:relative}
@@ -216,7 +201,6 @@
   .hero .wrap > .reveal:nth-child(3){transition-delay:.28s}
   .hero .wrap > .reveal:nth-child(4){transition-delay:.40s}
   .hero .wrap > .reveal:nth-child(5){transition-delay:.48s}
-  .hero .wrap > .reveal:nth-child(6){transition-delay:.62s}
 
   /* ---------- Tablet ---------- */
   @media(min-width:700px){
@@ -240,13 +224,11 @@
     .hero{padding:150px 0 70px}
     .hero h1{font-size:50px}
     .sec-title{font-size:30px}
-    .to-about{margin-top:80px}
   }
 
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     html.js-anim .reveal{opacity:1;transform:none;transition:none}
-    .to-about .arw{animation:none}
   }
   </style>
 </head>
@@ -269,10 +251,6 @@
           <p class="who-name">전주현</p>
           <p class="who-role">Wedding Story Host</p>
         </div>
-        <a class="to-about reveal" href="#about">
-          <span class="arw" aria-hidden="true">↓</span>
-          <span>소개 보기</span>
-        </a>
       </div>
     </section>
 
@@ -280,18 +258,6 @@
     <section class="about" id="about">
       <div class="wrap">
         <p class="index reveal">01</p>
-        <!-- 브랜드 이름 풀이와 첫 문단은 index.html 01 섹션에서 그대로 가져왔습니다. -->
-        <div class="reveal">
-          <p class="eyebrow">Happily Ever After</p>
-          <h2 class="sec-title">동화의 마지막 문장을<br>두 사람의 첫 문장으로.</h2>
-        </div>
-        <div class="reveal">
-          <p>결혼식은 하루이지만,<br>부부가 되는 일은 매일의 이야기라고 생각했습니다.</p>
-        </div>
-        <div class="name-note reveal">
-          <p class="name-mark">永愛</p>
-          <p>영원할 영, 사랑 애.<br>오래도록 사랑하기를 바라는 마음을 이름에 담았습니다.</p>
-        </div>
         <div class="reveal">
           <p>안녕하세요.<br>Everafter를 만들고 있는 전주현입니다.</p>
           <p>저는 사회자가 아니라,<br><strong>두 사람의 이야기를 문장으로 남기는 사람</strong>입니다.</p>
@@ -305,7 +271,7 @@
         <p class="index reveal">02</p>
         <div class="reveal">
           <p class="eyebrow">Everafter Process</p>
-          <h2 class="sec-title">하루가 되기까지,<br>다섯 번의 걸음.</h2>
+          <h2 class="sec-title">하루가 완성되기까지,<br>네 번의 걸음.</h2>
         </div>
         <div class="flow">
           <!-- Story~Letter 문구는 index.html의 'What we do' 4단계와
@@ -325,10 +291,6 @@
           <div class="step reveal">
             <h3>Letter</h3>
             <p>예식이 끝난 뒤, 두 사람의 이야기와 그날의 장면을 담아 전하는 작은 기록입니다.</p>
-          </div>
-          <div class="step reveal">
-            <h3>Archive</h3>
-            <p>오래도록 다시 꺼내볼 수 있도록, 두 사람의 기록으로 남습니다.</p>
           </div>
         </div>
       </div>
@@ -386,8 +348,10 @@
       </div>
     </section>
 
-    <!-- ===== 05 후기 ===== -->
-    <section>
+    <!-- ===== 05 후기 — 고객 기록이 더 쌓일 때까지 숨겨둡니다 =====
+         켜는 방법: 아래 <section>의 hidden 만 지우면 됩니다.
+         켤 때 아래 Contact의 번호(현재 04)도 함께 맞춰 주세요. -->
+    <section hidden>
       <div class="wrap">
         <p class="index reveal">05</p>
         <div class="reveal">
@@ -414,7 +378,9 @@
     <!-- ===== 06 Contact ===== -->
     <section>
       <div class="wrap">
-        <p class="index reveal">06</p>
+        <!-- 사진(04)·후기(05)를 숨겨둔 동안 번호가 비지 않도록 04로 당겨 둡니다.
+             두 섹션을 다시 켤 때 06으로 되돌려 주세요. -->
+        <p class="index reveal">04</p>
         <div class="reveal">
           <p class="eyebrow">Contact</p>
           <h2 class="sec-title">두 사람의 첫 장을<br>들려주세요.</h2>
