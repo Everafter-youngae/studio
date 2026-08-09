@@ -67,11 +67,19 @@ function syncHeroVideo(){
   const existing = heroMediaBox.querySelector('video');
   if (wanted && !existing) {
     const v = document.createElement('video');
-    v.muted = true;          // 음소거가 아니면 자동재생이 막힙니다 (원본에 소리가 들어 있음)
-    v.loop = true;
-    v.playsInline = true;    // iOS에서 전체화면으로 튀어나가지 않게
-    v.preload = 'auto';
+    // iOS Safari는 muted를 '속성'으로 갖고 있어야 자동재생을 허용합니다.
+    // 프로퍼티(v.muted=true)만 주면 막히는 경우가 있어 둘 다 지정합니다.
+    // 속성은 src를 넣기 전에 걸어둬야 합니다.
+    v.setAttribute('muted', '');
+    v.setAttribute('playsinline', '');   // 전체화면으로 튀어나가지 않게
+    v.setAttribute('webkit-playsinline', '');
+    v.setAttribute('autoplay', '');
+    v.setAttribute('loop', '');
+    v.setAttribute('preload', 'auto');
     v.setAttribute('aria-hidden', 'true');
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
     v.src = 'assets/hero.mp4';
     heroMediaBox.appendChild(v);
     v.play().catch(() => {}); // 막히면 아래 이미지가 그대로 보이므로 조용히 넘어갑니다
