@@ -25,7 +25,8 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .hero{position:relative;min-height:100svh;overflow:hidden;background:#ddd}
 .hero-media{position:absolute;inset:0}.hero-media img{object-position:center 46%;filter:grayscale(1) contrast(.92)}
 /* 영상은 이미지 위에 덮습니다 — 재생이 막히거나 못 받으면 아래 이미지가 그대로 남습니다 */
-.hero-media video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center 46%;filter:grayscale(1) contrast(.92)}
+/* 영상은 흑백 처리 없이 원본 색 그대로 둡니다 (이미지 쪽 grayscale과 다릅니다) */
+.hero-media video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center 46%}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.06),rgba(0,0,0,0) 50%),linear-gradient(0deg,rgba(15,10,8,.35),transparent 42%)}
 .hero-copy{position:absolute;right:6vw;bottom:9vh;z-index:2;color:#fff;text-align:right;will-change:transform,opacity}.hero-copy h1{margin:10px 0 14px;font-family:var(--serif-ko);font-weight:300;font-size:clamp(30px,4.8vw,76px);line-height:1.42;letter-spacing:-.035em}.hero-note{margin:0 0 18px;font-family:var(--serif-en);font-size:15px;font-style:italic;letter-spacing:.045em;color:rgba(255,255,255,.78)}.eyebrow{margin:0;font-size:9px;letter-spacing:.18em;text-transform:uppercase}.eyebrow.burgundy{color:var(--burgundy)}.eyebrow.light{color:rgba(255,255,255,.74)}
 .text-link{display:inline-block;border-bottom:1px solid rgba(255,255,255,.7);font-family:var(--serif-en);font-size:12px;font-style:italic}
