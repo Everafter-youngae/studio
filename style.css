@@ -28,7 +28,6 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .brand-mark{display:flex;flex-direction:column;font-family:var(--serif-en);font-size:15px;line-height:1;letter-spacing:.06em}.brand-mark small{margin-top:6px;font-family:var(--serif-ko);font-size:8px;letter-spacing:.35em}
 .site-nav{display:flex;gap:26px;font-size:9px;letter-spacing:.16em;text-transform:uppercase}.site-nav a{opacity:.6}.site-nav a:hover{opacity:1}
 .menu-toggle{display:none;border:0;background:none;color:inherit;font-size:9px;letter-spacing:.15em}
-.progress-copy{position:fixed;left:30px;bottom:24px;z-index:55;color:var(--burgundy);font-family:var(--serif-en);font-size:11px;font-style:italic;background:rgba(244,239,232,.9);backdrop-filter:blur(6px);padding:5px 12px;border-radius:20px}
 .hero{position:relative;min-height:100svh;overflow:hidden;background:#ddd}
 /* 대문 사진은 원본 색 그대로 둡니다.
    예전에는 여기서 grayscale(1) 로 흑백을 입혔는데, 컬러 사진으로 갈아끼워도
@@ -110,7 +109,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:26px 30px;bor
   .brand-mark{font-size:18px}
   .brand-mark small{font-size:9px}
   .site-nav{font-size:11px;gap:32px}
-  .progress-copy{left:38px;bottom:30px;font-size:13px}
+
   .chapter-index{left:38px;top:40px;font-size:17px}
   .eyebrow{font-size:11px}
   .text-link{font-size:14px}
@@ -121,7 +120,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:26px 30px;bor
   .record-controls span{font-size:13px}
 }
 @media(max-width:900px){.site-nav{display:none}.menu-toggle{display:block}.site-nav.open{position:absolute;display:flex;top:54px;right:18px;flex-direction:column;gap:10px;padding:16px;background:rgba(244,239,232,.94)}.hero-copy{right:7vw;bottom:8vh}.intro{padding:110px 8vw 90px 14vw}.body-copy,.editorial-grid,.contact-grid{grid-template-columns:1fr}.editorial{padding:120px 8vw 100px 14vw}.editorial-lead{position:static}.contact{padding:120px 8vw 100px 14vw}.note{grid-template-columns:42px 110px 1fr}.records-copy{left:10vw;right:8vw}.image-story-copy{left:10vw}.pricing{padding:120px 8vw 100px 14vw}}
-@media(max-width:600px){.site-header{padding:18px}.progress-copy{left:18px;bottom:17px}.chapter-index{left:18px;top:24px}.hero-copy{left:18px;right:18px;bottom:8vh;text-align:left}.hero-copy h1{font-size:30px}.hero-note{font-size:13px;margin-bottom:15px}.intro,.editorial,.contact{padding-left:58px;padding-right:24px}.intro{min-height:auto;padding-top:110px;padding-bottom:90px}.body-copy{gap:38px}.image-story-copy{left:58px;right:24px;bottom:10vh}.image-story-copy h2{font-size:29px}.note{grid-template-columns:34px 1fr;gap:10px}.note p{grid-column:2}.records-copy{left:58px;right:24px}.records blockquote{font-size:27px}.contact-grid{gap:40px}.inquiry-form{grid-template-columns:1fr}.inquiry-form .full,.inquiry-form button,.form-status{grid-column:1}footer{display:block;padding-left:18px;line-height:2.1}footer span,footer a{display:block}.pricing{padding-left:58px;padding-right:24px}.price-amount{font-size:36px}.price-extra-head{flex-wrap:wrap}}
+@media(max-width:600px){.site-header{padding:18px}.chapter-index{left:18px;top:24px}.hero-copy{left:18px;right:18px;bottom:8vh;text-align:left}.hero-copy h1{font-size:30px}.hero-note{font-size:13px;margin-bottom:15px}.intro,.editorial,.contact{padding-left:58px;padding-right:24px}.intro{min-height:auto;padding-top:110px;padding-bottom:90px}.body-copy{gap:38px}.image-story-copy{left:58px;right:24px;bottom:10vh}.image-story-copy h2{font-size:29px}.note{grid-template-columns:34px 1fr;gap:10px}.note p{grid-column:2}.records-copy{left:58px;right:24px}.records blockquote{font-size:27px}.contact-grid{gap:40px}.inquiry-form{grid-template-columns:1fr}.inquiry-form .full,.inquiry-form button,.form-status{grid-column:1}footer{display:block;padding-left:18px;line-height:2.1}footer span,footer a{display:block}.pricing{padding-left:58px;padding-right:24px}.price-amount{font-size:36px}.price-extra-head{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.reveal,.image-zoom img{transition:none}.image-zoom img{transform:none!important}}
 
 /* Price section */

@@ -30,16 +30,6 @@ if (siteHeader && headerHero) {
   updateHeaderState();
 }
 
-const progressCopy = document.getElementById('progressCopy');
-const sections = [...document.querySelectorAll('[data-progress]')];
-if (progressCopy && sections.length) {
-  const progressObserver = new IntersectionObserver((entries) => {
-    const active = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (active) progressCopy.textContent = active.target.dataset.progress;
-  }, { threshold: [.25,.5,.75] });
-  sections.forEach(section => progressObserver.observe(section));
-}
-
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -71,8 +61,7 @@ function updateParallax(){
   if (heroMediaBox && heroCopy) {
     const y = Math.max(0, window.scrollY);
     const progress = Math.min(1, y / window.innerHeight);
-    // 이미지·영상이 함께 있을 수 있으므로 둘 다 같은 값으로 움직입니다
-    heroMediaBox.querySelectorAll('img, video').forEach(el => {
+    heroMediaBox.querySelectorAll('img').forEach(el => {
       el.style.transform = `scale(${1.02 + progress * .035})`;
     });
     heroCopy.style.transform = `translateY(${-progress * 28}px)`;
