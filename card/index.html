@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4efe8">
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIyIiBmaWxsPSIjNzExZjFiIi8+PHRleHQgeD0iNTAiIHk9IjcwIiBmb250LXNpemU9IjU4IiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ05vdG8gU2VyaWYgS1InLCBzZXJpZiIgZmlsbD0iI2Y0ZWZlOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5rC4PC90ZXh0Pjwvc3ZnPgo=">
+  <meta name="description" content="오래 기억될 하루를 함께 만듭니다. Everafter 永愛 · 전주현">
+  <title>Everafter 永愛 · 전주현</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Everafter">
+  <meta property="og:title" content="Everafter 永愛 · 전주현">
+  <meta property="og:description" content="오래 기억될 하루를 함께 만듭니다.">
+  <meta property="og:url" content="https://everafter-youngae.github.io/studio/card/">
+  <meta property="og:image" content="https://everafter-youngae.github.io/studio/assets/hero-tulip.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Everafter 永愛 · 전주현">
+  <meta name="twitter:description" content="오래 기억될 하루를 함께 만듭니다.">
+  <meta name="twitter:image" content="https://everafter-youngae.github.io/studio/assets/hero-tulip.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <!-- 등장 효과는 JS가 살아 있을 때만 켭니다. 이 클래스가 붙지 않으면
+       .reveal 요소들은 처음부터 보이는 상태 — 스크립트가 실패해도
+       명함이 빈 화면으로 남지 않도록. -->
+  <script>document.documentElement.classList.add('js-anim');</script>
+  <style>
+  /* card.html은 한 장의 종이처럼 읽히는 독립 페이지라 style.css를 쓰지 않고
+     스타일을 여기 안에 둡니다. 다만 팔레트·폰트 토큰은 style.css의 :root와
+     같은 값을 그대로 씁니다 — 명함에서 홈으로 넘어가도 톤이 이어지도록. */
+  :root{
+    --ivory:#f4efe8;
+    --ivory-soft:#faf7f2;
+    --charcoal:#24201e;
+    --muted:#7a706a;
+    --burgundy:#711f1b;
+    --burgundy-deep:#4f1512;
+    --line:rgba(36,32,30,.14);
+    --serif-en:"Cormorant Garamond", Georgia, serif;
+    --serif-ko:"Noto Serif KR", serif;
+    --sans:"Noto Sans KR", sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--ivory-soft);color:var(--charcoal);
+    font-family:var(--sans);font-weight:300;line-height:1.9;
+    word-break:keep-all;overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;width:100%;height:100%;object-fit:cover}
+  h1,h2,h3,p,blockquote,figure{margin:0}
+
+  .grain{
+    position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.035;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitchTiles'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- 공통 리듬 ---------- */
+  .wrap{max-width:560px;margin:0 auto;padding:0 26px}
+  section{padding:84px 0}
+  section + section{border-top:1px solid var(--line)}
+  .eyebrow{
+    margin:0;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--burgundy);font-weight:400;
+  }
+  .index{
+    font-family:var(--serif-en);font-size:13px;color:var(--burgundy);
+    letter-spacing:.06em;margin-bottom:26px;
+  }
+  .sec-title{
+    font-family:var(--serif-ko);font-weight:300;
+    font-size:23px;line-height:1.65;letter-spacing:-.03em;
+    margin-top:14px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+    padding:110px 0 46px;border-top:0;
+  }
+  .brand{
+    font-family:var(--serif-en);font-size:13px;letter-spacing:.28em;
+    color:var(--burgundy);text-transform:uppercase;
+  }
+  .hero h1{
+    margin:38px 0 0;font-family:var(--serif-ko);font-weight:300;
+    font-size:clamp(29px,8vw,40px);line-height:1.55;letter-spacing:-.035em;
+  }
+  .hero-lead{
+    margin-top:30px;font-size:14.5px;line-height:2.1;color:var(--muted);
+  }
+  .rule{height:1px;background:var(--line);margin:52px 0 30px}
+  .who-name{font-family:var(--serif-ko);font-size:19px;font-weight:400;letter-spacing:-.02em}
+  .who-role{
+    margin-top:7px;font-family:var(--serif-en);font-size:13px;font-style:italic;
+    letter-spacing:.09em;color:var(--muted);
+  }
+  .to-about{
+    display:inline-flex;flex-direction:column;align-items:center;gap:9px;
+    margin-top:64px;align-self:flex-start;
+    font-size:11px;letter-spacing:.14em;color:var(--muted);
+  }
+  .to-about .arw{font-size:13px;line-height:1;animation:drift 2.8s ease-in-out infinite}
+  @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+  /* ---------- 01 소개 ---------- */
+  .about p{font-family:var(--serif-ko);font-size:16.5px;line-height:2.15;letter-spacing:-.01em}
+  .about p + p{margin-top:26px}
+  .about strong{font-weight:400;color:var(--burgundy)}
+
+  /* ---------- 02 Process ---------- */
+  .flow{margin-top:36px;position:relative}
+  .step{position:relative;padding:0 0 34px 26px}
+  .step:last-child{padding-bottom:0}
+  .step::before{
+    content:'';position:absolute;left:0;top:9px;width:5px;height:5px;
+    border-radius:50%;background:var(--burgundy);
+  }
+  .step::after{
+    content:'';position:absolute;left:2px;top:20px;bottom:6px;width:1px;background:var(--line);
+  }
+  .step:last-child::after{display:none}
+  .step h3{
+    font-family:var(--serif-en);font-size:19px;font-weight:400;
+    letter-spacing:.06em;line-height:1.2;
+  }
+  .step p{margin-top:6px;font-size:13.5px;color:var(--muted);line-height:1.9}
+
+  /* ---------- 03 서비스 ---------- */
+  .cards{margin-top:34px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .card{background:var(--ivory-soft);padding:26px 22px}
+  /* 홈페이지 '더할 수 있는 것' 목록(.price-extra-head)과 같은 형태 —
+     이름은 왼쪽, 금액은 오른쪽 끝에 버건디로. */
+  .card-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+  .card-head h3{font-family:var(--serif-ko);font-size:16px;font-weight:400;letter-spacing:-.02em}
+  .card-head span{
+    font-family:var(--serif-en);font-size:14px;letter-spacing:.03em;
+    color:var(--burgundy);white-space:nowrap;
+  }
+  /* 본식 사회 금액은 홈페이지에서도 눌러야 보이도록 해둔 값이라,
+     명함에서는 금액 대신 홈페이지 Price 섹션으로 보냅니다. */
+  .card-head a{
+    font-family:var(--sans);font-size:12px;letter-spacing:.04em;white-space:nowrap;
+    color:var(--burgundy);border-bottom:1px solid rgba(113,31,27,.3);padding-bottom:2px;
+  }
+  .card-head a:hover{border-bottom-color:var(--burgundy)}
+  .card p{margin-top:11px;font-size:13px;color:var(--muted);line-height:1.9}
+
+  /* ---------- 04 기록(사진) ---------- */
+  .gallery{margin-top:34px;display:grid;gap:12px}
+  .shot{
+    position:relative;aspect-ratio:4/5;background:var(--ivory);
+    border:1px solid var(--line);overflow:hidden;
+  }
+  .shot .ph{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif-en);font-size:12px;font-style:italic;letter-spacing:.08em;
+    color:var(--muted);opacity:.6;
+  }
+  .shot img{position:relative;z-index:1}
+
+  /* ---------- 05 후기 ---------- */
+  .notes{margin-top:34px}
+  .note{padding:30px 0;border-bottom:1px solid var(--line)}
+  .note:first-child{border-top:1px solid var(--line)}
+  .note blockquote{
+    font-family:var(--serif-ko);font-weight:300;font-size:18px;line-height:1.85;
+    letter-spacing:-.02em;
+  }
+  .note cite{
+    display:block;margin-top:15px;font-style:normal;font-size:10.5px;
+    letter-spacing:.12em;color:var(--muted);
+  }
+
+  /* ---------- 06 Contact ---------- */
+  .links{margin-top:32px;border-top:1px solid var(--line)}
+  .link-row{
+    display:flex;align-items:baseline;justify-content:space-between;gap:18px;
+    padding:20px 2px;border-bottom:1px solid var(--line);
+  }
+  .link-row .lbl{font-family:var(--serif-en);font-size:15px;letter-spacing:.08em;color:var(--burgundy)}
+  .link-row .val{font-size:12.5px;color:var(--muted);text-align:right}
+  .link-row:hover .val{color:var(--charcoal)}
+
+  footer{
+    padding:52px 0 66px;text-align:center;
+    font-family:var(--serif-en);font-size:12px;font-style:italic;letter-spacing:.06em;
+    color:var(--muted);
+  }
+  footer .mark{
+    display:block;margin-bottom:9px;font-style:normal;font-size:11px;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--burgundy);
+  }
+
+  /* ---------- 등장 ---------- */
+  .reveal{transition:opacity .95s ease,transform .95s ease}
+  html.js-anim .reveal{opacity:0;transform:translateY(16px)}
+  html.js-anim .reveal.visible{opacity:1;transform:none}
+  /* 히어로는 스크롤을 기다리지 않고 첫 화면에서 차례로 올라옵니다. */
+  .hero .wrap > .reveal:nth-child(1){transition-delay:.06s}
+  .hero .wrap > .reveal:nth-child(2){transition-delay:.16s}
+  .hero .wrap > .reveal:nth-child(3){transition-delay:.28s}
+  .hero .wrap > .reveal:nth-child(4){transition-delay:.40s}
+  .hero .wrap > .reveal:nth-child(5){transition-delay:.48s}
+  .hero .wrap > .reveal:nth-child(6){transition-delay:.62s}
+
+  /* ---------- Tablet ---------- */
+  @media(min-width:700px){
+    .wrap{max-width:620px;padding:0 40px}
+    section{padding:112px 0}
+    .hero{padding:130px 0 60px}
+    .hero h1{font-size:44px}
+    .hero-lead{font-size:15.5px;margin-top:34px}
+    .sec-title{font-size:27px}
+    .about p{font-size:17.5px}
+    .cards{grid-template-columns:1fr 1fr}
+    .gallery{grid-template-columns:1fr 1fr}
+    .shot:first-child{grid-column:1/-1;aspect-ratio:16/10}
+    .note blockquote{font-size:20px}
+  }
+
+  /* ---------- Desktop ---------- */
+  @media(min-width:1000px){
+    .wrap{max-width:680px}
+    section{padding:140px 0}
+    .hero{padding:150px 0 70px}
+    .hero h1{font-size:50px}
+    .sec-title{font-size:30px}
+    .to-about{margin-top:80px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    html.js-anim .reveal{opacity:1;transform:none;transition:none}
+    .to-about .arw{animation:none}
+  }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="wrap">
+        <p class="brand reveal">Everafter · 永愛</p>
+        <h1 class="reveal">오래 기억될 하루를<br>함께 만듭니다.</h1>
+        <p class="hero-lead reveal">
+          결혼식을 진행합니다.<br>
+          그보다 먼저,<br>
+          두 사람의 이야기를 듣습니다.
+        </p>
+        <div class="rule reveal"></div>
+        <div class="reveal">
+          <p class="who-name">전주현</p>
+          <p class="who-role">Wedding Story Host</p>
+        </div>
+        <a class="to-about reveal" href="#about">
+          <span class="arw" aria-hidden="true">↓</span>
+          <span>소개 보기</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== 01 소개 ===== -->
+    <section class="about" id="about">
+      <div class="wrap">
+        <p class="index reveal">01</p>
+        <div class="reveal">
+          <p>안녕하세요.<br>Everafter를 만들고 있는 전주현입니다.</p>
+          <p>저는 사회자가 아니라,<br><strong>두 사람의 이야기를 문장으로 남기는 사람</strong>입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 02 Process ===== -->
+    <section>
+      <div class="wrap">
+        <p class="index reveal">02</p>
+        <div class="reveal">
+          <p class="eyebrow">Everafter Process</p>
+          <h2 class="sec-title">하루가 되기까지,<br>다섯 번의 걸음.</h2>
+        </div>
+        <div class="flow">
+          <!-- Story~Letter 문구는 index.html의 'What we do' 4단계와
+               Everafter Letter 설명에서 그대로 가져왔습니다. -->
+          <div class="step reveal">
+            <h3>Story</h3>
+            <p>문의 주시면 질문지를 보내드립니다. 예식 정보와 두 분만의 이야기, 원하는 분위기를 편하게 들려주세요.</p>
+          </div>
+          <div class="step reveal">
+            <h3>Script</h3>
+            <p>초안을 보내드리면 그대로 좋은 문장과 고치고 싶은 부분을 알려주세요. 두 분다운 문장이 될 수 있도록 함께 다듬어갑니다.</p>
+          </div>
+          <div class="step reveal">
+            <h3>Wedding</h3>
+            <p>완성된 대본으로 그날의 사회를 맡습니다. 과하지 않게, 두 분의 속도로.</p>
+          </div>
+          <div class="step reveal">
+            <h3>Letter</h3>
+            <p>예식이 끝난 뒤, 두 사람의 이야기와 그날의 장면을 담아 전하는 작은 기록입니다.</p>
+          </div>
+          <div class="step reveal">
+            <h3>Archive</h3>
+            <p>오래도록 다시 꺼내볼 수 있도록, 두 사람의 기록으로 남습니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 03 서비스 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="index reveal">03</p>
+        <div class="reveal">
+          <p class="eyebrow">Service</p>
+          <h2 class="sec-title">우리는 사회만<br>진행하지 않습니다.</h2>
+        </div>
+        <!-- 아래 문구는 모두 index.html의 Price 섹션에서 그대로 가져온 것입니다.
+             홈페이지 문구를 고치실 때 이쪽도 함께 맞춰 주세요. -->
+        <div class="cards">
+          <div class="card reveal">
+            <div class="card-head"><h3>본식 사회</h3><a href="../index.html#price">비용 보기 →</a></div>
+            <p>두 사람의 이야기를 담은 맞춤 대본과 함께, 결혼식의 시작부터 마지막까지 편안하게 진행합니다.</p>
+          </div>
+          <div class="card reveal">
+            <div class="card-head"><h3>청첩장 맞춤 문구</h3><span>+10,000원</span></div>
+            <p>두 사람의 이야기를 담아 청첩장 첫 문장을 함께 작성합니다.</p>
+          </div>
+          <div class="card reveal">
+            <div class="card-head"><h3>2부 진행</h3><span>+100,000원</span></div>
+            <p>피로연 또는 2부 행사까지 자연스럽게 이어서 진행합니다.</p>
+          </div>
+          <div class="card reveal">
+            <div class="card-head"><h3>출장</h3><span>지역별 별도</span></div>
+            <p>서울 외 지역은 거리별 출장비가 추가됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 04 기록(사진) — 사진 고르는 중이라 지금은 숨겨둡니다 =====
+         켜는 방법: 아래 <section>의 hidden 만 지우면 바로 보입니다.
+         사진 넣는 방법: 각 .shot 안의 <div class="ph">를 지우고
+         <img src="../assets/파일명.jpg" alt="설명">로 바꿔주세요.
+         (이 페이지가 card/ 하위에 있어서 ../assets/ 로 시작합니다.)
+         장수를 늘리거나 줄이려면 <figure class="shot reveal">를 복사/삭제하면 됩니다. -->
+    <section hidden>
+      <div class="wrap">
+        <p class="index reveal">04</p>
+        <div class="reveal">
+          <p class="eyebrow">Records</p>
+          <h2 class="sec-title">그날의 장면들.</h2>
+        </div>
+        <div class="gallery">
+          <figure class="shot reveal"><div class="ph">photograph</div></figure>
+          <figure class="shot reveal"><div class="ph">photograph</div></figure>
+          <figure class="shot reveal"><div class="ph">photograph</div></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 05 후기 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="index reveal">05</p>
+        <div class="reveal">
+          <p class="eyebrow">Words from couples</p>
+          <h2 class="sec-title">예식이 끝난 뒤에도<br>오래 남은 마음들.</h2>
+        </div>
+        <div class="notes">
+          <div class="note reveal">
+            <blockquote>“준비하는 시간부터 행복했습니다.”</blockquote>
+            <cite>첫 번째 기록 · 영애씨</cite>
+          </div>
+          <div class="note reveal">
+            <blockquote>“정말 우리다운 결혼식이었습니다.”</blockquote>
+            <cite>두 번째 기록 · 영애씨</cite>
+          </div>
+          <div class="note reveal">
+            <blockquote>“사회를 맡겼다는 느낌보다,<br>한 사람을 만난 것 같았습니다.”</blockquote>
+            <cite>세 번째 기록 · 영애씨</cite>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 06 Contact ===== -->
+    <section>
+      <div class="wrap">
+        <p class="index reveal">06</p>
+        <div class="reveal">
+          <p class="eyebrow">Contact</p>
+          <h2 class="sec-title">두 사람의 첫 장을<br>들려주세요.</h2>
+        </div>
+        <div class="links reveal">
+          <a class="link-row" href="https://www.instagram.com/ever.after_youngae" target="_blank" rel="noopener">
+            <span class="lbl">Instagram</span>
+            <span class="val">@ever.after_youngae ↗</span>
+          </a>
+          <a class="link-row" href="../index.html">
+            <span class="lbl">Homepage</span>
+            <span class="val">Everafter 永愛</span>
+          </a>
+          <a class="link-row" href="../ask.html">
+            <span class="lbl">Inquiry</span>
+            <span class="val">문의 남기기</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span class="mark">Everafter 永愛</span>
+    부부라는 이름의 프롤로그.
+  </footer>
+
+  <script>
+  (function(){
+    function show(el){ el.classList.add('visible'); }
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var all = document.querySelectorAll('.reveal');
+
+    if (reduce || !('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(all, show);
+      return;
+    }
+
+    // 히어로는 화면에 이미 있으므로 스크롤을 기다리지 않고 바로 띄웁니다.
+    // (관찰에만 맡기면 폰트 로딩 중 레이아웃이 흔들릴 때 첫 화면이
+    //  비어 보이는 일이 생깁니다.)
+    var hero = document.querySelectorAll('.hero .reveal');
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ Array.prototype.forEach.call(hero, show); });
+    });
+
+    var rest = document.querySelectorAll('section:not(.hero) .reveal');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          show(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+    Array.prototype.forEach.call(rest, function(el){ io.observe(el); });
+  })();
+  </script>
+</body>
+</html>
