@@ -81,9 +81,13 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .voice-error .voice-fallback{display:block;color:var(--burgundy)}
 @media(prefers-reduced-motion:reduce){.voice-toggle{transition:none}}
 @media(max-width:600px){
-  .voice{padding:90px 24px 90px 58px}
-  .voice-copy{text-align:left}
-  .voice-player{gap:0 16px;padding:18px}
+  /* 다른 섹션의 왼쪽 58px 들여쓰기는 그 자리에 챕터 번호가 들어가서 성립한다.
+     이 섹션은 번호가 없어 빈 여백만 남고 글이 오른쪽으로 밀려 보이므로,
+     번호 없는 .curiosity 처럼 좌우를 맞추고 가운데로 둔다. */
+  .voice{padding:80px 26px}
+  .voice h2{font-size:24px}
+  .voice-lead{margin-bottom:32px;font-size:15px}
+  .voice-player{gap:0 16px;padding:18px 16px}
   .voice-toggle{width:50px;height:50px}
 }
 .image-story{position:relative;min-height:100svh;overflow:hidden}.image-story-media{position:absolute;inset:-7% 0}.image-story-media img{object-position:center}.image-story-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,22,28,.58),rgba(7,22,28,.08) 62%,transparent)}
