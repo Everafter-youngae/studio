@@ -118,7 +118,7 @@ if (form && formStatus) {
     }
 
     if (!INQUIRY_ENDPOINT || INQUIRY_ENDPOINT.startsWith('PASTE_')) {
-      formStatus.textContent = '문의 접수 연결이 아직 설정되지 않았습니다. 인스타그램(@ever.after_youngae)으로 직접 DM 부탁드립니다.';
+      formStatus.textContent = '문의 접수 연결이 아직 설정되지 않았습니다. 인스타그램(@everafter_youngae)으로 직접 DM 부탁드립니다.';
       return;
     }
 
@@ -142,7 +142,7 @@ if (form && formStatus) {
         form.reset();
       })
       .catch(() => {
-        formStatus.textContent = '전송에 실패했습니다. 잠시 후 다시 시도하시거나, 인스타그램(@ever.after_youngae)으로 DM 부탁드립니다.';
+        formStatus.textContent = '전송에 실패했습니다. 잠시 후 다시 시도하시거나, 인스타그램(@everafter_youngae)으로 DM 부탁드립니다.';
       })
       .finally(() => {
         if (submitButton) submitButton.disabled = false;
