@@ -123,6 +123,89 @@ if (heroVideo && window.matchMedia('(prefers-reduced-motion: reduce)').matches) 
   heroVideo.pause();
 }
 
+// 사회자 목소리 샘플. <audio> 가 재생을 맡고, 여기서는 겉모습만 따라 그립니다.
+const voiceAudio = document.getElementById('voiceAudio');
+if (voiceAudio) {
+  const player  = voiceAudio.closest('.voice-player');
+  const toggle  = document.getElementById('voiceToggle');
+  const seek    = document.getElementById('voiceSeek');
+  const fill    = document.getElementById('voiceFill');
+  const nowEl   = document.getElementById('voiceNow');
+  const totalEl = document.getElementById('voiceTotal');
+  let scrubbing = false;
+
+  const clock = (sec) => {
+    if (!isFinite(sec) || sec < 0) sec = 0;
+    const m = Math.floor(sec / 60);
+    return m + ':' + String(Math.floor(sec % 60)).padStart(2, '0');
+  };
+  const paint = () => {
+    const d = voiceAudio.duration;
+    if (!isFinite(d) || d <= 0) return;
+    const ratio = voiceAudio.currentTime / d;
+    fill.style.width = (ratio * 100) + '%';
+    if (!scrubbing) seek.value = String(Math.round(ratio * 1000));
+    nowEl.textContent = clock(voiceAudio.currentTime);
+    seek.setAttribute('aria-valuetext', Math.round(voiceAudio.currentTime) + '초');
+  };
+
+  const onMeta = () => {
+    totalEl.textContent = clock(voiceAudio.duration);
+    player.classList.add('voice-ready');
+    paint();
+  };
+  voiceAudio.addEventListener('loadedmetadata', onMeta);
+  // preload="metadata" 는 요소가 파싱되는 즉시 받아오기 시작하므로, 이 스크립트가
+  // 문서 끝에서 실행될 때는 이미 끝나 있을 수 있습니다. 그러면 위 이벤트는 오지 않습니다.
+  if (voiceAudio.readyState >= 1) onMeta();
+  voiceAudio.addEventListener('timeupdate', paint);
+  voiceAudio.addEventListener('error', () => {
+    player.classList.remove('voice-ready');
+    player.classList.add('voice-error');
+  });
+
+  const setPlaying = (on) => {
+    player.classList.toggle('is-playing', on);
+    toggle.setAttribute('aria-label', on ? '사회자 목소리 샘플 일시정지' : '사회자 목소리 샘플 재생');
+  };
+  voiceAudio.addEventListener('play',  () => setPlaying(true));
+  voiceAudio.addEventListener('pause', () => setPlaying(false));
+  voiceAudio.addEventListener('ended', () => { voiceAudio.currentTime = 0; paint(); });
+
+  toggle.addEventListener('click', () => {
+    if (voiceAudio.paused) {
+      // 자동재생 차단이나 코덱 문제로 거절될 수 있어 실패를 삼키지 않고 안내로 바꿉니다.
+      const started = voiceAudio.play();
+      if (started && started.catch) started.catch(() => {
+        player.classList.add('voice-error');
+        setPlaying(false);
+      });
+    } else {
+      voiceAudio.pause();
+    }
+  });
+
+  // 스크럽 중에는 timeupdate 가 값을 되돌리지 않도록 잠급니다.
+  const startScrub = () => { scrubbing = true; };
+  const applyScrub = () => {
+    const d = voiceAudio.duration;
+    if (isFinite(d) && d > 0) voiceAudio.currentTime = (seek.value / 1000) * d;
+    scrubbing = false;
+    paint();
+  };
+  seek.addEventListener('pointerdown', startScrub);
+  seek.addEventListener('keydown', startScrub);
+  seek.addEventListener('input', () => {
+    const d = voiceAudio.duration;
+    if (isFinite(d) && d > 0) {
+      fill.style.width = (seek.value / 10) + '%';
+      nowEl.textContent = clock((seek.value / 1000) * d);
+    }
+  });
+  seek.addEventListener('change', applyScrub);
+  seek.addEventListener('pointerup', applyScrub);
+}
+
 const menuToggle = document.querySelector('.menu-toggle');
 const siteNav = document.getElementById('site-nav');
 if (menuToggle && siteNav) {

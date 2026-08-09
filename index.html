@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -34,6 +34,7 @@
     <nav id="site-nav" class="site-nav">
       <a href="#story">Story</a>
       <a href="#ceremony">Ceremony</a>
+      <a href="#voice">Voice</a>
       <a href="#price">Price</a>
       <a href="review.html">Records</a>
       <a href="ask.html">Contact</a>
@@ -83,6 +84,33 @@
         <p class="eyebrow light">Together.</p>
         <h2>정해진 틀보다,<br>두 사람의 속도로.</h2>
         <p>과하지 않은 말과 자연스러운 호흡으로<br>그날의 마음이 오래 남도록 함께 준비합니다.</p>
+      </div>
+    </section>
+
+    <section class="voice" id="voice" data-progress="Listen.">
+      <div class="voice-copy reveal">
+        <p class="eyebrow burgundy">Listen</p>
+        <h2>어떤 목소리로 진행하는지,<br>먼저 들어보세요.</h2>
+        <p class="voice-lead lines"><span>실제 예식에서 진행한 한 대목입니다.</span><span>글로 설명하기 어려운 속도와 호흡이 담겨 있습니다.</span></p>
+
+        <figure class="voice-player">
+          <audio id="voiceAudio" preload="metadata" src="assets/voice-sample-1.m4a"></audio>
+          <button type="button" class="voice-toggle" id="voiceToggle" aria-label="사회자 목소리 샘플 재생">
+            <span class="voice-icon" aria-hidden="true"></span>
+          </button>
+          <div class="voice-track">
+            <p class="voice-name">사회자 목소리 샘플</p>
+            <div class="voice-seek">
+              <input type="range" id="voiceSeek" min="0" max="1000" value="0" step="1"
+                     aria-label="재생 위치" aria-valuetext="0초">
+              <div class="voice-fill" id="voiceFill"></div>
+            </div>
+            <p class="voice-time"><span id="voiceNow">0:00</span> / <span id="voiceTotal">0:25</span></p>
+          </div>
+          <figcaption class="voice-fallback">
+            재생이 되지 않으면 <a href="assets/voice-sample-1.m4a" download>파일로 내려받아</a> 들어보실 수 있습니다.
+          </figcaption>
+        </figure>
       </div>
     </section>
 
@@ -184,6 +212,6 @@
   </main>
 
   <footer><span>Everafter 永愛</span><a href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">@everafter_youngae</a><a href="https://everafter-youngae.github.io/wedding-mc/story.html" target="_blank" rel="noopener">두 분의 이야기 찾기</a><span>부부라는 이름의 프롤로그.</span><span>© 2026 Everafter</span></footer>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
