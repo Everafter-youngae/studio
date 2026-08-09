@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4efe8">
-  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIyIiBmaWxsPSIjNzExZjFiIi8+PHRleHQgeD0iNTAiIHk9IjcwIiBmb250LXNpemU9IjU4IiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ05vdG8gU2VyaWYgS1InLCBzZXJpZiIgZmlsbD0iI2Y0ZWZlOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5rC4PC90ZXh0Pjwvc3ZnPgo=">
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIyIiBmaWxsPSIjNzExZjFiIi8+PHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMuNiwyNC4yKSBzY2FsZSguNTYpIiBmaWxsPSIjZjRlZmU4IiBkPSJNMTAgNTYgQzI4IDQwIDUwIDMyIDcwIDM0IEM4NCAyNCAxMDAgMTQgMTIwIDYgQzExMCAyNCA5OCAzOCA4NCA0NiBDODggNTggOTAgNzIgOTAgODYgQzgyIDc0IDc0IDYyIDY4IDUyIEM0OCA1NCAyNiA1OCAxMCA1NiBaIi8+PC9zdmc+Cg==">
   <meta name="description" content="오래 기억될 하루를 함께 만듭니다. Everafter 永愛 · 전주현">
   <title>Everafter 永愛 · 전주현</title>
   <meta property="og:type" content="website">
@@ -95,6 +95,16 @@
   .hero-lead{
     margin-top:30px;font-size:14.5px;line-height:2.1;color:var(--muted);
   }
+  /* 제비 두 마리 — 편지 끝의 서명처럼. .wrap 안에 두어야 넓은 화면에서도
+     본문 오른쪽 끝에 정확히 맞습니다(절대 위치로 두면 어긋납니다). */
+  .sign{
+    display:flex;justify-content:flex-end;align-items:flex-end;gap:10px;
+    margin-top:62px;color:var(--burgundy);
+  }
+  /* 농도는 .sign이 아니라 안쪽 svg에 겁니다 — .sign 자체에 걸면
+     등장 효과의 .reveal.visible{opacity:1}이 이겨서 무시됩니다. */
+  .sign svg{opacity:.6}
+  .sign .lead{transform:translateY(-6px)}
 
   /* ---------- 01 소개 ---------- */
   .about p{font-family:var(--serif-ko);font-size:16.5px;line-height:2.15;letter-spacing:-.01em}
@@ -202,6 +212,7 @@
   .hero .wrap > .reveal:nth-child(1){transition-delay:.06s}
   .hero .wrap > .reveal:nth-child(2){transition-delay:.16s}
   .hero .wrap > .reveal:nth-child(3){transition-delay:.28s}
+  .hero .wrap > .reveal:nth-child(4){transition-delay:.46s}
 
   /* ---------- Tablet ---------- */
   @media(min-width:700px){
@@ -247,6 +258,10 @@
           그보다 먼저,<br>
           두 사람의 이야기를 듣습니다.
         </p>
+        <div class="sign reveal" aria-hidden="true">
+          <svg class="lead" width="27" height="19" viewBox="0 0 130 90" fill="currentColor"><path d="M10 56 C28 40 50 32 70 34 C84 24 100 14 120 6 C110 24 98 38 84 46 C88 58 90 72 90 86 C82 74 74 62 68 52 C48 54 26 58 10 56 Z"/></svg>
+          <svg width="18" height="12" viewBox="0 0 130 90" fill="currentColor"><path d="M10 56 C28 40 50 32 70 34 C84 24 100 14 120 6 C110 24 98 38 84 46 C88 58 90 72 90 86 C82 74 74 62 68 52 C48 54 26 58 10 56 Z"/></svg>
+        </div>
       </div>
     </section>
 
