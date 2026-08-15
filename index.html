@@ -5,220 +5,391 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4efe8">
   <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIyIiBmaWxsPSIjNzExZjFiIi8+PHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMuNiwyNC4yKSBzY2FsZSguNTYpIiBmaWxsPSIjZjRlZmU4IiBkPSJNMTAgNTYgQzI4IDQwIDUwIDMyIDcwIDM0IEM4NCAyNCAxMDAgMTQgMTIwIDYgQzExMCAyNCA5OCAzOCA4NCA0NiBDODggNTggOTAgNzIgOTAgODYgQzgyIDc0IDc0IDYyIDY4IDUyIEM0OCA1NCAyNiA1OCAxMCA1NiBaIi8+PC9zdmc+Cg==">
-  <meta name="description" content="Everafter 永愛 — 부부라는 이름의 프롤로그.">
-  <title>Everafter 永愛</title>
+  <meta name="description" content="Everafter Youngae — 오래 기억될 하루를 함께 만듭니다.">
+  <title>Everafter Youngae — 오래 기억될 하루를 함께 만듭니다</title>
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Everafter">
-  <meta property="og:title" content="Everafter 永愛 — 부부라는 이름의 프롤로그">
-  <meta property="og:description" content="결혼식 사회, 두 사람의 이야기로 채웁니다.">
+  <meta property="og:site_name" content="Everafter Youngae">
+  <meta property="og:title" content="Everafter Youngae — 오래 기억될 하루를 함께 만듭니다">
+  <meta property="og:description" content="두 사람의 이야기를 듣고, 문장으로 다듬고, 오래 기억할 수 있도록 남깁니다.">
   <meta property="og:url" content="https://everafter-youngae.github.io/studio/">
   <meta property="og:image" content="https://everafter-youngae.github.io/studio/assets/og-duck.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Everafter 永愛 — 부부라는 이름의 프롤로그">
-  <meta name="twitter:description" content="결혼식 사회, 두 사람의 이야기로 채웁니다.">
+  <meta name="twitter:title" content="Everafter Youngae — 오래 기억될 하루를 함께 만듭니다">
+  <meta name="twitter:description" content="두 사람의 이야기를 듣고, 문장으로 다듬고, 오래 기억할 수 있도록 남깁니다.">
   <meta name="twitter:image" content="https://everafter-youngae.github.io/studio/assets/og-duck.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Noto+Sans+KR:wght@300&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=16">
+  <!-- 글꼴은 기존 세 가족 그대로. 이 페이지가 실제로 쓰는 굵기만 부릅니다.
+         Cormorant Garamond  300(대형 워드마크·숫자) · 400(YOUNGAE) · 이탤릭 400(서명)
+         Noto Sans KR        300
+         Noto Serif KR       300
+       한글 가족에 굵기를 둘 이상 요청하면 구글이 고정폭 대신 가변폰트를 내려주어
+       자막 파일 하나하나가 배로 커집니다. 그래서 300 하나만 받습니다.
+       (ask.html·review.html 은 style.css 를 쓰므로 그쪽 요청과 다를 수 있습니다) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Noto+Sans+KR:wght@300&family=Noto+Serif+KR:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="home.css?v=1">
+  <!-- 자바스크립트가 살아 있을 때만 요소를 숨겼다가 드러냅니다. 이 한 줄이 없으면
+       스크립트가 실패했을 때 화면이 비어버립니다. -->
+  <script>document.documentElement.classList.add('js')</script>
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
-<body>
+<body class="home">
   <div class="grain" aria-hidden="true"></div>
+  <a class="skip" href="#main">본문으로 건너뛰기</a>
 
-  <header class="site-header">
-    <a class="brand-mark" href="index.html" aria-label="Everafter 홈">
-      <span>EVERAFTER</span><small>永 愛</small>
+  <header class="hd" id="hd">
+    <a class="hd-brand" href="index.html" aria-label="Everafter Youngae 홈">
+      <span class="hd-brand-a">Everafter</span><span class="hd-brand-b">Youngae</span>
     </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
-    <nav id="site-nav" class="site-nav">
+    <button class="hd-menu" id="navToggle" type="button" aria-expanded="false" aria-controls="nav">
+      <span data-open>Menu</span><span data-close>Close</span>
+    </button>
+    <nav class="hd-nav" id="nav" aria-label="주요 메뉴">
+      <a href="#about">About</a>
       <a href="#story">Story</a>
-      <a href="#ceremony">Ceremony</a>
       <a href="#voice">Voice</a>
-      <a href="#price">Price</a>
-      <a href="review.html">Records</a>
-      <a href="ask.html">Contact</a>
+      <a href="#journey">Journey</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
+  <main id="main">
 
-  <main>
+    <!-- 01 ─ HERO ───────────────────────────────────────────────────────── -->
     <section class="hero" id="top">
-      <!-- PC·모바일 모두 같은 사진 한 장을 씁니다.
-           세로 사진이라 가로 화면에서는 가운데만 보이지만, 초점이 흐린 그림이라 어디를 잘라도 자연스럽습니다. -->
-      <div class="hero-media"><img src="assets/hero-duck.jpg" alt="버드나무 아래 나란히 물에 머리를 담근 흰 오리 두 마리"></div>
-      <div class="hero-overlay"></div>
-      <div class="hero-copy reveal">
-        <p class="eyebrow">EVERAFTER · 永愛</p>
-        <h1>부부라는 이름의<br>프롤로그.</h1>
-        <p class="hero-note">A ceremony, written like a story.</p>
-        <a href="#story" class="text-link">Scroll slowly</a>
+      <div class="wrap">
+        <p class="kicker r">Wedding Ceremony Host · Seoul</p>
+        <h1 class="wordmark">
+          <span class="wordmark-a r">Everafter</span>
+          <span class="wordmark-b r" data-d="1">Youngae</span>
+        </h1>
+        <p class="hero-line r" data-d="2">오래 기억될 하루를 함께 만듭니다.</p>
+        <a class="lnk hero-cta r" data-d="3" href="ask.html">두 분의 이야기를 들려주세요 <i aria-hidden="true">→</i></a>
       </div>
+      <p class="hero-foot r" data-d="4"><span>永愛</span> 영원할 영, 사랑 애</p>
     </section>
 
-    <section class="chapter intro" id="story">
-      <div class="chapter-index">01</div>
-      <div class="intro-copy reveal">
-        <p class="eyebrow burgundy">Happily Ever After</p>
-        <h2>동화의 마지막 문장을<br>두 사람의 첫 문장으로.</h2>
-        <div class="body-copy">
+    <!-- 02 ─ BRAND MESSAGE ──────────────────────────────────────────────── -->
+    <section class="about" id="about">
+      <div class="wrap">
+        <p class="label r">About</p>
+        <p class="say r" data-d="1">모든 결혼식에는<br>식순이 있습니다.</p>
+        <p class="say say-em r" data-d="2">하지만 오래 기억되는 것은<br>식순보다 이야기입니다.</p>
+        <div class="about-note r" data-d="3">
           <p>결혼식은 하루이지만, 부부가 되는 일은 매일의 이야기라고 생각했습니다.</p>
-          <p class="lines"><span><strong>永愛</strong></span><span>영원할 영, 사랑 애.</span><span>오래도록 사랑하기를 바라는 마음을 이름에 담았습니다.</span></p>
+          <p>우리는 사랑을 정의하기보다, 두 사람의 사랑을 조금 더 궁금해합니다.</p>
         </div>
       </div>
     </section>
 
-    <section class="curiosity">
-      <div class="curiosity-copy reveal">
-        <p class="eyebrow burgundy">Beautiful Curiosity</p>
-        <p class="curiosity-line">우리는 사랑을 정의하기보다,<br>두 사람의 사랑을 조금 더 궁금해합니다.</p>
-      </div>
-    </section>
+    <!-- 03 ─ PLATE ──────────────────────────────────────────────────────── -->
+    <!-- 한 화면에 하나의 시각 언어. 사진 위에는 아주 짧은 한 줄만 얹습니다. -->
+    <figure class="plate plate-tall" id="ceremony">
+      <img src="assets/hero-duck.jpg" alt="버드나무 아래 나란히 물에 머리를 담근 흰 오리 두 마리" loading="lazy" decoding="async">
+      <figcaption class="r">정해진 틀보다, 두 사람의 속도로.</figcaption>
+    </figure>
 
-    <section class="image-story leaves-section" id="ceremony">
-      <!-- 첫 화면에 없는 사진입니다. 미리 받으면 대문 사진·글꼴과 회선을 다투다가
-           처음 스크롤이 버벅이므로, 다가올 때 받도록 미룹니다. -->
-      <div class="image-story-media parallax-media"><img src="assets/leaves.jpg" alt="초록빛 잎사귀 사이로 번지는 햇빛" loading="lazy" decoding="async"></div>
-      <div class="image-story-shade"></div>
-      <div class="chapter-index light">02</div>
-      <div class="image-story-copy reveal">
-        <p class="eyebrow light">Together.</p>
-        <h2>정해진 틀보다,<br>두 사람의 속도로.</h2>
-        <p>과하지 않은 말과 자연스러운 호흡으로<br>그날의 마음이 오래 남도록 함께 준비합니다.</p>
-      </div>
-    </section>
-
-    <section class="voice" id="voice">
-      <div class="voice-copy reveal">
-        <p class="eyebrow burgundy">Listen</p>
-        <h2>어떤 목소리로 진행하는지,<br>먼저 들어보세요.</h2>
-        <p class="voice-lead lines"><span>같은 문장이라도 어떤 목소리로 전해지는지에 따라 기억은 조금 달라집니다.</span><span>실제 예식에서 함께한 한 장면을 담았습니다.</span></p>
-
-        <figure class="voice-player">
-          <!-- preload="none": metadata 로 두면 첫 화면에도 없는 이 음성 224KB를 진입하자마자
-               대문 사진·글꼴과 함께 받아옵니다. 길이(0:13)는 아래에 미리 적어두었고, 재생을
-               누른 뒤 실제 길이로 바로잡습니다. -->
-          <audio id="voiceAudio" preload="none" src="assets/voice-sample-1.m4a"></audio>
-          <button type="button" class="voice-toggle" id="voiceToggle" aria-label="목소리로 전하는 이야기 재생">
-            <span class="voice-icon" aria-hidden="true"></span>
-          </button>
-          <div class="voice-track">
-            <p class="voice-name"><span aria-hidden="true">🎧</span> 목소리로 전하는 이야기</p>
-            <!-- <input type="range"> 를 쓰지 않습니다. 휴대폰 브라우저가 손잡이 자리에
-                 제멋대로 동그라미·네모를 그리는데 -webkit-tap-highlight-color 로도
-                 꺼지지 않는 경우가 있어, 슬라이더를 직접 만들었습니다. -->
-            <div class="voice-seek" id="voiceSeek" role="slider" tabindex="0"
-                 aria-label="재생 위치" aria-valuemin="0" aria-valuemax="100"
-                 aria-valuenow="0" aria-valuetext="0초">
-              <div class="voice-rail"><div class="voice-fill" id="voiceFill"></div></div>
+    <!-- 04 ─ WHAT EVERAFTER DOES ────────────────────────────────────────── -->
+    <section class="story" id="story">
+      <div class="wrap">
+        <p class="label r">Story</p>
+        <ol class="steps">
+          <li class="step r">
+            <span class="step-no">01</span>
+            <div class="step-body">
+              <h2>두 분의 이야기를 듣습니다.</h2>
+              <p>문의 주시면 질문지를 보내드립니다. 예식 정보와 두 분만의 이야기, 원하는 분위기를 편하게 들려주세요.</p>
             </div>
-            <p class="voice-time"><span id="voiceNow">0:00</span> / <span id="voiceTotal">0:13</span></p>
+            <span class="step-key" aria-hidden="true">Story</span>
+          </li>
+          <li class="step r">
+            <span class="step-no">02</span>
+            <div class="step-body">
+              <h2>문장을 씁니다.</h2>
+              <p>들려주신 이야기를 그대로 옮기지 않고, 그날 소리 내어 읽었을 때 어색하지 않은 문장으로 다시 씁니다.</p>
+            </div>
+            <span class="step-key" aria-hidden="true">Sentence</span>
+          </li>
+          <li class="step r">
+            <span class="step-no">03</span>
+            <div class="step-body">
+              <h2>함께 다듬습니다.</h2>
+              <p>초안을 보내드리면 그대로 좋은 문장과 고치고 싶은 부분을 알려주세요. 두 분다운 문장이 될 수 있도록 함께 다듬어갑니다.</p>
+            </div>
+            <span class="step-key" aria-hidden="true">Memory</span>
+          </li>
+          <li class="step r">
+            <span class="step-no">04</span>
+            <div class="step-body">
+              <h2>그날의 기억을 남깁니다.</h2>
+              <p>예식이 끝난 뒤, 그날의 장면을 편지로 정리해 전해드립니다. 오래도록 다시 꺼내볼 수 있도록.</p>
+            </div>
+            <span class="step-key" aria-hidden="true">Archive</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 05 ─ VOICE ──────────────────────────────────────────────────────── -->
+    <!-- 이 구간만 지면을 어둡게 바꿔 한 호흡 쉬어가게 합니다. -->
+    <section class="vx" id="voice">
+      <div class="wrap">
+        <header class="vx-head">
+          <p class="label light r">Voice</p>
+          <p class="vx-lead r" data-d="1">문장은 글로 완성되지만,<br>그날에는 목소리로 기억됩니다.</p>
+        </header>
+
+        <div class="vx-deck r" data-d="2">
+          <!-- 재생은 이 <audio> 하나가 전담합니다. 트랙을 바꿀 때 src 만 갈아끼웁니다.
+               preload="none" — 첫 화면에 없는 파일을 미리 받지 않습니다. -->
+          <audio id="vxAudio" preload="none"></audio>
+
+          <div class="vx-now">
+            <p class="vx-now-label">
+              <!-- 재생 중임을 알리는 유일한 움직임입니다. 멈춰 있을 때는 점 하나,
+                   재생 중에는 가느다란 막대 셋 — 한 번에 하나만 움직입니다. -->
+              <span class="vx-dot" aria-hidden="true"></span>
+              <span class="vx-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span id="vxState">Voice 03</span>
+            </p>
+            <h2 class="vx-title" id="vxTitle">두 사람의 이야기</h2>
+            <p class="vx-note" id="vxNote">예식 한가운데, 두 사람이 어떻게 만나 여기까지 왔는지 전하는 대목입니다.</p>
           </div>
-          <figcaption class="voice-fallback">
-            재생이 되지 않으면 <a href="assets/voice-sample-1.m4a" download>파일로 내려받아</a> 들어보실 수 있습니다.
-          </figcaption>
-        </figure>
-      </div>
-    </section>
 
-    <section class="editorial">
-      <div class="chapter-index">03</div>
-      <div class="editorial-grid">
-        <article class="editorial-lead reveal">
-          <p class="eyebrow burgundy">What we do</p>
-          <h2>두 사람의 이야기를<br>조금 더 오래 듣습니다.</h2>
-        </article>
-        <div class="editorial-notes">
-          <article class="note reveal"><span>01</span><h3>첫 이야기</h3><p>문의 주시면 질문지를 보내드립니다. 예식 정보와 두 분만의 이야기, 원하는 분위기를 편하게 들려주세요.</p></article>
-          <article class="note reveal"><span>02</span><h3>함께 쓰는 대본</h3><p>초안을 보내드리면 그대로 좋은 문장과 고치고 싶은 부분을 알려주세요. 두 분다운 문장이 될 수 있도록 함께 다듬어갑니다.</p></article>
-          <article class="note reveal"><span>03</span><h3>예식 당일</h3><p>완성된 대본으로 그날의 사회를 맡습니다. 과하지 않게, 두 분의 속도로.</p></article>
-          <article class="note reveal"><span>04</span><h3>그 이후</h3><p>예식이 끝난 뒤, 그날의 장면을 편지로 정리해 전해드립니다. 오래도록 다시 꺼내볼 수 있도록.</p></article>
-        </div>
-      </div>
-      <div class="page-actions reveal">
-        <a class="outline-link" href="review.html">영애씨들의 기록 보기</a>
-        <a class="solid-link" href="ask.html">이야기 들려주기</a>
-      </div>
-    </section>
-
-    <section class="pricing" id="price">
-      <div class="chapter-index">04</div>
-      <div class="pricing-grid">
-        <div class="pricing-lead reveal">
-          <p class="eyebrow burgundy">Price</p>
-          <h2>두 사람이 오래 기억할 하루를,<br>문장으로 함께 만듭니다.</h2>
-          <p class="pricing-diff lines"><span>우리는 사회만 진행하지 않습니다.</span><span>질문을 통해 이야기를 듣고, 그 이야기를 문장으로 만들고,<br>그 문장이 결혼식이 되도록 함께합니다.</span></p>
-        </div>
-
-        <div class="pricing-content">
-          <div class="price-card reveal">
-            <button class="price-seal" id="priceToggle" type="button" aria-expanded="false" aria-controls="priceDetail">
-              <span class="price-seal-mark">Everafter · 永愛</span>
-              <span class="price-seal-label" id="priceSealLabel">본식 사회 비용 열어보기</span>
+          <div class="vx-ctrl">
+            <button class="vx-play" id="vxPlay" type="button" aria-label="두 사람의 이야기 재생">
+              <span class="vx-play-icon" aria-hidden="true"></span>
             </button>
-            <div class="price-detail" id="priceDetail" hidden>
-              <p class="price-name">본식 사회</p>
-              <p class="price-amount">390,000<span>원</span></p>
-              <p class="price-desc">두 사람의 이야기를 담은 맞춤 대본과 함께,<br>결혼식의 시작부터 마지막까지 편안하게 진행합니다.</p>
-              <div class="price-includes-group">
-                <p class="price-includes-label">함께 만드는 과정</p>
-                <ul class="price-includes">
-                  <li>사전 질문지</li>
-                  <li>맞춤 인터뷰</li>
-                  <li>맞춤 사회 대본 제작</li>
-                  <li>대본 다듬기 (2회)</li>
-                  <li>예식 전 최종 진행 확인</li>
-                  <li>본식 사회 (1부)</li>
+            <div class="vx-meter">
+              <!-- 진행 막대는 <input type="range"> 를 쓰지 않고 직접 그립니다. 휴대폰
+                   브라우저가 손잡이 자리에 제멋대로 도형을 그리는 걸 막을 수 없어서입니다.
+                   보이는 선은 1px 이지만 손가락이 닿는 자리는 아래 CSS 에서 22px 입니다. -->
+              <div class="vx-seek" id="vxSeek" role="slider" tabindex="0"
+                   aria-label="재생 위치" aria-valuemin="0" aria-valuemax="100"
+                   aria-valuenow="0" aria-valuetext="0초">
+                <span class="vx-rail"><span class="vx-fill" id="vxFill"></span></span>
+              </div>
+              <p class="vx-time"><span id="vxNowTime">0:00</span><span id="vxDur">0:13</span></p>
+            </div>
+          </div>
+
+          <!--
+            트랙 목록.
+
+            ▸ 음성 파일을 넣는 방법
+              1. 파일을 assets/audio/ 에 넣습니다. (아래 data-src 와 이름을 맞추세요)
+                 assets/audio/entrance-groom.m4a   ← 01 신랑 입장
+                 assets/audio/entrance-bride.m4a   ← 02 신부 입장
+                 assets/audio/story.m4a            ← 03 두 사람의 이야기 (지금 있는 파일)
+                 assets/audio/march.m4a            ← 04 행진 전 멘트
+              2. 그 트랙의 data-pending 속성을 지웁니다. 그러면 '준비 중' 표시가
+                 사라지고 바로 재생됩니다.
+              3. data-len 은 목록에 미리 보여줄 길이입니다. 실제 길이는 재생을 누른 뒤
+                 파일에서 읽어 자동으로 바로잡히므로 대략 맞춰 적어두면 됩니다.
+
+            ▸ m4a 대신 mp3 를 써도 됩니다. data-src 확장자만 바꾸면 됩니다.
+          -->
+          <ol class="vx-list" id="vxList">
+            <li>
+              <button class="vx-item" type="button"
+                      data-src="assets/audio/entrance-groom.m4a" data-pending
+                      data-title="신랑 입장" data-len="0:00"
+                      data-note="문이 열리기 전, 가장 짧고 단단하게 건네는 문장입니다.">
+                <span class="vx-no">01</span>
+                <span class="vx-tt">신랑 입장</span>
+                <span class="vx-len">준비 중</span>
+              </button>
+            </li>
+            <li>
+              <button class="vx-item" type="button"
+                      data-src="assets/audio/entrance-bride.m4a" data-pending
+                      data-title="신부 입장" data-len="0:00"
+                      data-note="가장 오래 기억되는 장면. 말을 더하기보다 자리를 비워둡니다.">
+                <span class="vx-no">02</span>
+                <span class="vx-tt">신부 입장</span>
+                <span class="vx-len">준비 중</span>
+              </button>
+            </li>
+            <li>
+              <button class="vx-item" type="button"
+                      data-src="assets/audio/story.m4a"
+                      data-title="두 사람의 이야기" data-len="0:13"
+                      data-note="예식 한가운데, 두 사람이 어떻게 만나 여기까지 왔는지 전하는 대목입니다.">
+                <span class="vx-no">03</span>
+                <span class="vx-tt">두 사람의 이야기</span>
+                <span class="vx-len">0:13</span>
+              </button>
+            </li>
+            <li>
+              <button class="vx-item" type="button"
+                      data-src="assets/audio/march.m4a" data-pending
+                      data-title="행진 전 멘트" data-len="0:00"
+                      data-note="마지막 인사. 식장을 나선 뒤에도 남을 한 문장을 둡니다.">
+                <span class="vx-no">04</span>
+                <span class="vx-tt">행진 전 멘트</span>
+                <span class="vx-len">준비 중</span>
+              </button>
+            </li>
+          </ol>
+
+          <p class="vx-fallback" id="vxFallback">재생이 되지 않으면 <a id="vxDownload" href="assets/audio/story.m4a" download>파일로 내려받아</a> 들어보실 수 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 ─ JOURNEY ────────────────────────────────────────────────────── -->
+    <section class="jn" id="journey">
+      <div class="wrap">
+        <p class="label r">Journey</p>
+        <p class="jn-lead r" data-d="1">처음 연락을 주신 날부터 편지를 보내드리는 날까지,<br>하나의 긴 문장처럼 이어집니다.</p>
+        <ol class="jn-line">
+          <li class="jn-step r"><span class="jn-en">Listen</span><span class="jn-ko">듣기</span></li>
+          <li class="jn-step r" data-d="1"><span class="jn-en">Write</span><span class="jn-ko">쓰기</span></li>
+          <li class="jn-step r" data-d="2"><span class="jn-en">Refine</span><span class="jn-ko">다듬기</span></li>
+          <li class="jn-step r" data-d="3"><span class="jn-en">Celebrate</span><span class="jn-ko">그날</span></li>
+          <li class="jn-step r" data-d="4"><span class="jn-en">Remember</span><span class="jn-ko">남기기</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 07 ─ PLATE ──────────────────────────────────────────────────────── -->
+    <figure class="plate plate-band" aria-hidden="true">
+      <img src="assets/leaves.jpg" alt="" loading="lazy" decoding="async">
+    </figure>
+
+    <!-- 08 ─ LETTER ─────────────────────────────────────────────────────── -->
+    <section class="lt" id="letter">
+      <div class="wrap lt-wrap">
+        <div class="lt-copy">
+          <p class="label r">Letter</p>
+          <h2 class="lt-title r" data-d="1">그날은 지나가고,<br>편지는 남습니다.</h2>
+          <p class="lt-text r" data-d="2">예식이 끝난 뒤, 두 사람의 이야기와 그날의 장면을 담아 전하는 작은 기록입니다. 오래도록 다시 꺼내볼 수 있도록, 완성되면 따로 전해드립니다.</p>
+          <p class="lt-text r" data-d="3">청첩장에서 시작된 문장은 결혼식을 지나 감사의 인사까지 이어집니다. 식전과 식후에 쓰실 수 있는 SNS 문장 모음도 함께 드립니다.</p>
+        </div>
+
+        <!-- 종이 한 장. 사진이 아니라 CSS 로 그립니다 — 목업 이미지를 쓰면
+             한 화면에 사진과 그래픽이 함께 놓여 시각 언어가 둘이 됩니다. -->
+        <div class="paper r" data-d="2" aria-hidden="true">
+          <p class="paper-head">Everafter Letter</p>
+          <p class="paper-body">두 분이 처음 마주 앉았던 자리를 이야기해 주셨을 때, 그 장면이 오래 남겠다고 생각했습니다. 그날 제가 읽은 문장은 두 분이 들려주신 문장이었습니다.</p>
+          <p class="paper-sign">Youngae</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 ─ ARCHIVE ────────────────────────────────────────────────────── -->
+    <!-- 화면에서 작게 존재해야 하는 구간입니다. 폭을 좁게 묶어둡니다. -->
+    <section class="ar" id="archive">
+      <div class="wrap ar-wrap r">
+        <p class="ar-label">Archive No.</p>
+        <p class="ar-code">영애2608_01</p>
+        <svg class="ar-bars" viewBox="0 0 320 36" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <g fill="currentColor">
+            <rect x="0" y="0" width="1" height="36"/><rect x="4" y="0" width="3" height="36"/>
+            <rect x="10" y="0" width="1" height="36"/><rect x="14" y="0" width="1" height="36"/>
+            <rect x="18" y="0" width="4" height="36"/><rect x="25" y="0" width="1" height="36"/>
+            <rect x="29" y="0" width="2" height="36"/><rect x="35" y="0" width="1" height="36"/>
+            <rect x="39" y="0" width="1" height="36"/><rect x="43" y="0" width="3" height="36"/>
+            <rect x="50" y="0" width="1" height="36"/><rect x="54" y="0" width="2" height="36"/>
+            <rect x="60" y="0" width="1" height="36"/><rect x="65" y="0" width="4" height="36"/>
+            <rect x="72" y="0" width="1" height="36"/><rect x="76" y="0" width="1" height="36"/>
+            <rect x="80" y="0" width="2" height="36"/><rect x="86" y="0" width="1" height="36"/>
+            <rect x="90" y="0" width="3" height="36"/><rect x="97" y="0" width="1" height="36"/>
+            <rect x="101" y="0" width="1" height="36"/><rect x="105" y="0" width="2" height="36"/>
+            <rect x="111" y="0" width="1" height="36"/><rect x="116" y="0" width="4" height="36"/>
+            <rect x="123" y="0" width="1" height="36"/><rect x="127" y="0" width="2" height="36"/>
+            <rect x="133" y="0" width="1" height="36"/><rect x="137" y="0" width="1" height="36"/>
+            <rect x="141" y="0" width="3" height="36"/><rect x="148" y="0" width="1" height="36"/>
+            <rect x="152" y="0" width="1" height="36"/><rect x="156" y="0" width="2" height="36"/>
+            <rect x="162" y="0" width="1" height="36"/><rect x="167" y="0" width="1" height="36"/>
+            <rect x="171" y="0" width="4" height="36"/><rect x="178" y="0" width="1" height="36"/>
+            <rect x="182" y="0" width="2" height="36"/><rect x="188" y="0" width="1" height="36"/>
+            <rect x="192" y="0" width="1" height="36"/><rect x="196" y="0" width="3" height="36"/>
+            <rect x="203" y="0" width="1" height="36"/><rect x="207" y="0" width="1" height="36"/>
+            <rect x="211" y="0" width="2" height="36"/><rect x="217" y="0" width="1" height="36"/>
+            <rect x="222" y="0" width="4" height="36"/><rect x="229" y="0" width="1" height="36"/>
+            <rect x="233" y="0" width="1" height="36"/><rect x="237" y="0" width="2" height="36"/>
+            <rect x="243" y="0" width="1" height="36"/><rect x="248" y="0" width="1" height="36"/>
+            <rect x="252" y="0" width="3" height="36"/><rect x="259" y="0" width="1" height="36"/>
+            <rect x="263" y="0" width="2" height="36"/><rect x="269" y="0" width="1" height="36"/>
+            <rect x="273" y="0" width="1" height="36"/><rect x="277" y="0" width="4" height="36"/>
+            <rect x="284" y="0" width="1" height="36"/><rect x="288" y="0" width="1" height="36"/>
+            <rect x="292" y="0" width="2" height="36"/><rect x="298" y="0" width="1" height="36"/>
+            <rect x="302" y="0" width="3" height="36"/><rect x="309" y="0" width="1" height="36"/>
+            <rect x="313" y="0" width="1" height="36"/><rect x="317" y="0" width="3" height="36"/>
+          </g>
+        </svg>
+        <p class="ar-note">함께한 예식은 연도·월과 순번으로 분류해 보관합니다. 편지와 문장, 그날의 기록이 이 번호 아래 모입니다.</p>
+        <a class="lnk" href="review.html">기록 열어보기 <i aria-hidden="true">→</i></a>
+      </div>
+    </section>
+
+    <!-- 10 ─ PRICE ──────────────────────────────────────────────────────── -->
+    <section class="pr" id="price">
+      <div class="wrap">
+        <p class="label r">Price</p>
+        <h2 class="pr-title r" data-d="1">우리는 사회만 진행하지 않습니다.</h2>
+        <p class="pr-lead r" data-d="2">질문을 통해 이야기를 듣고, 그 이야기를 문장으로 만들고, 그 문장이 결혼식이 되도록 함께합니다.</p>
+
+        <div class="pr-main r" data-d="3">
+          <button class="pr-toggle" id="priceToggle" type="button" aria-expanded="false" aria-controls="priceDetail">
+            <span class="pr-toggle-name">본식 사회</span>
+            <span class="pr-toggle-label" id="priceSealLabel">비용 열어보기</span>
+          </button>
+          <div class="pr-detail" id="priceDetail" hidden>
+            <p class="pr-amount">390,000<span>원</span></p>
+            <p class="pr-desc">두 사람의 이야기를 담은 맞춤 대본과 함께, 결혼식의 시작부터 마지막까지 편안하게 진행합니다.</p>
+            <div class="pr-cols">
+              <div>
+                <p class="pr-sub">함께 만드는 과정</p>
+                <ul class="pr-list">
+                  <li>사전 질문지</li><li>맞춤 인터뷰</li><li>맞춤 사회 대본 제작</li>
+                  <li>대본 다듬기 (2회)</li><li>예식 전 최종 진행 확인</li><li>본식 사회 (1부)</li>
                 </ul>
               </div>
-              <div class="price-includes-group">
-                <p class="price-includes-label">함께 전해드리는 것</p>
-                <ul class="price-includes">
-                  <li>Everafter Letter</li>
-                  <li>식전 · 식후 SNS 문장 셀렉션</li>
+              <div>
+                <p class="pr-sub">함께 전해드리는 것</p>
+                <ul class="pr-list">
+                  <li>Everafter Letter</li><li>식전 · 식후 SNS 문장 셀렉션</li>
                   <li>사회자 스냅 사진 (현장 여건에 따라 1장)</li>
                 </ul>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="price-note reveal">
-            <p class="eyebrow burgundy">함께 드리는 문장</p>
-            <p class="lines"><span>결혼은 하루로 끝나지 않습니다.</span><span>청첩장에서 시작된 문장은, 결혼식을 지나, 감사의 인사까지 이어집니다.</span><span>Everafter는 식전과 식후에 사용할 수 있는 SNS 문장 모음을 함께 제공합니다.</span><span>원하는 분위기의 문장을 선택해 편하게 사용할 수 있습니다.</span></p>
-          </div>
-
-          <div class="price-note reveal">
-            <p class="eyebrow burgundy">Everafter Letter</p>
-            <p class="lines"><span>예식이 끝난 뒤, 두 사람의 이야기와 그날의 장면을 담아 전하는 작은 기록입니다.</span><span>오래도록 다시 꺼내볼 수 있도록, 완성되면 따로 전해드립니다.</span></p>
-          </div>
-
-          <div class="price-extra reveal">
-            <p class="eyebrow burgundy">더할 수 있는 것</p>
-            <div class="price-extra-grid">
-              <div class="price-extra-item">
-                <div class="price-extra-head"><h3>청첩장 맞춤 문구</h3><span>+10,000원</span></div>
-                <p>두 사람의 이야기를 담아 청첩장 첫 문장을 함께 작성합니다.</p>
-              </div>
-              <div class="price-extra-item">
-                <div class="price-extra-head"><h3>2부 진행</h3><span>+100,000원</span></div>
-                <p>피로연 또는 2부 행사까지 자연스럽게 이어서 진행합니다.</p>
-              </div>
-              <div class="price-extra-item">
-                <div class="price-extra-head"><h3>출장</h3><span>지역별 별도</span></div>
-                <p>서울 외 지역은 거리별 출장비가 추가됩니다.</p>
-              </div>
-            </div>
-          </div>
+        <div class="pr-extra r" data-d="4">
+          <p class="pr-sub">더할 수 있는 것</p>
+          <dl class="pr-adds">
+            <div><dt>청첩장 맞춤 문구</dt><dd>+10,000원</dd><p>두 사람의 이야기를 담아 청첩장 첫 문장을 함께 작성합니다.</p></div>
+            <div><dt>2부 진행</dt><dd>+100,000원</dd><p>피로연 또는 2부 행사까지 자연스럽게 이어서 진행합니다.</p></div>
+            <div><dt>출장</dt><dd>지역별 별도</dd><p>서울 외 지역은 거리별 출장비가 추가됩니다.</p></div>
+          </dl>
         </div>
       </div>
+    </section>
 
-      <div class="page-actions reveal">
-        <a class="solid-link" href="ask.html">이야기 들려주기</a>
+    <!-- 11 ─ CONTACT ────────────────────────────────────────────────────── -->
+    <section class="ct" id="contact">
+      <div class="wrap">
+        <p class="say ct-say r">두 분의 이야기가<br>궁금합니다.</p>
+        <ul class="ct-links r" data-d="1">
+          <li><a class="lnk" href="ask.html">상담하기 <i aria-hidden="true">→</i></a></li>
+          <li><a class="lnk" href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">Instagram <i aria-hidden="true">→</i></a></li>
+          <li><a class="lnk" href="review.html">기록 보기 <i aria-hidden="true">→</i></a></li>
+        </ul>
+        <p class="ct-sign r" data-d="2"><span>Everafter Youngae</span>오래 기억될 하루를 함께 만듭니다.</p>
       </div>
     </section>
   </main>
 
-  <footer><span>Everafter 永愛</span><a href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">@everafter_youngae</a><a href="https://everafter-youngae.github.io/wedding-mc/story.html" target="_blank" rel="noopener">두 분의 이야기 찾기</a><span>부부라는 이름의 프롤로그.</span><span>© 2026 Everafter</span></footer>
-  <script src="script.js?v=16"></script>
+  <footer class="ft">
+    <span>Everafter 永愛</span>
+    <a href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">@everafter_youngae</a>
+    <a href="https://everafter-youngae.github.io/wedding-mc/story.html" target="_blank" rel="noopener">두 분의 이야기 찾기</a>
+    <span>© 2026 Everafter</span>
+  </footer>
+
+  <script src="home.js?v=1"></script>
 </body>
 </html>
