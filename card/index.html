@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4efe8">
-  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIyIiBmaWxsPSIjNzExZjFiIi8+PHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMuNiwyNC4yKSBzY2FsZSguNTYpIiBmaWxsPSIjZjRlZmU4IiBkPSJNMTAgNTYgQzI4IDQwIDUwIDMyIDcwIDM0IEM4NCAyNCAxMDAgMTQgMTIwIDYgQzExMCAyNCA5OCAzOCA4NCA0NiBDODggNTggOTAgNzIgOTAgODYgQzgyIDc0IDc0IDYyIDY4IDUyIEM0OCA1NCAyNiA1OCAxMCA1NiBaIi8+PC9zdmc+Cg==">
+  <meta name="theme-color" content="#FFFDF5">
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIyIiBmaWxsPSIjM0E3RDk2Ii8+PHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMuNiwyNC4yKSBzY2FsZSguNTYpIiBmaWxsPSIjRkZGREY1IiBkPSJNMTAgNTYgQzI4IDQwIDUwIDMyIDcwIDM0IEM4NCAyNCAxMDAgMTQgMTIwIDYgQzExMCAyNCA5OCAzOCA4NCA0NiBDODggNTggOTAgNzIgOTAgODYgQzgyIDc0IDc0IDYyIDY4IDUyIEM0OCA1NCAyNiA1OCAxMCA1NiBaIi8+PC9zdmc+Cg==">
   <meta name="description" content="오래 기억될 하루를 함께 만듭니다. Everafter 永愛">
   <title>Everafter 永愛</title>
   <meta property="og:type" content="website">
@@ -30,13 +30,15 @@
      스타일을 여기 안에 둡니다. 다만 팔레트·폰트 토큰은 style.css의 :root와
      같은 값을 그대로 씁니다 — 명함에서 홈으로 넘어가도 톤이 이어지도록. */
   :root{
-    --ivory:#f4efe8;
-    --ivory-soft:#faf7f2;
-    --charcoal:#24201e;
-    --muted:#7a706a;
-    --burgundy:#711f1b;
-    --burgundy-deep:#4f1512;
-    --line:rgba(36,32,30,.14);
+    --ivory:#FFFDF5;
+    --ivory-soft:#FFF8E4;
+    --charcoal:#222222;
+    --muted:#6E6A64;
+    --accent:#357289;      /* 글자용 Glacier Blue — 아이보리 위 5.26:1 */
+    --accent-deep:#2C5E70;  /* 눌렀을 때 */
+  --accent-bright:#64AAC3; /* Glacier 원색 — 면·장식 전용, 글자로 쓰지 않음 */
+  --banana:#FFEBB0;        /* Light Banana — 바탕으로만 */
+    --line:rgba(34,34,34,.13);
     --serif-en:"Cormorant Garamond", Georgia, serif;
     --serif-ko:"Noto Serif KR", serif;
     --sans:"Noto Sans KR", sans-serif;
@@ -67,10 +69,10 @@
   section + section{border-top:1px solid var(--line)}
   .eyebrow{
     margin:0;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--burgundy);font-weight:400;
+    color:var(--accent);font-weight:400;
   }
   .index{
-    font-family:var(--serif-en);font-size:13px;color:var(--burgundy);
+    font-family:var(--serif-en);font-size:13px;color:var(--accent);
     letter-spacing:.06em;margin-bottom:26px;
   }
   .sec-title{
@@ -86,7 +88,7 @@
   }
   .brand{
     font-family:var(--serif-en);font-size:13px;letter-spacing:.28em;
-    color:var(--burgundy);text-transform:uppercase;
+    color:var(--accent);text-transform:uppercase;
   }
   .hero h1{
     margin:38px 0 0;font-family:var(--serif-ko);font-weight:300;
@@ -99,7 +101,7 @@
   /* ---------- 01 소개 ---------- */
   .about p{font-family:var(--serif-ko);font-size:16.5px;line-height:2.15;letter-spacing:-.01em}
   .about p + p{margin-top:26px}
-  .about strong{font-weight:400;color:var(--burgundy)}
+  .about strong{font-weight:400;color:var(--accent)}
 
   /* ---------- 02 Process ---------- */
   .flow{margin-top:36px;position:relative}
@@ -107,7 +109,7 @@
   .step:last-child{padding-bottom:0}
   .step::before{
     content:'';position:absolute;left:0;top:9px;width:5px;height:5px;
-    border-radius:50%;background:var(--burgundy);
+    border-radius:50%;background:var(--accent);
   }
   .step::after{
     content:'';position:absolute;left:2px;top:20px;bottom:6px;width:1px;background:var(--line);
@@ -128,15 +130,15 @@
   .card-head h3{font-family:var(--serif-ko);font-size:16px;font-weight:400;letter-spacing:-.02em}
   .card-head span{
     font-family:var(--serif-en);font-size:14px;letter-spacing:.03em;
-    color:var(--burgundy);white-space:nowrap;
+    color:var(--accent);white-space:nowrap;
   }
   /* 본식 사회 금액은 홈페이지에서도 눌러야 보이도록 해둔 값이라,
      명함에서는 금액 대신 홈페이지 Price 섹션으로 보냅니다. */
   .card-head a{
     font-family:var(--sans);font-size:12px;letter-spacing:.04em;white-space:nowrap;
-    color:var(--burgundy);border-bottom:1px solid rgba(113,31,27,.3);padding-bottom:2px;
+    color:var(--accent);border-bottom:1px solid rgba(58,125,150,.3);padding-bottom:2px;
   }
-  .card-head a:hover{border-bottom-color:var(--burgundy)}
+  .card-head a:hover{border-bottom-color:var(--accent)}
   .card p{margin-top:11px;font-size:13px;color:var(--muted);line-height:1.9}
 
   /* ---------- 04 기록(사진) ---------- */
@@ -171,18 +173,18 @@
     display:flex;align-items:baseline;justify-content:space-between;gap:18px;
     padding:20px 2px;border-bottom:1px solid var(--line);
   }
-  .link-row .lbl{font-family:var(--serif-en);font-size:15px;letter-spacing:.08em;color:var(--burgundy)}
+  .link-row .lbl{font-family:var(--serif-en);font-size:15px;letter-spacing:.08em;color:var(--accent)}
   .link-row .val{font-size:12.5px;color:var(--muted);text-align:right}
   .link-row:hover .val{color:var(--charcoal)}
   /* 문의 줄은 다른 줄과 형태·글자를 똑같이 두고 음영만 더합니다.
      음영이 글자보다 조금 넓게 깔리도록 좌우 패딩을 주고, 그만큼 음수 마진으로
      당겨서 글자 시작점은 위 두 줄과 정확히 같은 자리에 둡니다. */
   .link-row--main{
-    background:rgba(113,31,27,.05);
+    background:rgba(58,125,150,.05);
     margin:0 -12px;padding:20px 14px;
     transition:background .4s ease;
   }
-  .link-row--main:hover{background:rgba(113,31,27,.085)}
+  .link-row--main:hover{background:rgba(58,125,150,.085)}
 
   footer{
     padding:52px 0 66px;text-align:center;
@@ -191,7 +193,7 @@
   }
   footer .mark{
     display:block;margin-bottom:9px;font-style:normal;font-size:11px;
-    letter-spacing:.24em;text-transform:uppercase;color:var(--burgundy);
+    letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
   }
 
   /* ---------- 등장 ---------- */
