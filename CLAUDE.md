@@ -59,6 +59,8 @@ Deployed by **GitHub Actions** (`.github/workflows/pages.yml`, "Deploy static co
 
 Related: the working tree may hold **someone else's in-progress edits**. Stage deliberately (`git add <paths>`) rather than `git add -A`, and check `git status` before committing so you don't sweep unfinished work into your commit.
 
+That churn also ages this file faster than you'd expect — four of the behaviour notes below were wrong within a week of being written, describing a hero video and a progress label that had since been deleted. Grep the code before relying on one, and fix it in place when it turns out stale.
+
 ## Architecture
 
 - `index.html` — landing one-pager (hero, story, Beautiful Curiosity band, ceremony, what-we-do, voice sample, price)
