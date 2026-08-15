@@ -329,29 +329,7 @@ html.js .r.on{opacity:1;transform:none}
 .vx-ready .vx-fallback{display:none}
 .vx-error .vx-fallback{display:block;color:#e7b7ac}
 
-/* ── 06 JOURNEY ──────────────────────────────────────────────────────── */
-
-.jn{padding-block:var(--gap-sec)}
-.jn-lead{
-  max-width:var(--measure);margin-bottom:clamp(56px,8vw,104px);
-  font-family:var(--serif-ko);font-size:clamp(19px,2.1vw,28px);line-height:1.7;letter-spacing:-.025em;
-}
-.jn-line{
-  position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:20px;padding-top:34px;
-}
-.jn-line::before{content:'';position:absolute;left:0;right:0;top:0;height:1px;background:var(--line)}
-.jn-step{position:relative;padding-right:12px}
-.jn-step::before{
-  content:'';position:absolute;left:0;top:-34px;width:1px;height:22px;background:var(--accent);opacity:.55;
-}
-.jn-en{
-  display:block;font-family:var(--serif-en);font-size:clamp(20px,2.1vw,30px);
-  letter-spacing:.02em;color:var(--charcoal);
-}
-.jn-ko{display:block;margin-top:8px;font-size:13px;letter-spacing:.04em;color:var(--muted)}
-
-/* ── 08 LETTER ───────────────────────────────────────────────────────── */
+/* ── 07 LETTER ───────────────────────────────────────────────────────── */
 
 .lt{padding-block:var(--gap-sec);background:var(--ivory-soft)}
 .lt-wrap{
@@ -383,7 +361,7 @@ html.js .r.on{opacity:1;transform:none}
   font-family:var(--serif-en);font-style:italic;font-size:23px;color:var(--accent);
 }
 
-/* ── 09 ARCHIVE ──────────────────────────────────────────────────────── */
+/* ── 08 ARCHIVE ──────────────────────────────────────────────────────── */
 
 /* Letter 가 Banana 면이므로 여기는 기본 아이보리로 되돌려 경계를 만듭니다
    (둘 다 옅은 면이면 어디서 장이 바뀌는지 보이지 않습니다) */
@@ -396,7 +374,7 @@ html.js .r.on{opacity:1;transform:none}
 .ar-note{margin-top:26px;font-size:13.5px;line-height:1.9;color:var(--muted)}
 .ar .lnk{margin-top:30px}
 
-/* ── 10 PRICE ────────────────────────────────────────────────────────── */
+/* ── 09 PRICE ────────────────────────────────────────────────────────── */
 
 .pr{padding-block:var(--gap-sec);border-top:1px solid var(--line)}
 .pr-title{
@@ -442,9 +420,11 @@ html.js .r.on{opacity:1;transform:none}
 .pr-adds dd{margin:0;font-size:14px;letter-spacing:.02em;color:var(--accent);white-space:nowrap}
 .pr-adds p{grid-column:1/-1;font-size:13.5px;color:var(--muted)}
 
-/* ── 11 CONTACT ──────────────────────────────────────────────────────── */
+/* ── 10 CONTACT ──────────────────────────────────────────────────────── */
 
-.ct{padding-block:calc(var(--gap-sec) * 1.05) clamp(80px,12vh,140px);border-top:1px solid var(--line)}
+/* 마지막 장을 Banana 한 면으로 닫습니다. 색이 바뀌는 것으로 장이 나뉘므로
+   위쪽 경계선은 두지 않습니다. (#222 글자와 13.5:1, 링크 4.53:1) */
+.ct{padding-block:calc(var(--gap-sec) * 1.05) clamp(80px,12vh,140px);background:var(--banana)}
 .ct-say{max-width:14em}
 .ct-links{
   display:flex;flex-wrap:wrap;gap:clamp(22px,3.4vw,52px);
@@ -460,7 +440,10 @@ html.js .r.on{opacity:1;transform:none}
 
 .ft{
   display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px 26px;
-  padding:26px var(--pad);border-top:1px solid var(--line);
+  padding:26px var(--pad);
+  /* Contact 와 같은 면 위에 놓입니다. 색을 끊지 않고 가는 선 하나로만
+     판권을 나눠, 마지막 장이 잘려 보이지 않게 합니다. */
+  background:var(--banana);border-top:1px solid rgba(34,34,34,.16);
   /* 한국어 링크가 섞여 있어 자간을 기존 사이트 푸터(.1em)에 맞춥니다 */
   font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
 }
@@ -503,11 +486,6 @@ html.js .r.on{opacity:1;transform:none}
   .hd-menu[aria-expanded="true"] [data-open]{display:none}
   .hd-menu[aria-expanded="true"] [data-close]{display:inline}
 
-  .jn-line{grid-template-columns:minmax(0,1fr);gap:0;padding-top:0}
-  .jn-line::before{left:0;top:0;bottom:0;right:auto;width:1px;height:auto}
-  .jn-step{padding:20px 0 20px 26px}
-  .jn-step::before{left:0;top:34px;width:13px;height:1px}
-  .jn-en{font-size:23px}
 }
 
 /* ── 768px 이하 ──────────────────────────────────────────────────────── */
