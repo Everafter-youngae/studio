@@ -57,6 +57,9 @@
   if (navToggle && nav) {
     var setNav = function (open) {
       nav.classList.toggle('is-open', open);
+      // 메뉴판은 아이보리 면이라 헤더도 함께 불투명해져야 합니다. 대문 위에서는
+      // 헤더가 투명하기 때문에, 이 표시가 없으면 메뉴가 파란 면에 떠 보입니다.
+      if (header) header.classList.toggle('is-menu', open);
       navToggle.setAttribute('aria-expanded', String(open));
     };
     navToggle.addEventListener('click', function () {

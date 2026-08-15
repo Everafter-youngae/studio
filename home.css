@@ -127,7 +127,25 @@ html.js .r.on{opacity:1;transform:none}
   background:transparent;transition:background .4s ease,border-color .4s ease,padding .4s ease;
   border-bottom:1px solid transparent;
 }
-.hd.is-stuck{background:var(--ivory);border-bottom-color:var(--line);padding-block:15px}
+/* 대문 위에서는 헤더의 작은 브랜드마크를 감춥니다 — 바로 아래에 같은 이름이
+   화면 폭만큼 크게 적혀 있어 두 번 읽히기 때문입니다. 스크롤해 워드마크가
+   지나가면 다시 나타납니다. 키보드로 초점이 오면 감춰두지 않습니다. */
+.hd:not(.is-stuck) .hd-brand{opacity:0;transition:opacity .4s ease}
+.hd:not(.is-stuck) .hd-brand:focus-visible{opacity:1}
+
+/* 스크롤하기 전의 헤더는 언제나 파란 대문 위에 놓입니다. 그래서 기본색을
+   잉크로 두고, 굳어진 뒤(아이보리 바탕)에 원래 색으로 돌립니다. */
+.hd{color:var(--night)}
+.hd .hd-brand-b{color:var(--night);opacity:.72}
+.hd .hd-nav a{color:var(--night);opacity:.72}
+.hd .hd-nav a:hover,.hd .hd-nav a.is-here{opacity:1}
+.hd .hd-nav a::after{background:var(--night)}
+.hd.is-stuck{background:var(--ivory);border-bottom-color:var(--line);padding-block:15px;color:var(--charcoal)}
+.hd.is-stuck .hd-brand-b{color:var(--accent);opacity:1}
+.hd.is-stuck .hd-nav a{color:var(--muted);opacity:1}
+.hd.is-stuck .hd-nav a:hover{color:var(--charcoal)}
+.hd.is-stuck .hd-nav a.is-here{color:var(--accent)}
+.hd.is-stuck .hd-nav a::after{background:var(--accent)}
 .hd-brand{display:flex;align-items:baseline;gap:.5em;font-family:var(--serif-en);line-height:1}
 .hd-brand-a{font-size:19px;letter-spacing:.02em}
 .hd-brand-b{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
@@ -140,39 +158,51 @@ html.js .r.on{opacity:1;transform:none}
 .hd-menu{display:none;font-size:12px;letter-spacing:.14em;color:var(--charcoal)}
 .hd-menu [data-close]{display:none}
 
-/* ── 01 HERO ─────────────────────────────────────────────────────────── */
+/* ── 01 HERO ─────────────────────────────────────────────────────────
+   브랜드 색 한 면 위에 이름만 크게 얹은 포스터입니다. 글자가 화면의 주인공이
+   되도록 다른 요소를 최소로 두고, 위·가운데·아래 세 덩어리로만 나눕니다.
+
+   Banana 를 파란 면 위에서 글자로 쓰면 2.2:1 밖에 안 나옵니다. 그래서
+   워드마크(그림처럼 읽히는 거대한 덩어리)에만 Banana 를 쓰고, 실제로 읽어야
+   하는 작은 글자는 전부 --night 로 둡니다. 파란 면 위 5.72:1 입니다.
+   ────────────────────────────────────────────────────────────────── */
 
 .hero{
-  min-height:92svh;display:flex;flex-direction:column;justify-content:center;
-  padding-block:clamp(140px,18vh,200px) clamp(40px,7vh,72px);
+  min-height:92svh;display:flex;flex-direction:column;justify-content:space-between;
+  padding-block:clamp(96px,13vh,150px) clamp(40px,7vh,72px);
+  background:var(--accent-bright);color:var(--night);
+  overflow:hidden;
 }
-.kicker{
-  margin-bottom:clamp(26px,4vh,44px);
-  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
-}
-.wordmark{display:block;font-family:var(--serif-en);font-weight:300;line-height:.9}
+.hero-top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--night);opacity:.75}
+.kicker-end{text-align:right}
+.kicker span{margin-right:.5em;font-family:var(--serif-ko);text-transform:none;letter-spacing:.04em}
+
+.hero-mid{padding-block:clamp(24px,4vh,48px)}
+.wordmark{display:block;line-height:.84}
 .wordmark-a{
-  /* Cormorant 는 폭이 좁아 같은 크기라도 작아 보입니다. 글자 폭이 지면의 3/4쯤을
-     차지하도록 20vw 를 기준으로 잡았고, 375px 에서도 좌우 여백이 남습니다. */
-  display:block;font-size:clamp(3rem,20vw,17.5rem);letter-spacing:-.018em;
+  /* Bagel Fat One 은 이 크기에서 글자 폭이 글자 크기의 약 5.84배입니다.
+     지면의 96%를 채우도록 잡았고, 375px 에서도 좌우 여백이 남습니다
+     (넘침 검사로 확인). 1440px 이상에서는 .wrap 이 멈추므로 값도 멈춥니다. */
+  display:block;font-family:"Bagel Fat One",var(--sans);font-weight:400;
+  font-size:clamp(3.1rem,14.4vw,12.8rem);letter-spacing:-.005em;
+  color:var(--banana);text-transform:uppercase;
 }
 .wordmark-b{
-  display:block;margin-top:clamp(4px,.6vw,10px);margin-left:.18em;
-  font-size:clamp(.95rem,3.5vw,3rem);font-weight:400;
-  letter-spacing:.34em;text-transform:uppercase;color:var(--accent);
+  display:block;margin-top:clamp(10px,1.6vw,26px);
+  font-family:"Bagel Fat One",var(--sans);font-weight:400;
+  font-size:clamp(.95rem,2.5vw,2.2rem);letter-spacing:.24em;
+  text-transform:uppercase;color:var(--night);
 }
+
+.hero-bot{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(20px,3vh,34px)}
 .hero-line{
-  margin-top:clamp(38px,6vh,72px);max-width:24em;
-  font-family:var(--serif-ko);font-size:clamp(17px,1.6vw,23px);line-height:1.75;color:#4A4741;
+  max-width:24em;font-family:var(--serif-ko);
+  font-size:clamp(17px,1.6vw,23px);line-height:1.7;color:var(--night);
 }
-.hero-cta{margin-top:clamp(28px,4vh,44px)}
-/* .wrap 바깥에 있으므로 같은 좌우 여백과 최대 폭을 직접 걸어 세로선을 맞춥니다 */
-.hero-foot{
-  width:100%;max-width:1440px;margin:clamp(56px,10vh,120px) auto 0;
-  padding-inline:var(--pad);
-  font-size:12px;letter-spacing:.06em;color:var(--muted-soft);
-}
-.hero-foot span{margin-right:.7em;font-family:var(--serif-ko);color:var(--accent)}
+/* 파란 면 위에서는 링크도 잉크색으로 — Glacier 글자색은 배경에 묻힙니다 */
+.hero .lnk{color:var(--night);border-bottom-color:rgba(15,42,51,.4)}
+.hero .lnk:hover{border-bottom-color:var(--night)}
 
 /* ── 02 ABOUT ────────────────────────────────────────────────────────── */
 
@@ -467,7 +497,10 @@ html.js .r.on{opacity:1;transform:none}
      브라우저에서는 눈에 띄게 느린 데다 손으로 끊을 수도 없어 멈춘 것처럼 보입니다. */
   html{scroll-behavior:auto}
 
-  .hd{background:var(--ivory);border-bottom-color:var(--line);padding-block:15px}
+  /* 대문이 파란 한 면이므로 그 위의 헤더는 투명해야 합니다. 아이보리 바탕은
+     스크롤해서 굳었을 때(.is-stuck)와 메뉴가 펼쳐졌을 때(.is-menu)만. */
+  .hd{padding-block:15px}
+  .hd.is-menu{background:var(--ivory);border-bottom-color:var(--line)}
   .hd-menu{display:block}
   .hd-nav{
     position:absolute;left:0;right:0;top:100%;
@@ -477,8 +510,11 @@ html.js .r.on{opacity:1;transform:none}
     display:none;
   }
   .hd-nav.is-open{display:flex}
-  .hd-nav a{
-    padding-block:15px;border-bottom:1px solid var(--line);
+  .hd.is-menu,.hd.is-stuck{color:var(--charcoal)}
+  .hd.is-menu .hd-brand-b{color:var(--accent);opacity:1}
+  .hd.is-menu .hd-brand{opacity:1}
+  .hd .hd-nav a{
+    padding-block:15px;border-bottom:1px solid var(--line);opacity:1;
     font-family:var(--serif-en);font-size:21px;letter-spacing:.04em;color:var(--charcoal);
   }
   .hd-nav a::after{display:none}
@@ -491,7 +527,10 @@ html.js .r.on{opacity:1;transform:none}
 /* ── 768px 이하 ──────────────────────────────────────────────────────── */
 
 @media (max-width:768px){
-  .hero{min-height:88svh}
+  .hero{
+    min-height:90svh;justify-content:center;gap:clamp(34px,6vh,66px);
+  }
+  .hero-mid{padding-block:0}
   .pr-cols{grid-template-columns:minmax(0,1fr)}
   .pr-toggle{flex-direction:column;align-items:flex-start;gap:12px}
   .plate figcaption{max-width:none}
@@ -501,9 +540,10 @@ html.js .r.on{opacity:1;transform:none}
 
 @media (max-width:480px){
   body{font-size:15.5px}
-  .hero{min-height:86svh;padding-block:120px 40px}
-  .wordmark-b{margin-left:.1em;letter-spacing:.28em}
-  .hero-line{margin-top:32px}
+  .hero{min-height:86svh;padding-block:96px 40px}
+  .hero-top{flex-direction:column;gap:8px}
+  .kicker-end{text-align:left}
+  .wordmark-b{letter-spacing:.2em}
   .step{grid-template-columns:44px minmax(0,1fr);gap:14px}
   .step-body p{margin-top:12px}
   .step-key{grid-column:2;padding-top:18px}
