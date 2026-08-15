@@ -181,17 +181,17 @@ html.js .r.on{opacity:1;transform:none}
 .hero-mid{padding-block:clamp(24px,4vh,48px)}
 .wordmark{display:block;line-height:.84}
 .wordmark-a{
-  /* Bagel Fat One 은 이 크기에서 글자 폭이 글자 크기의 약 5.84배입니다.
-     지면의 96%를 채우도록 잡았고, 375px 에서도 좌우 여백이 남습니다
+  /* Poppins 800 은 이 문자열에서 글자 폭이 글자 크기의 약 5.30배입니다.
+     지면의 94%를 채우도록 잡았고, 375px 에서도 좌우 여백이 남습니다
      (넘침 검사로 확인). 1440px 이상에서는 .wrap 이 멈추므로 값도 멈춥니다. */
-  display:block;font-family:"Bagel Fat One",var(--sans);font-weight:400;
-  font-size:clamp(3.1rem,14.4vw,12.8rem);letter-spacing:-.005em;
+  display:block;font-family:"Poppins",var(--sans);font-weight:800;
+  font-size:clamp(3.3rem,15.2vw,13.8rem);letter-spacing:-.028em;
   color:var(--banana);text-transform:uppercase;
 }
 .wordmark-b{
   display:block;margin-top:clamp(10px,1.6vw,26px);
-  font-family:"Bagel Fat One",var(--sans);font-weight:400;
-  font-size:clamp(.95rem,2.5vw,2.2rem);letter-spacing:.24em;
+  font-family:"Poppins",var(--sans);font-weight:800;
+  font-size:clamp(.9rem,2.1vw,1.9rem);letter-spacing:.26em;
   text-transform:uppercase;color:var(--night);
 }
 
