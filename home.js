@@ -218,11 +218,21 @@
       if (audio.paused) start(); else audio.pause();
     });
 
+    // 목록에서 순서를 고르면 그 자리에서 바로 재생합니다. 재생 버튼을 한 번 더
+    // 누르게 하지 않습니다. 브라우저의 자동재생 제한은 이 click 이 사람의 손짓이라
+    // 걸리지 않습니다.
     items.forEach(function (item, i) {
       item.setAttribute('aria-disabled', String(item.hasAttribute('data-pending')));
       item.addEventListener('click', function () {
-        var wasPlaying = !audio.paused;
-        select(i, wasPlaying && !isPending(i));
+        // 파일이 없는 자리는 무엇이 담길지 보여주기만 하고 소리는 내지 않습니다.
+        if (isPending(i)) { select(i, false); return; }
+        // 이미 고른 순서를 다시 누르면 재생과 멈춤을 오갑니다.
+        // (select 는 같은 번호면 아무 일도 하지 않으므로 여기서 처리합니다)
+        if (i === current) {
+          if (audio.paused) start(); else audio.pause();
+          return;
+        }
+        select(i, true);
       });
     });
 
