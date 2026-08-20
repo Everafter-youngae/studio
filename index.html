@@ -160,12 +160,12 @@
               <span class="vx-bars" aria-hidden="true"><i></i><i></i><i></i></span>
               <span id="vxState">Voice 01</span>
             </p>
-            <h2 class="vx-title" id="vxTitle">화촉점화</h2>
-            <p class="vx-note" id="vxNote">예식의 첫 불을 밝히는 순서. 두 어머니의 걸음에 맞춰 천천히 엽니다.</p>
+            <h2 class="vx-title" id="vxTitle">개식사</h2>
+            <p class="vx-note" id="vxNote">예식의 문을 여는 첫 인사. 자리에 모인 분들의 숨을 고르게 하는 대목입니다.</p>
           </div>
 
           <div class="vx-ctrl">
-            <button class="vx-play" id="vxPlay" type="button" aria-label="화촉점화 재생">
+            <button class="vx-play" id="vxPlay" type="button" aria-label="개식사 재생">
               <span class="vx-play-icon" aria-hidden="true"></span>
             </button>
             <div class="vx-meter">
@@ -177,23 +177,24 @@
                    aria-valuenow="0" aria-valuetext="0초">
                 <span class="vx-rail"><span class="vx-fill" id="vxFill"></span></span>
               </div>
-              <p class="vx-time"><span id="vxNowTime">0:00</span><span id="vxDur">0:25</span></p>
+              <p class="vx-time"><span id="vxNowTime">0:00</span><span id="vxDur">0:12</span></p>
             </div>
           </div>
 
           <!--
             트랙 목록.
 
-            ▸ 음성 파일을 넣는 방법
-              1. 파일을 assets/audio/ 에 넣습니다. (아래 data-src 와 이름을 맞추세요)
-                 assets/audio/candle.m4a           ← 01 화촉점화 (있음)
-                 assets/audio/entrance-groom.m4a   ← 02 신랑 입장
-                 assets/audio/entrance-bride.m4a   ← 03 신부 입장 (있음)
-                 assets/audio/story.m4a            ← 04 두 사람의 이야기 (있음)
-                 assets/audio/march.m4a            ← 05 행진 전 멘트
-              2. 그 트랙의 data-pending 속성을 지웁니다. 그러면 '준비 중' 표시가
-                 사라지고 바로 재생됩니다.
-              3. data-len 은 목록에 미리 보여줄 길이입니다. 실제 길이는 재생을 누른 뒤
+            지금은 파일이 있는 트랙만 둡니다. 예식 순서대로 늘어놓았습니다.
+                 assets/audio/opening.m4a          ← 01 개식사
+                 assets/audio/candle.m4a           ← 02 화촉점화
+                 assets/audio/entrance-bride.m4a   ← 03 신부 입장
+
+            ▸ 트랙을 더할 때
+              1. 파일을 assets/audio/ 에 넣고 <li> 를 하나 복사해 data-src 를 맞춥니다.
+              2. 번호(.vx-no)는 예식 순서대로 다시 매깁니다.
+              3. 아직 파일이 없는 자리를 미리 보여주려면 data-pending 을 붙입니다.
+                 고를 수는 있지만 재생은 잠기고 '준비 중' 으로 표시됩니다.
+              4. data-len 은 목록에 미리 보여줄 길이입니다. 실제 길이는 재생을 누른 뒤
                  파일에서 읽어 자동으로 바로잡히므로 대략 맞춰 적어두면 됩니다.
 
             ▸ m4a 대신 mp3 를 써도 됩니다. data-src 확장자만 바꾸면 됩니다.
@@ -201,22 +202,22 @@
           <ol class="vx-list" id="vxList">
             <li>
               <button class="vx-item" type="button"
-                      data-src="assets/audio/candle.m4a"
-                      data-title="화촉점화" data-len="0:25"
-                      data-note="예식의 첫 불을 밝히는 순서. 두 어머니의 걸음에 맞춰 천천히 엽니다.">
+                      data-src="assets/audio/opening.m4a"
+                      data-title="개식사" data-len="0:12"
+                      data-note="예식의 문을 여는 첫 인사. 자리에 모인 분들의 숨을 고르게 하는 대목입니다.">
                 <span class="vx-no">01</span>
-                <span class="vx-tt">화촉점화</span>
-                <span class="vx-len">0:25</span>
+                <span class="vx-tt">개식사</span>
+                <span class="vx-len">0:12</span>
               </button>
             </li>
             <li>
               <button class="vx-item" type="button"
-                      data-src="assets/audio/entrance-groom.m4a" data-pending
-                      data-title="신랑 입장" data-len="0:00"
-                      data-note="문이 열리기 전, 가장 짧고 단단하게 건네는 문장입니다.">
+                      data-src="assets/audio/candle.m4a"
+                      data-title="화촉점화" data-len="0:25"
+                      data-note="예식의 첫 불을 밝히는 순서. 두 어머니의 걸음에 맞춰 천천히 엽니다.">
                 <span class="vx-no">02</span>
-                <span class="vx-tt">신랑 입장</span>
-                <span class="vx-len">준비 중</span>
+                <span class="vx-tt">화촉점화</span>
+                <span class="vx-len">0:25</span>
               </button>
             </li>
             <li>
@@ -229,29 +230,9 @@
                 <span class="vx-len">0:25</span>
               </button>
             </li>
-            <li>
-              <button class="vx-item" type="button"
-                      data-src="assets/audio/story.m4a"
-                      data-title="두 사람의 이야기" data-len="0:13"
-                      data-note="예식 한가운데, 두 사람이 어떻게 만나 여기까지 왔는지 전하는 대목입니다.">
-                <span class="vx-no">04</span>
-                <span class="vx-tt">두 사람의 이야기</span>
-                <span class="vx-len">0:13</span>
-              </button>
-            </li>
-            <li>
-              <button class="vx-item" type="button"
-                      data-src="assets/audio/march.m4a" data-pending
-                      data-title="행진 전 멘트" data-len="0:00"
-                      data-note="마지막 인사. 식장을 나선 뒤에도 남을 한 문장을 둡니다.">
-                <span class="vx-no">05</span>
-                <span class="vx-tt">행진 전 멘트</span>
-                <span class="vx-len">준비 중</span>
-              </button>
-            </li>
           </ol>
 
-          <p class="vx-fallback" id="vxFallback">재생이 되지 않으면 <a id="vxDownload" href="assets/audio/candle.m4a" download>파일로 내려받아</a> 들어보실 수 있습니다.</p>
+          <p class="vx-fallback" id="vxFallback">재생이 되지 않으면 <a id="vxDownload" href="assets/audio/opening.m4a" download>파일로 내려받아</a> 들어보실 수 있습니다.</p>
         </div>
       </div>
     </section>
