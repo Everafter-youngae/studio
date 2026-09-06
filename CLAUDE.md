@@ -6,13 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Everafter (永愛) is a static marketing site for a wedding-ceremony emcee ("사회") service, deployed via GitHub Pages. There is no build system, package manager, or framework — just hand-written HTML/CSS/JS served directly.
 
-This repo is the public brand/landing site (hero, story, price, testimonials, inquiry form) plus a shareable one-page brand card. The client-facing tooling — MC script builder, couple questionnaire, script review, and post-ceremony "story" archive — lives in the sibling repo `Everafter-youngae/wedding-mc` (deployed at `everafter-youngae.github.io/wedding-mc/`), which is a separate codebase with its own visual language (functional/app-like, not the ivory/burgundy editorial look here) and its own CLAUDE.md. Don't assume shared components, styles, or data between the two repos.
+This repo is the public brand/landing site (hero, story, price, testimonials, inquiry form) plus a shareable one-page brand card. The client-facing tooling — MC script builder, couple questionnaire, script review, and post-ceremony "story" archive — lives in the sibling repo `Everafter-youngae/wedding-mc` (deployed at `everafter-youngae.github.io/wedding-mc/`), which is a separate codebase with its own visual language (functional/app-like, not the ivory/glacier-blue editorial look here) and its own CLAUDE.md. Don't assume shared components, styles, or data between the two repos.
 
 The two repos now touch in three places, all loose couplings rather than shared code:
 
 - This site's inquiry form writes to a Google Apps Script backend; wedding-mc's dashboard reads that same sheet to show new inquiries (see "Inquiry form" below).
 - wedding-mc's dashboard has a 명함 보내기 action that hands out this repo's `/card/` URL.
 - Footers here link out to wedding-mc's `story.html`, and wedding-mc links back to this homepage.
+
+A third, private repo `Everafter-youngae/everafter-instagram` posts to the Instagram account through the official Graph API. It touches this repo in one place: Instagram fetches media from a public URL rather than accepting an upload, so that tool commits its 1080×1350 JPEGs into **`assets/ig/`** here and hands Instagram the Pages URL. Two consequences — a commit landing in `assets/ig/` that you didn't make is that tool, not a stray edit; and the card renderer there copies this site's `:root` tokens, so a palette change here has to be carried over.
 
 ## Development
 
@@ -109,14 +111,14 @@ Fixed `.site-header` with the `EVERAFTER` brand mark and `.site-nav` (mobile nav
 
 ### `style.css` conventions
 
-- `:root` custom properties define the palette (`--ivory` `#f4efe8`, `--ivory-soft`, `--charcoal`, `--muted`, `--burgundy` `#711f1b`, `--line`) and font stacks (`--serif-en` Cormorant Garamond, `--serif-ko` Noto Serif KR, `--sans` Noto Sans KR). Reuse these rather than hardcoding.
+- `:root` custom properties define the palette (`--ivory` `#FFFDF5`, `--ivory-soft` `#FFF8E4`, `--charcoal`, `--muted`, `--accent` `#357289` Glacier Blue with `--accent-deep`/`--accent-bright`, `--banana`, `--line`) and font stacks (`--serif-en` Cormorant Garamond, `--serif-ko` Noto Serif KR, `--sans` Noto Sans KR). Reuse these rather than hardcoding.
 - Fonts load from Google Fonts via `<link>` in each page's `<head>`.
 - Desktop-first with breakpoints at `901px`, `900px`, `600px`; mobile overrides are additive and layered at the bottom, where a "Multi-page additions" section covers `ask.html`/`review.html`.
 - Body text is Korean-first (`word-break:keep-all`), with English/serif accents for eyebrow labels and numerals. `.lines > span` is the helper that breaks a paragraph into evenly spaced lines.
 
 ## Brand assets and link previews
 
-- **Favicon** is an inline SVG data URI of a swallow (제비) on a burgundy tile, identical across all four pages. Swallows return to the same nest each year and carry letters in the old stories, which is why the mark was chosen. It is drawn as SVG rather than set as the `𓅪` character — that codepoint renders as a vertical stroke where a font exists at all, and the Egyptian Hieroglyphs block ships on almost no phone, so it would be tofu for most visitors.
+- **Favicon** is an inline SVG data URI of a swallow (제비) on a Glacier Blue tile (`#3A7D96`), identical across all four pages. Swallows return to the same nest each year and carry letters in the old stories, which is why the mark was chosen. It is drawn as SVG rather than set as the `𓅪` character — that codepoint renders as a vertical stroke where a font exists at all, and the Egyptian Hieroglyphs block ships on almost no phone, so it would be tofu for most visitors.
 - Most photos in `assets/` are portrait (`hero-duck.jpg` 0.64, `leaves.jpg` 0.67) while `og:image` is cropped to **1.91:1** by KakaoTalk and Twitter, so pointing at one yields a thin band through its middle. Every page ships a purpose-built 1200×630 thumbnail instead — `og-duck.jpg` (index, ask), `og-garden.jpg` (review), `og-card-duck.jpg` (card). Match that when adding a page: give the portrait photo a vertical panel with the brand line and headline beside it, nothing cropped. They are made by rendering an HTML layout at 1200×630 with Playwright (`page.locator('.og').screenshot({type:'jpeg', quality:86})` → ~40KB). Check any image's ratio with `sips -g pixelWidth -g pixelHeight <file>`; there is no ImageMagick here.
 - **KakaoTalk caches previews by image URL**, so ship a *new* filename rather than overwriting an existing one. A changed title alone may still need a manual cache reset at <https://developers.kakao.com/tool/debugger/sharing>.
 - The Instagram handle is **`everafter_youngae`** (it was `ever.after_youngae` until 2026-08-09). It appears in page footers, the `ig.me/m/` DM deep link on `ask.html`, the card's contact row, and two form-failure messages in `script.js` — grep the whole repo if it ever changes again.
