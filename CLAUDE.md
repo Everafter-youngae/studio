@@ -18,6 +18,8 @@ A third, private repo `Everafter-youngae/everafter-instagram` posts to the Insta
 
 ## Brand design system
 
+The homepage hero already *is* the BRAND.md reference hero — Sky `#64AAC3` ground, Banana `#FFEBB0` `EVERAFTER` in Poppins 800, ink `YOUNGAE` and body. Don't propose "moving it to the brand direction"; read `home.css` before saying anything about how the homepage looks.
+
 **`BRAND.md` 가 모든 디자인 판단의 최우선 기준입니다.** 색·타이포그래피·구성
 원칙이 거기 있고, 세 레포(studio · wedding-mc · everafter-instagram)가 같은
 시스템을 공유합니다. UI 를 고치기 전에 읽으세요.
@@ -80,11 +82,12 @@ That churn also ages this file faster than you'd expect — four of the behaviou
 - `ask.html` — inquiry form
 - `review.html` — testimonials
 - `card/index.html` — **brand card**, served at `/studio/card/` (see below)
-- `style.css`, `script.js` — shared by the three top-level pages; `card/` uses neither
+- `home.css`, `home.js` — **`index.html` only.** The homepage was rebuilt on its own stylesheet; it no longer loads `style.css`/`script.js`.
+- `style.css`, `script.js` — now only `ask.html` and `review.html`; `card/` uses neither
 - `apps-script/` — source and setup docs for the Apps Script backend (not executed from this repo)
 - `assets/` — photos, the voice sample, and the generated `og-*.jpg` link thumbnails
 
-`index.html`, `ask.html` and `review.html` load `style.css?v=N` and `script.js?v=N` — **bump N in all three whenever either file changes**, or returning visitors keep the stale copy. It moves often (v11 → v16 in a week), so read the current value out of the pages rather than assuming. `card/` is exempt: its CSS and JS are inline.
+Cache-busting query strings run on **two independent tracks** now. `ask.html` and `review.html` load `style.css?v=N` and `script.js?v=N` — bump N in *both pages* when either file changes. `index.html` loads `home.css?v=M` and `home.js?v=M` on its own counter. The two numbers are not in step (v17 vs v5 as of 2026-09-11), so read the current value out of the page you are touching rather than assuming. `card/` is exempt: its CSS and JS are inline.
 
 ### `card/index.html` — the brand card
 
@@ -116,7 +119,9 @@ Fixed `.site-header` with the `EVERAFTER` brand mark and `.site-nav` (mobile nav
 
 - **Reveal-on-scroll**: `.reveal` gets `.visible` on intersection, then unobserves.
 - **Image zoom-on-scroll**: `.image-zoom` toggles `.is-visible`.
-- **Parallax**: `updateParallax()` shifts `.parallax-media` and scales/fades the hero. Respects `prefers-reduced-motion`.
+- **Parallax**: `updateParallax()` shifts `.parallax-media` and scales/fades the hero. Respects `prefers-reduced-motion`. Note this is `script.js`, so it applies to `ask.html`/`review.html` only — the homepage hero moved to `home.css`/`home.js` and has no photo or parallax.
+
+The `.hero-media` / `.hero-overlay` / `.hero-copy` rules still sitting in `style.css`, and the hero half of `updateParallax()`, are **leftovers from the photo hero the homepage used to have**. Nothing loads them any more. Left in place rather than deleted blind — check before reusing those class names.
 - **Voice sample** (`index.html`): custom transport for `#voiceAudio` — play/pause and a hand-built slider. It deliberately avoids `<input type=range>`: some mobile browsers draw a handle there that `-webkit-tap-highlight-color` can't suppress. Pointer gestures wait to see whether a drag is horizontal before capturing it, or the 20px bar swallows vertical page scrolling.
 - **Mobile nav toggle**, **date input masking** (`0000.00.00`), **inquiry form** (above).
 
