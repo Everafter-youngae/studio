@@ -38,7 +38,10 @@
     --accent-deep:#2C5E70;  /* 눌렀을 때 */
   --accent-bright:#64AAC3; /* Glacier 원색 — 면·장식 전용, 글자로 쓰지 않음 */
   --banana:#FFEBB0;        /* Light Banana — 바탕으로만 */
-    --line:rgba(34,34,34,.13);
+    --card:#FFFFFF;          /* 강조할 블록만 순백으로 */
+    --ink2:#5C5B55;          /* 보조 글자 */
+    --ink3:#87857D;          /* 가장 여린 글자 */
+    --line:#E6E1D2;
     --serif-en:"Cormorant Garamond", Georgia, serif;
     --serif-ko:"Noto Serif KR", serif;
     --sans:"Noto Sans KR", sans-serif;
@@ -46,7 +49,7 @@
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   body{
-    margin:0;background:var(--ivory-soft);color:var(--charcoal);
+    margin:0;background:var(--ivory);color:var(--charcoal);
     font-family:var(--sans);font-weight:300;line-height:1.9;
     word-break:keep-all;overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
@@ -72,11 +75,12 @@
     color:var(--accent);font-weight:400;
   }
   .index{
-    font-family:var(--serif-en);font-size:13px;color:var(--accent);
-    letter-spacing:.06em;margin-bottom:26px;
+    font-family:"Poppins",var(--sans);font-size:11px;font-weight:600;
+    color:var(--accent);letter-spacing:.18em;text-transform:uppercase;
+    margin-bottom:26px;
   }
   .sec-title{
-    font-family:var(--serif-ko);font-weight:300;
+    font-family:var(--sans);font-weight:300;
     font-size:23px;line-height:1.65;letter-spacing:-.03em;
     margin-top:14px;
   }
@@ -98,7 +102,7 @@
     letter-spacing:.52em;color:var(--muted);
   }
   .hero h1{
-    margin:38px 0 0;font-family:var(--serif-ko);font-weight:300;
+    margin:38px 0 0;font-family:var(--sans);font-weight:300;
     font-size:clamp(29px,8vw,40px);line-height:1.55;letter-spacing:-.035em;
   }
   .hero-lead{
@@ -106,7 +110,7 @@
   }
 
   /* ---------- 01 소개 ---------- */
-  .about p{font-family:var(--serif-ko);font-size:16.5px;line-height:2.15;letter-spacing:-.01em}
+  .about p{font-family:var(--sans);font-size:16px;line-height:2.05;letter-spacing:-.01em;color:var(--ink2)}
   .about p + p{margin-top:26px}
   .about strong{font-weight:400;color:var(--accent)}
 
@@ -123,20 +127,20 @@
   }
   .step:last-child::after{display:none}
   .step h3{
-    font-family:var(--serif-en);font-size:19px;font-weight:400;
+    font-family:"Poppins",var(--sans);font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
     letter-spacing:.06em;line-height:1.2;
   }
   .step p{margin-top:6px;font-size:13.5px;color:var(--muted);line-height:1.9}
 
   /* ---------- 03 서비스 ---------- */
   .cards{margin-top:34px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
-  .card{background:var(--ivory-soft);padding:26px 22px}
+  .card{background:var(--card);padding:26px 22px}
   /* 홈페이지 '더할 수 있는 것' 목록(.price-extra-head)과 같은 형태 —
      이름은 왼쪽, 금액은 오른쪽 끝에 버건디로. */
   .card-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
-  .card-head h3{font-family:var(--serif-ko);font-size:16px;font-weight:400;letter-spacing:-.02em}
+  .card-head h3{font-family:var(--sans);font-size:15.5px;font-weight:500;letter-spacing:-.02em}
   .card-head span{
-    font-family:var(--serif-en);font-size:14px;letter-spacing:.03em;
+    font-family:"Poppins",var(--sans);font-size:13px;font-weight:600;letter-spacing:.04em;
     color:var(--accent);white-space:nowrap;
   }
   /* 본식 사회 금액은 홈페이지에서도 눌러야 보이도록 해둔 값이라,
@@ -151,12 +155,12 @@
   /* ---------- 04 기록(사진) ---------- */
   .gallery{margin-top:34px;display:grid;gap:12px}
   .shot{
-    position:relative;aspect-ratio:4/5;background:var(--ivory);
+    position:relative;aspect-ratio:4/5;background:var(--card);
     border:1px solid var(--line);overflow:hidden;
   }
   .shot .ph{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    font-family:var(--serif-en);font-size:12px;font-style:italic;letter-spacing:.08em;
+    font-family:"Poppins",var(--sans);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
     color:var(--muted);opacity:.6;
   }
   .shot img{position:relative;z-index:1}
@@ -166,7 +170,7 @@
   .note{padding:30px 0;border-bottom:1px solid var(--line)}
   .note:first-child{border-top:1px solid var(--line)}
   .note blockquote{
-    font-family:var(--serif-ko);font-weight:300;font-size:18px;line-height:1.85;
+    font-family:var(--sans);font-weight:400;font-size:17px;line-height:1.8;
     letter-spacing:-.02em;
   }
   .note cite{
@@ -180,7 +184,7 @@
     display:flex;align-items:baseline;justify-content:space-between;gap:18px;
     padding:20px 2px;border-bottom:1px solid var(--line);
   }
-  .link-row .lbl{font-family:var(--serif-en);font-size:15px;letter-spacing:.08em;color:var(--accent)}
+  .link-row .lbl{font-family:"Poppins",var(--sans);font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
   .link-row .val{font-size:12.5px;color:var(--muted);text-align:right}
   .link-row:hover .val{color:var(--charcoal)}
   /* 문의 줄은 다른 줄과 형태·글자를 똑같이 두고 음영만 더합니다.
@@ -195,7 +199,7 @@
 
   footer{
     padding:52px 0 66px;text-align:center;
-    font-family:var(--serif-en);font-size:12px;font-style:italic;letter-spacing:.06em;
+    font-family:"Poppins",var(--sans);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
     color:var(--muted);
   }
   footer .mark{
