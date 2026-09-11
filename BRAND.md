@@ -89,9 +89,16 @@ EVERAFTER가 시각적 주인공이고, YOUNGAE는 훨씬 작게 넓은 자간�
 
 | 쓰임 | 폰트 |
 |---|---|
-| 워드마크 | Poppins 800 (현재 사용 중) |
-| 영문 UI | Manrope 계열 |
-| 한글 본문·UI | Noto Sans KR |
+| 영문 헤드라인 · 워드마크 | **Archivo Black** |
+| 영문 작은 정보 · metadata | **Manrope** (STORY 01, QUESTION, No. 04 …) |
+| 한글 본문 · UI | **Noto Sans KR** |
+
+BOOK 이나 LETTER 처럼 고전적인 느낌이 필요할 때도 클래식 세리프로 도배하지
+않는다. 빈티지는 서체가 아니라 **종이 질감과 Silver 압인 같은 물성**으로
+표현한다.
+
+이미 발행된 인스타그램 Opening 트립틱(No.01–03)은 Poppins 900 으로 나갔다.
+게시물은 되돌릴 수 없으므로 그대로 두고, **No.04 부터 Archivo Black** 이다.
 
 한글 본문은 `word-break:keep-all`, 문장 단위로 줄을 나눈다.
 
