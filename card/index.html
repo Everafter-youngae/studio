@@ -110,13 +110,19 @@
   /* 홈페이지 .wordmark-a / .wordmark-b 와 같은 값입니다.
      자간 -.028em, YOUNGAE 는 800 에 .26em — 여기서 어긋나면 같은 브랜드로
      안 보입니다. home.css 를 고치면 여기도 같이 고치세요. */
+  /* EVERAFTER 폭에 YOUNGAE 를 맞춰 깝니다. 자간을 숫자로 주면 폰트나 크기가
+     바뀔 때마다 어긋나므로, .brand 를 inline-block(글자 폭만큼)으로 두고
+     글자를 균등 배분합니다. 인스타 오프닝 포스터와 같은 방식입니다. */
   .brand{
+    display:inline-block;
     font-family:"Poppins",sans-serif;font-weight:800;font-size:26px;
     letter-spacing:-.028em;line-height:1;color:var(--accent);text-transform:uppercase;
   }
   .brand small{
-    display:block;margin-top:9px;font-family:"Poppins",sans-serif;font-weight:800;
-    font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
+    display:flex;justify-content:space-between;
+    width:100%;margin:9px auto 0;
+    font-family:"Poppins",sans-serif;font-weight:800;
+    font-size:10.5px;letter-spacing:0;text-transform:uppercase;
     color:var(--night);opacity:.72;
   }
   .hero h1{
@@ -273,7 +279,7 @@
     <section class="hero">
       <div class="wrap">
         <img class="hero-dove" src="../assets/dove.png" alt="" width="520" height="520" loading="eager" decoding="async">
-        <p class="brand reveal">EVERAFTER<small>YOUNGAE</small></p>
+        <p class="brand reveal">EVERAFTER<small><span>Y</span><span>O</span><span>U</span><span>N</span><span>G</span><span>A</span><span>E</span></small></p>
         <h1 class="reveal">오래 기억될 하루를<br>함께 만듭니다.</h1>
         <p class="hero-lead reveal">
           결혼식을 진행합니다.<br>
