@@ -38,6 +38,7 @@
     --accent-deep:#2C5E70;  /* 눌렀을 때 */
   --accent-bright:#64AAC3; /* Glacier 원색 — 면·장식 전용, 글자로 쓰지 않음 */
   --banana:#FFEBB0;        /* Light Banana — 바탕으로만 */
+    --night:#0F2A33;         /* 홈페이지와 같은 잉크 */
     --card:#FFFFFF;          /* 강조할 블록만 순백으로 */
     --ink2:#5C5B55;          /* 보조 글자 */
     --ink3:#87857D;          /* 가장 여린 글자 */
@@ -93,7 +94,10 @@
   /* 글 기둥의 오른쪽 위에 얹습니다. 본문 폭 기준이라 화면이 넓어져도
      글자에서 멀어지지 않고, 좁아져도 겹치지 않습니다. */
   .hero-dove{
-    position:absolute;right:26px;top:-150px;width:122px;
+    position:absolute;right:22px;top:-158px;width:136px;
+    /* 전역 img 규칙이 height:100%/object-fit:cover 라 그대로 두면 세로로
+       늘어나 편지 쪽이 잘립니다. 여기서 되돌립니다. */
+    height:auto;object-fit:contain;
     pointer-events:none;user-select:none;
   }
   .hero{
@@ -103,13 +107,17 @@
   /* 워드마크. BRAND.md §3 — EVERAFTER 는 굵은 산세리프 대문자가 주인공이고,
      YOUNGAE 는 훨씬 작게 넓은 자간으로 받칩니다. 얇은 세리프로 돌리지 마세요.
      색은 --accent(#357289)입니다. Sky 원색은 아이보리 위에서 글자로 못 씁니다. */
+  /* 홈페이지 .wordmark-a / .wordmark-b 와 같은 값입니다.
+     자간 -.028em, YOUNGAE 는 800 에 .26em — 여기서 어긋나면 같은 브랜드로
+     안 보입니다. home.css 를 고치면 여기도 같이 고치세요. */
   .brand{
     font-family:"Poppins",sans-serif;font-weight:800;font-size:26px;
-    letter-spacing:-.02em;line-height:1;color:var(--accent);text-transform:none;
+    letter-spacing:-.028em;line-height:1;color:var(--accent);text-transform:uppercase;
   }
   .brand small{
-    display:block;margin-top:7px;font-weight:600;font-size:10px;
-    letter-spacing:.52em;color:var(--muted);
+    display:block;margin-top:9px;font-family:"Poppins",sans-serif;font-weight:800;
+    font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--night);opacity:.72;
   }
   .hero h1{
     margin:38px 0 0;font-family:var(--sans);font-weight:300;
@@ -230,7 +238,7 @@
   @media(min-width:700px){
     .wrap{max-width:620px;padding:0 40px}
     section{padding:112px 0}
-    .hero-dove{width:196px;top:-190px;right:40px}
+    .hero-dove{width:190px;top:-206px;right:36px}
     .hero{padding:130px 0 60px}
     .hero h1{font-size:44px}
     .hero-lead{font-size:15.5px;margin-top:34px}
