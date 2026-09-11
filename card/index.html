@@ -86,6 +86,16 @@
   }
 
   /* ---------- Hero ---------- */
+  /* 편지를 나르는 비둘기. 첫 화면 오른쪽에 조용히 둡니다.
+     아이보리 위 실버라 원래 여린 그림입니다 — 더 흐리게 만들지 않습니다. */
+  .hero{position:relative}
+  .hero .wrap{position:relative}
+  /* 글 기둥의 오른쪽 위에 얹습니다. 본문 폭 기준이라 화면이 넓어져도
+     글자에서 멀어지지 않고, 좁아져도 겹치지 않습니다. */
+  .hero-dove{
+    position:absolute;right:26px;top:-150px;width:122px;
+    pointer-events:none;user-select:none;
+  }
   .hero{
     min-height:100svh;display:flex;flex-direction:column;justify-content:center;
     padding:110px 0 46px;border-top:0;
@@ -191,11 +201,11 @@
      음영이 글자보다 조금 넓게 깔리도록 좌우 패딩을 주고, 그만큼 음수 마진으로
      당겨서 글자 시작점은 위 두 줄과 정확히 같은 자리에 둡니다. */
   .link-row--main{
-    background:rgba(58,125,150,.05);
+    background:rgba(255,235,176,.62);
     margin:0 -12px;padding:20px 14px;
     transition:background .4s ease;
   }
-  .link-row--main:hover{background:rgba(58,125,150,.085)}
+  .link-row--main:hover{background:rgba(255,235,176,.85)}
 
   footer{
     padding:52px 0 66px;text-align:center;
@@ -220,6 +230,7 @@
   @media(min-width:700px){
     .wrap{max-width:620px;padding:0 40px}
     section{padding:112px 0}
+    .hero-dove{width:196px;top:-190px;right:40px}
     .hero{padding:130px 0 60px}
     .hero h1{font-size:44px}
     .hero-lead{font-size:15.5px;margin-top:34px}
@@ -253,6 +264,7 @@
     <!-- ===== Hero ===== -->
     <section class="hero">
       <div class="wrap">
+        <img class="hero-dove" src="../assets/dove.png" alt="" width="520" height="520" loading="eager" decoding="async">
         <p class="brand reveal">EVERAFTER<small>YOUNGAE</small></p>
         <h1 class="reveal">오래 기억될 하루를<br>함께 만듭니다.</h1>
         <p class="hero-lead reveal">
