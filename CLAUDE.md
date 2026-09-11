@@ -16,6 +16,17 @@ The two repos now touch in three places, all loose couplings rather than shared 
 
 A third, private repo `Everafter-youngae/everafter-instagram` posts to the Instagram account through the official Graph API. It touches this repo in one place: Instagram fetches media from a public URL rather than accepting an upload, so that tool commits its 1080×1350 JPEGs into **`assets/ig/`** here and hands Instagram the Pages URL. Two consequences — a commit landing in `assets/ig/` that you didn't make is that tool, not a stray edit; and the card renderer there copies this site's `:root` tokens, so a palette change here has to be carried over.
 
+## Brand design system
+
+**`BRAND.md` 가 모든 디자인 판단의 최우선 기준입니다.** 색·타이포그래피·구성
+원칙이 거기 있고, 세 레포(studio · wedding-mc · everafter-instagram)가 같은
+시스템을 공유합니다. UI 를 고치기 전에 읽으세요.
+
+특히 색을 쓰기 전에 BRAND.md 의 "읽히는 글자의 규칙"을 확인하세요. 시그니처
+조합인 Banana/Sky 와 Ivory/Sky 는 대비가 2.2~2.6:1 이라 **본문으로 쓸 수
+없습니다.** Sky 바탕 위 글자는 Charcoal, Sky 를 글자로 쓸 때는 `#357289`
+입니다. 거대한 워드마크만 예외입니다.
+
 ## Development
 
 No build/lint/test tooling. Serve the directory and open a browser:
