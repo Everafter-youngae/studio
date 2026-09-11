@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Everafter (永愛) is a static marketing site for a wedding-ceremony emcee ("사회") service, deployed via GitHub Pages. There is no build system, package manager, or framework — just hand-written HTML/CSS/JS served directly.
 
-This repo is the public brand/landing site (hero, story, price, testimonials, inquiry form) plus a shareable one-page brand card. The client-facing tooling — MC script builder, couple questionnaire, script review, and post-ceremony "story" archive — lives in the sibling repo `Everafter-youngae/wedding-mc` (deployed at `everafter-youngae.github.io/wedding-mc/`), which is a separate codebase with its own visual language (functional/app-like, not the ivory/glacier-blue editorial look here) and its own CLAUDE.md. Don't assume shared components, styles, or data between the two repos.
+This repo is the public brand/landing site (hero, story, price, testimonials, inquiry form) plus a shareable one-page brand card. The client-facing tooling — MC script builder, couple questionnaire, script review, and post-ceremony "story" archive — lives in the sibling repo `Everafter-youngae/wedding-mc` (deployed at `everafter-youngae.github.io/wedding-mc/`), which is a separate codebase with its own CLAUDE.md. It used to carry a different visual language (wine/gold, cool greys); as of 2026-09-12 it shares this repo's palette via `BRAND.md` — ivory ground, sky-ink accents, night-family dark screens. Its layouts stay functional/app-like, but the colours and type are the same system. Don't assume shared components, styles, or data between the two repos.
 
 The two repos now touch in three places, all loose couplings rather than shared code:
 
