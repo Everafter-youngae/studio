@@ -241,7 +241,7 @@ if (dateInput) {
 
 // Google Apps Script Web App URL — deploy apps-script/inquiry-handler.gs
 // (see apps-script/README.md) and paste the resulting /exec URL here.
-const INQUIRY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzrhR-cqAzaY6ZaEwaid1US8wApfLWsuIldYYLJEyWkx5jOUB7dl_YF8PB9GlLhsN4c/exec';
+const INQUIRY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxvvAWuFjX35Lfzm92nooiOBwkkJbxCFelfHaaHb1w8kLBtZ5Hotlov4PBnwTDd3mCD/exec';
 
 // 개인정보 수집·이용 동의 문구 버전 — ask.html의 동의 박스 내용을 고치면 함께 올려주세요.
 const PRIVACY_VER = '1.0';
