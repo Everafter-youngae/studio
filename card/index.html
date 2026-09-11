@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="https://everafter-youngae.github.io/studio/assets/og-card-duck.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <!-- 등장 효과는 JS가 살아 있을 때만 켭니다. 이 클래스가 붙지 않으면
        .reveal 요소들은 처음부터 보이는 상태 — 스크립트가 실패해도
@@ -86,9 +86,16 @@
     min-height:100svh;display:flex;flex-direction:column;justify-content:center;
     padding:110px 0 46px;border-top:0;
   }
+  /* 워드마크. BRAND.md §3 — EVERAFTER 는 굵은 산세리프 대문자가 주인공이고,
+     YOUNGAE 는 훨씬 작게 넓은 자간으로 받칩니다. 얇은 세리프로 돌리지 마세요.
+     색은 --accent(#357289)입니다. Sky 원색은 아이보리 위에서 글자로 못 씁니다. */
   .brand{
-    font-family:var(--serif-en);font-size:13px;letter-spacing:.28em;
-    color:var(--accent);text-transform:uppercase;
+    font-family:"Poppins",sans-serif;font-weight:800;font-size:26px;
+    letter-spacing:-.02em;line-height:1;color:var(--accent);text-transform:none;
+  }
+  .brand small{
+    display:block;margin-top:7px;font-weight:600;font-size:10px;
+    letter-spacing:.52em;color:var(--muted);
   }
   .hero h1{
     margin:38px 0 0;font-family:var(--serif-ko);font-weight:300;
@@ -242,7 +249,7 @@
     <!-- ===== Hero ===== -->
     <section class="hero">
       <div class="wrap">
-        <p class="brand reveal">Everafter · 永愛</p>
+        <p class="brand reveal">EVERAFTER<small>YOUNGAE</small></p>
         <h1 class="reveal">오래 기억될 하루를<br>함께 만듭니다.</h1>
         <p class="hero-lead reveal">
           결혼식을 진행합니다.<br>
