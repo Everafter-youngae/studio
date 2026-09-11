@@ -4,7 +4,7 @@
 // Google Sheet에 연결된 Apps Script 프로젝트에 이 내용을 붙여넣고
 // 웹 앱으로 배포해야 합니다. 절차는 이 폴더의 README.md를 참고하세요.
 
-const NOTIFY_EMAIL = 'juhyeonjeon.lina@gmail.com';
+const NOTIFY_EMAIL = 'everafter.youngae@gmail.com';
 const SHEET_NAME = '문의';
 // 동의 관련 두 칸은 '상태'(7번째) 뒤에 붙입니다. 상태 칸 위치가 바뀌면
 // updateStatus가 엉뚱한 칸에 쓰게 되므로, 새 항목은 반드시 뒤에만 추가하세요.
