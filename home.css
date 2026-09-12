@@ -179,7 +179,8 @@ html.js .r.on{opacity:1;transform:none}
 .kicker span{margin-right:.5em;font-family:var(--serif-ko);text-transform:none;letter-spacing:.04em}
 
 .hero-mid{padding-block:clamp(24px,4vh,48px)}
-.wordmark{display:block;line-height:.84}
+/* 잠금 상자를 글자 폭만큼 잡아야 YOUNGAE 를 EVERAFTER 폭에 맞출 수 있습니다 */
+.wordmark{display:block;width:fit-content;line-height:.84}
 .wordmark-a{
   /* Poppins 800 은 이 문자열에서 글자 폭이 글자 크기의 약 5.30배입니다.
      지면의 94%를 채우도록 잡았고, 375px 에서도 좌우 여백이 남습니다
@@ -189,11 +190,15 @@ html.js .r.on{opacity:1;transform:none}
   color:var(--banana);text-transform:uppercase;
 }
 .wordmark-b{
-  display:block;margin-top:clamp(10px,1.6vw,26px);
+  /* 자간을 숫자로 주면 글자 크기가 바뀔 때마다 어긋납니다. EVERAFTER 폭에
+     맞춰 글자를 균등 배분합니다 — 명함·트립틱·고객 화면과 같은 방식입니다. */
+  display:flex;justify-content:space-between;width:100%;
+  margin-top:clamp(10px,1.6vw,26px);
   font-family:"Poppins",var(--sans);font-weight:800;
-  font-size:clamp(.9rem,2.1vw,1.9rem);letter-spacing:.26em;
-  text-transform:uppercase;color:var(--night);
+  font-size:clamp(.9rem,2.1vw,1.9rem);letter-spacing:0;
+  text-transform:uppercase;color:var(--paper);
 }
+.wordmark-b i{font-style:normal}
 
 .hero-bot{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(20px,3vh,34px)}
 .hero-line{

@@ -80,8 +80,17 @@ Y O U N G A E
 
 EVERAFTER가 시각적 주인공이고, YOUNGAE는 훨씬 작게 넓은 자간으로 받친다.
 
-- EVERAFTER: 굵은 geometric/grotesk 산세리프, 헤비 웨이트, 조이거나 통제된 자간
-- YOUNGAE: 작게, 넓은 자간
+- EVERAFTER: 굵은 geometric/grotesk 산세리프, 헤비 웨이트, 자간 `-.028em`
+- YOUNGAE: 작게, **EVERAFTER 폭에 맞춰 글자를 균등 배분**한다 (2026-09-12)
+
+> 자간을 숫자로 주면 글자 크기나 폰트가 바뀔 때마다 어긋난다. 잠금 상자를
+> 글자 폭만큼(`width:fit-content`) 잡고 YOUNGAE 를 `justify-content:space-between`
+> 으로 편다. 두 줄 사이 간격도 고정값이 아니라 글자 크기의 비율로 잡는다 —
+> 홈페이지는 0.105, 작은 잠금(명함·고객 화면)은 0.16. 작은 잠금에서는 YOUNGAE 가
+> EVERAFTER 의 0.42배라 홈 비율을 그대로 쓰면 붙어버린다.
+>
+> Sky 면 위에서 EVERAFTER 는 Banana, YOUNGAE 는 Ivory `#FFFDF5` 다. 아이보리 면
+> 위에서는 EVERAFTER 가 Sky Ink `#357289`, YOUNGAE 가 잉크다.
 - 웨딩 업계에 흔한 serif + script 조합을 피한다
 - 목표는 로맨틱한 웨딩 브랜드가 아니라 현대적인 editorial / culture / fashion 브랜드의 인상
 
