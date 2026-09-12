@@ -188,7 +188,16 @@ html.js .r.on{opacity:1;transform:none}
   display:block;font-family:"Poppins",var(--sans);font-weight:800;
   font-size:clamp(3.3rem,15.2vw,13.8rem);letter-spacing:-.028em;
   color:var(--banana);text-transform:uppercase;
+  /* E 의 왼쪽 여백만큼 당겨 글자가 기둥에 붙게 합니다. 이렇게 해야 아래
+     YOUNGAE·본문과 시작점이 맞습니다. 폰트 고유값이라 em 으로 둡니다. */
+  margin-left:-.055em;
 }
+/* 글자 사이 틈이 A-F 23px / F-T 4px 로 벌어져 있었습니다. A 의 사선 뒤는
+   넓어지고, F 의 윗팔과 T 의 왼쪽 팔은 같은 높이라 붙습니다. 이 두 짝만
+   되돌립니다 — 전체 자간을 건드리면 인상이 바뀝니다. */
+.wordmark-a i{font-style:normal}
+.wordmark-a .kf{margin-left:-.035em}
+.wordmark-a .kt{margin-left:.05em}
 .wordmark-b{
   /* 자간을 숫자로 주면 글자 크기가 바뀔 때마다 어긋납니다. EVERAFTER 폭에
      맞춰 글자를 균등 배분합니다 — 명함·트립틱·고객 화면과 같은 방식입니다. */
