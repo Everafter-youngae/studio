@@ -114,15 +114,18 @@
      바뀔 때마다 어긋나므로, .brand 를 inline-block(글자 폭만큼)으로 두고
      글자를 균등 배분합니다. 인스타 오프닝 포스터와 같은 방식입니다. */
   .brand{
+    --wm:26px;
     display:inline-block;
-    font-family:"Poppins",sans-serif;font-weight:800;font-size:26px;
+    font-family:"Poppins",sans-serif;font-weight:800;font-size:var(--wm);
     letter-spacing:-.028em;line-height:1;color:var(--accent);text-transform:uppercase;
   }
+  /* 두 줄 사이 간격도 글자 크기를 따라갑니다. 고정값이면 크기를 바꿀 때마다
+     어긋납니다. wedding-mc 의 잠금과 같은 비율(.16)입니다. */
   .brand small{
     display:flex;justify-content:space-between;
-    width:100%;margin:9px auto 0;
+    width:100%;margin:calc(var(--wm) * .16) auto 0;
     font-family:"Poppins",sans-serif;font-weight:800;
-    font-size:10.5px;letter-spacing:0;text-transform:uppercase;
+    font-size:calc(var(--wm) * .40);letter-spacing:0;text-transform:uppercase;
     color:var(--night);opacity:.72;
   }
   .hero h1{
