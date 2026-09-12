@@ -192,7 +192,10 @@ html.js .r.on{opacity:1;transform:none}
 .wordmark-b{
   /* 자간을 숫자로 주면 글자 크기가 바뀔 때마다 어긋납니다. EVERAFTER 폭에
      맞춰 글자를 균등 배분합니다 — 명함·트립틱·고객 화면과 같은 방식입니다. */
-  display:flex;justify-content:space-between;width:100%;
+  /* 폭을 100% 로 두면 큰 화면에서 글자 일곱 개가 흩뿌려집니다. 자기 글자
+     크기의 15배로 묶으면 어느 크기에서도 같은 밀도가 됩니다 — 작은 잠금
+     (명함·고객 화면)에서는 이 값이 EVERAFTER 폭보다 커서 100% 로 걸립니다. */
+  display:flex;justify-content:space-between;width:min(100%,15em);
   margin-top:clamp(10px,1.6vw,26px);
   font-family:"Poppins",var(--sans);font-weight:800;
   font-size:clamp(.9rem,2.1vw,1.9rem);letter-spacing:0;
