@@ -388,6 +388,7 @@ html.js .r.on{opacity:1;transform:none}
   font-size:clamp(26px,3.4vw,46px);line-height:1.45;letter-spacing:-.035em;
 }
 .lt-text{margin-top:26px;max-width:var(--measure);font-size:15.5px;color:#57544E}
+.lt-copy .lnk{margin-top:36px}
 
 /* 편지 한 장. 사진이 아니라 지면 위에 놓인 종이입니다. */
 .paper{
@@ -396,6 +397,8 @@ html.js .r.on{opacity:1;transform:none}
   border-top:3px solid var(--accent-bright);   /* Glacier 원색이 면으로 보이는 자리 */
   box-shadow:0 1px 0 rgba(34,34,34,.05);
 }
+a.paper{display:block;text-decoration:none;color:inherit;transition:box-shadow .4s ease,border-color .4s ease}
+a.paper:hover{box-shadow:0 8px 22px rgba(34,34,34,.08)}
 .paper-head{
   padding-bottom:18px;border-bottom:1px solid var(--line);
   font-family:var(--serif-en);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
