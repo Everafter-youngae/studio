@@ -42,7 +42,7 @@
       </div>
     </section>
 
-    <section class="review-list">
+    <section class="review-list" id="reviewList">
       <!-- 실제로 받은 답장에서 옮긴 문장만 둡니다. 예전에 있던 세 줄은 견본이라
            내렸습니다 (git 이력에 남아 있습니다). 지어낸 후기를 올려두지 않습니다.
            출처는 wedding-mc 빌더의 "편지 답장" — 공개 동의를 받은 것만 보입니다. -->
@@ -58,6 +58,44 @@
   </main>
 
   <footer><span>Everafter 永愛</span><a href="index.html">Back to home</a><a href="https://www.instagram.com/everafter_youngae" target="_blank" rel="noopener">@everafter_youngae</a><a href="https://everafter-youngae.github.io/wedding-mc/story.html" target="_blank" rel="noopener">두 분의 이야기 찾기</a><span>© 2026 Everafter</span></footer>
+  <script>
+  /* 후기는 빌더의 "편지 답장" 에서 올리고 내립니다. 여기서는 게시 표시된 것만
+     읽어 와 그립니다 — 후기를 하나 올릴 때마다 이 파일을 고치지 않기 위해서입니다.
+
+     HTML 에 박혀 있는 두 건은 그대로 둡니다. 불러오기가 실패해도 화면이 비지
+     않고, 검색엔진도 그 둘은 읽어 갑니다. 불러오기가 성공하면 통째로 갈아끼웁니다.
+
+     주소는 wedding-mc 와 같은 배포를 가리킵니다. 배포를 새로 만들면(배포 ID 가
+     바뀌면) 여기도 같이 고쳐야 합니다. */
+  (function () {
+    var GS = 'https://script.google.com/macros/s/AKfycbw6HINEV4aWui9p0LC4xAIHRgAs1p2qOCUoL78uRnNS-FKq4k4xCae8-BUScR4j1I7OSg/exec';
+    var list = document.getElementById('reviewList');
+    if (!list) return;
+
+    var esc = function (t) {
+      return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    };
+    var monthLabel = function (m) {
+      if (!/^\d{4}-\d{2}$/.test(String(m || ''))) return '영애씨';
+      return m.slice(2, 4) + '년 ' + Number(m.slice(5, 7)) + '월의 영애씨';
+    };
+
+    fetch(GS + '?reviews=1&cb=' + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j || !j.ok || !j.reviews || !j.reviews.length) return;
+        list.innerHTML = j.reviews.map(function (rv, i) {
+          var body = esc(String(rv.text || '').trim()).replace(/\n+/g, '<br>');
+          /* 이미 화면에 들어온 뒤에 그리므로 관찰자가 잡지 못합니다.
+             visible 을 같이 붙여 바로 보이게 합니다. */
+          return '<article class="review-entry reveal visible"><span>'
+            + String(i + 1).padStart(2, '0') + '</span><blockquote>\u201C'
+            + body + '\u201D</blockquote><cite>' + esc(monthLabel(rv.month)) + '</cite></article>';
+        }).join('');
+      })
+      .catch(function () { /* 불러오지 못하면 HTML 에 박힌 두 건이 그대로 남습니다 */ });
+  })();
+  </script>
   <script src="script.js?v=17"></script>
 </body>
 </html>
