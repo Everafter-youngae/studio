@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Noto+Sans+KR:wght@300&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=18">
+  <link rel="stylesheet" href="style.css?v=19">
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="subpage review-page">
@@ -42,12 +42,12 @@
       </div>
     </section>
 
-    <section class="review-list" id="reviewList">
+    <section class="review-list few" id="reviewList">
       <!-- 실제로 받은 답장에서 옮긴 문장만 둡니다. 예전에 있던 세 줄은 견본이라
            내렸습니다 (git 이력에 남아 있습니다). 지어낸 후기를 올려두지 않습니다.
            출처는 wedding-mc 빌더의 "편지 답장" — 공개 동의를 받은 것만 보입니다. -->
-      <article class="review-entry reveal"><span>01</span><blockquote>“지인 추천으로 사회자님을 알게 되었는데<br>제 결혼식 이후에는 제가 더 많이 추천하고 다녀요.<br>제 결혼식을 빛나게 해주신 분들 중 한 분입니다.”</blockquote><cite>22년 4월의 영애씨</cite></article>
-      <article class="review-entry reveal"><span>02</span><blockquote>“대본 숙지가 되어 있는 상태에서<br>당일 진행되는 것을 보니<br>감동적인 느낌이었습니다.”</blockquote><cite>26년 8월의 영애씨</cite></article>
+      <article class="review-entry reveal q-mid"><span>01</span><blockquote class="q-mid"><p>“지인 추천으로 사회자님을 알게 되었는데<br>제 결혼식 이후에는 제가 더 많이 추천하고 다녀요.<br>제 결혼식을 빛나게 해주신 분들 중 한 분입니다.”</p></blockquote><cite>22년 4월의 영애씨</cite></article>
+      <article class="review-entry reveal"><span>02</span><blockquote><p>“대본 숙지가 되어 있는 상태에서<br>당일 진행되는 것을 보니<br>감동적인 느낌이었습니다.”</p></blockquote><cite>26년 8월의 영애씨</cite></article>
     </section>
 
     <section class="review-cta reveal">
@@ -86,19 +86,51 @@
         if (!j || !j.ok || !j.reviews || !j.reviews.length) return;
         list.innerHTML = j.reviews.map(function (rv, i) {
           var raw = String(rv.text || '').trim();
-          var body = esc(raw).replace(/\n+/g, '<br>');
-          /* 한 줄짜리부터 여러 문단까지 오므로 길이에 따라 글자를 한 급씩 내립니다 */
-          var size = raw.length > 140 ? ' q-long' : (raw.length > 60 ? ' q-mid' : '');
+          /* '둘 다 올리기' 로 발행하면 한 줄평과 좋았던 순간이 빈 줄로 이어져
+             옵니다. 빈 줄은 문단으로, 한 번 꺾인 줄만 <br> 로 둡니다 —
+             전부 <br> 로 밀어버리면 두 이야기가 한 덩어리로 붙어버립니다. */
+          var blocks = raw.split(/\n{2,}/).map(function (t) { return t.trim(); }).filter(Boolean);
+          /* 빈 줄 없이 길게 한 덩어리로 적어주신 답장이 많습니다. 열다섯 줄이
+             한 문단이면 눈이 쉴 곳이 없어서, 문장이 끝나는 자리에서만 두세
+             문장씩 끊어 문단을 나눕니다. 글자는 건드리지 않습니다. */
+          var paras = [];
+          blocks.forEach(function (t) {
+            if (t.length <= 170) { paras.push(t); return; }
+            var sents = t.match(/[^.!?…]+[.!?…]+["'\u201D]?\s*|[^.!?…]+$/g) || [t];
+            var buf = '';
+            sents.forEach(function (sn) {
+              buf += sn;
+              if (buf.length >= 140) { paras.push(buf.trim()); buf = ''; }
+            });
+            buf = buf.trim();
+            if (buf) {
+              /* 마지막 조각이 한 문장뿐이면 앞 문단에 붙입니다 */
+              if (paras.length && buf.length < 60) paras[paras.length - 1] += ' ' + buf;
+              else paras.push(buf);
+            }
+          });
+          var body = paras.map(function (t, ix) {
+            var h = esc(t).replace(/\n/g, '<br>');
+            if (ix === 0) h = '\u201C' + h;
+            if (ix === paras.length - 1) h = h + '\u201D';
+            return '<p>' + h + '</p>';
+          }).join('');
+          /* 한 줄짜리부터 여러 문단까지 오므로 길이에 따라 글자를 한 급씩 내리고
+             카드 여백도 같이 조정합니다. 클래스는 카드와 인용문 양쪽에 붙입니다. */
+          var size = raw.length > 140 ? 'q-long' : (raw.length > 60 ? 'q-mid' : '');
           /* 이미 화면에 들어온 뒤에 그리므로 관찰자가 잡지 못합니다.
              visible 을 같이 붙여 바로 보이게 합니다. */
-          return '<article class="review-entry reveal visible"><span>'
-            + String(i + 1).padStart(2, '0') + '</span><blockquote class="' + size.trim() + '">\u201C'
-            + body + '\u201D</blockquote><cite>' + esc(monthLabel(rv.month)) + '</cite></article>';
+          return '<article class="review-entry reveal visible ' + size + '"><span>'
+            + String(i + 1).padStart(2, '0') + '</span><blockquote class="' + size + '">'
+            + body + '</blockquote><cite>' + esc(monthLabel(rv.month)) + '</cite></article>';
         }).join('');
+        /* 후기가 두 건뿐이면 두 단으로 벌렸을 때 한쪽이 비어 보입니다.
+           세 건부터 카드가 서로 채워집니다. */
+        list.classList.toggle('few', j.reviews.length < 3);
       })
       .catch(function () { /* 불러오지 못하면 HTML 에 박힌 두 건이 그대로 남습니다 */ });
   })();
   </script>
-  <script src="script.js?v=18"></script>
+  <script src="script.js?v=19"></script>
 </body>
 </html>
