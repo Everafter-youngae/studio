@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Noto+Sans+KR:wght@300&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=18">
   <script data-goatcounter="https://everafter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="subpage review-page">
@@ -85,17 +85,20 @@
       .then(function (j) {
         if (!j || !j.ok || !j.reviews || !j.reviews.length) return;
         list.innerHTML = j.reviews.map(function (rv, i) {
-          var body = esc(String(rv.text || '').trim()).replace(/\n+/g, '<br>');
+          var raw = String(rv.text || '').trim();
+          var body = esc(raw).replace(/\n+/g, '<br>');
+          /* 한 줄짜리부터 여러 문단까지 오므로 길이에 따라 글자를 한 급씩 내립니다 */
+          var size = raw.length > 140 ? ' q-long' : (raw.length > 60 ? ' q-mid' : '');
           /* 이미 화면에 들어온 뒤에 그리므로 관찰자가 잡지 못합니다.
              visible 을 같이 붙여 바로 보이게 합니다. */
           return '<article class="review-entry reveal visible"><span>'
-            + String(i + 1).padStart(2, '0') + '</span><blockquote>\u201C'
+            + String(i + 1).padStart(2, '0') + '</span><blockquote class="' + size.trim() + '">\u201C'
             + body + '\u201D</blockquote><cite>' + esc(monthLabel(rv.month)) + '</cite></article>';
         }).join('');
       })
       .catch(function () { /* 불러오지 못하면 HTML 에 박힌 두 건이 그대로 남습니다 */ });
   })();
   </script>
-  <script src="script.js?v=17"></script>
+  <script src="script.js?v=18"></script>
 </body>
 </html>
