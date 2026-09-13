@@ -422,7 +422,7 @@ a.paper:hover{box-shadow:0 8px 22px rgba(34,34,34,.08)}
 /* 장식입니다. 읽을 것이 아니므로 Glacier 원색을 그대로 씁니다. */
 .ar-bars{display:block;width:100%;height:34px;margin-top:26px;color:var(--accent-bright);opacity:.9}
 .ar-note{margin-top:26px;font-size:13.5px;line-height:1.9;color:var(--muted)}
-.ar .lnk{margin-top:30px}
+.ar .lnk{margin-top:14px}
 
 /* ── 09 PRICE ────────────────────────────────────────────────────────── */
 
