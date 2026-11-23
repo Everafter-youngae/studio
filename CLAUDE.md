@@ -76,6 +76,20 @@ Related: the working tree may hold **someone else's in-progress edits**. Stage d
 
 That churn also ages this file faster than you'd expect — four of the behaviour notes below were wrong within a week of being written, describing a hero video and a progress label that had since been deleted. Grep the code before relying on one, and fix it in place when it turns out stale.
 
+## 사회자 시뮬레이션 (`taste/`)
+
+Voice 구간의 개식사 재생기 아래, 이름을 넣으면 픽셀 예식장에서 사회자의 실제 목소리로 1분짜리 예식(착석 안내 → 개식 선언 → 신랑 입장 → 신부 입장 → 행진)이 열리는 자리입니다. 화면에 보이는 이름은 "사회자 시뮬레이션"이고, 폴더·id 에 남은 `taste` 는 처음 이름("결혼식 맛보기")의 흔적입니다.
+
+- **한 파일, 두 쓰임.** `taste/index.html` 은 혼자서도 열리는 페이지(공유 링크용, 자체 들어가는 화면 있음)이면서, 홈페이지에서는 `<iframe src="taste/?embed=1">` 로 품깁니다. `?embed` 가 붙으면 들어가는 화면과 워터마크를 감춥니다. 이름 입력은 `index.html` 의 `#tasteForm` 이 받고, `home.js` 가 **누르는 그 순간에** 틀 안의 `tasteStart(g,b)` 를 직접 부릅니다 — 휴대폰은 손가락이 닿은 호출 흐름 안에서만 소리를 열어 주기 때문입니다. `postMessage` 나 `setTimeout` 으로 바꾸면 아이폰에서 소리가 안 납니다.
+- **그림은 전부 코드가 그립니다.** 이미지 파일이 없습니다. `Grid`(점 찍는 도구) → `chibi()`(인물) · `bust()`(대사 상자의 사회자 얼굴) · `buildBg()`(예식장). 예식장은 고정된 한 장이 아니라 `layout()` 이 화면 크기에 맞춰 줄·칸 수를 새로 계산합니다.
+- **저작권 기준 (지킬 것).** 인물·배경은 이 파일의 원작, 화풍만 2000년대 아바타풍. 신랑·신부 입장곡은 새로 지은 선율, 행진곡은 멘델스존 결혼행진곡(1842, 퍼블릭 도메인)을 음표 단위로 합성. 박수·웅성임도 합성음입니다. **기존 가요·팝의 멜로디나 음원, 실제 예식 영상의 소리(배경 음악·하객 목소리가 섞임)를 넣지 않습니다.** 대사 글꼴 Galmuri 는 SIL OFL.
+- **목소리 파일.** `assets/audio/taste/{wait,open,groom,bride,march}.m4a` 와 `names/g_<신랑이름>.m4a`("지금부터, ○○님과") · `names/b_<신부이름>.m4a`("○○님의 결혼식을 시작하겠습니다."). 신랑·신부 조각이 **둘 다** 있을 때만 이어 붙여 이름을 부르고 자막에도 이름을 넣습니다. 하나라도 없으면 `open.m4a`("두 사람의 결혼식을…")로 말하고 자막도 그 문장입니다 — 자막은 언제나 들리는 말과 같아야 합니다. 파일 이름의 한글은 NFC 여야 합니다(리눅스 서버는 자모가 풀린 이름을 다른 파일로 봅니다).
+- **울림은 파일에 굽지 않습니다.** 녹음은 마른 채로 두고, 재생할 때 `HALL` 상수(잔향·되울림·낮은 음 보강)로 입힙니다. "에코가 과하다/밋밋하다"는 요청은 그 숫자만 고치면 됩니다.
+- **시계.** `wait()`·걸음·자막은 `setTimeout` 이 아니라 화면이 보일 때만 가는 `clock` 을 봅니다. 화면 밖으로 밀려나거나 탭이 가려지면 그림·소리·순서가 함께 멈춥니다. 새 연출을 넣을 때 `setTimeout` 을 쓰면 그것만 혼자 흘러가 어긋납니다.
+- **이름을 추가로 녹음하면** 조용한 방에서 같은 거리로 녹음 → 문장별로 잘라 앞뒤 무음 정리·크기 맞춤 → 위 경로에 넣으면 끝입니다. 그리고 `taste/index.html` 의 `NAMES` 목록에 그 이름을 적습니다 — 목록에 없는 이름은 파일을 찾으러 가지도 않습니다(입력한 이름이 요청 주소에 실려 서버 기록에 남지 않게 하려는 것). 이 맥에는 `ffmpeg` 가 없어 `afconvert` 와 파이썬으로 처리했습니다.
+- 입력한 이름은 어디에도 보내거나 저장하지 않습니다. 집계를 붙이게 되더라도 이름 자체는 남기지 않습니다.
+- 소리는 헤드리스 검증으로 확인할 수 없습니다. Playwright 에서 m4a 를 디코드하려면 `chromium.launch({channel:'chrome'})` (번들 Chromium 은 AAC 가 없음), 그리고 `--mute-audio` 를 꼭 붙이세요 — 안 붙이면 사용자의 스피커로 실제 소리가 납니다.
+
 ## Architecture
 
 - `index.html` — landing one-pager (hero, story, Beautiful Curiosity band, ceremony, what-we-do, voice sample, price)

@@ -275,6 +275,26 @@ html.js .r.on{opacity:1;transform:none}
   background:var(--night);color:var(--ivory);
 }
 .vx-head{margin-bottom:clamp(56px,8vw,104px)}
+/* 사회자 시뮬레이션. 재생기와 같은 두 칸 — 왼쪽은 이름을 받는 글, 오른쪽은 예식장 화면.
+   입력칸은 상자가 아니라 밑줄 하나입니다 (.lnk 와 같은 말투). */
+.vx-taste{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);column-gap:clamp(40px,6vw,110px);row-gap:40px;align-items:start;
+  margin-top:clamp(64px,9vw,120px);padding-top:clamp(36px,4.4vw,56px);border-top:1px solid var(--night-line);
+}
+.vx-taste-form{margin-top:clamp(32px,4vw,52px)}
+.vx-taste-names{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px);max-width:400px}
+.vx-taste-names label{display:block;font-size:11px;letter-spacing:.2em;color:var(--night-muted)}
+.vx-taste-names input{
+  display:block;width:100%;height:50px;margin-top:2px;padding:0;border:0;border-bottom:1px solid rgba(255,253,245,.3);border-radius:0;
+  background:transparent;font-family:var(--serif-ko);font-weight:300;font-size:24px;letter-spacing:-.02em;color:var(--ivory);outline:none;transition:border-color .3s ease;
+}
+.vx-taste-names input::placeholder{color:rgba(255,253,245,.3)}
+.vx-taste-names input:focus{border-bottom-color:var(--banana)}
+.vx-taste-lnk{margin-top:clamp(28px,3.6vw,44px);font-size:15px;color:var(--banana);border-bottom:1px solid rgba(255,235,176,.4)}
+.vx-taste-lnk:hover{border-bottom-color:var(--banana)}
+.vx-taste-hint{margin-top:20px;font-size:12.5px;line-height:1.8;color:var(--night-muted)}
+.vx-taste-stage iframe{display:block;width:100%;height:clamp(540px,78vh,680px);border:0;background:var(--night)}
+@media (max-width:1024px){.vx-taste{grid-template-columns:minmax(0,1fr)}.vx-taste-stage{margin-inline:calc(var(--pad) * -1)}.vx-taste-stage iframe{height:min(640px,86svh)}}
 .vx-lead{
   font-family:var(--serif-ko);font-weight:300;
   font-size:clamp(24px,3.4vw,46px);line-height:1.5;letter-spacing:-.03em;color:var(--ivory);

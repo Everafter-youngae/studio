@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>사회자 시뮬레이션 — Everafter Youngae</title>
+<meta name="description" content="두 분의 이름을 넣으면, 사회자가 그 이름으로 예식을 엽니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Everafter Youngae">
+<meta property="og:title" content="사회자 시뮬레이션 — Everafter Youngae">
+<meta property="og:description" content="두 분의 이름을 넣으면, 사회자가 그 이름으로 예식을 엽니다.">
+<meta property="og:url" content="https://everafter-youngae.github.io/studio/taste/">
+<meta property="og:image" content="https://everafter-youngae.github.io/studio/assets/og-sim.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&family=Noto+Serif+KR:wght@300&family=Poppins:wght@800&display=swap" rel="stylesheet">
+<!-- 대사 상자의 픽셀 글꼴. 갈무리(Galmuri)는 SIL Open Font License 1.1 — 상업적 사용·웹 임베드 모두 허용. -->
+<link href="https://cdn.jsdelivr.net/npm/galmuri@2.39.3/dist/galmuri.css" rel="stylesheet" integrity="sha384-DDR/q6GLDnWR33AvWbqXNh9NlwRSC45VpHU2UDBwdQ22fg7lCF2fDXpAW53pOpGC" crossorigin="anonymous">
+<!--
+  저작권 메모 — 이 페이지의 모든 그림·소리는 아래 코드가 그 자리에서 만들어 냅니다.
+  · 그림: 인물·예식장 모두 이 파일의 코드가 점 하나씩 찍어 그린 것. 외부 이미지·남의 캐릭터를 쓰지 않습니다.
+          (큰 머리·큰 눈의 2000년대 아바타풍은 '화풍'일 뿐, 특정 게임의 캐릭터·의상·배경을 옮기지 않습니다.)
+  · 입장곡: 신랑·신부 입장곡은 이 페이지를 위해 새로 지은 선율, 행진곡은 멘델스존 결혼행진곡(1842, 퍼블릭 도메인) — 모두 직접 합성하며 남의 녹음본을 쓰지 않습니다.
+  · 박수·웅성임: 잡음을 걸러서 만든 합성음.
+  · 사회자 목소리: assets/audio/taste/*.m4a (직접 녹음). 파일이 없으면 소리 없이 글만 나옵니다.
+-->
+<style>
+:root{--sky:#64AAC3;--ink:#357289;--deep:#2C5E70;--banana:#FFEBB0;--ivory:#FFFDF5;--soft:#FFF8E4;--char:#222;--night:#0F2A33;--pad:clamp(24px,6vw,120px);--serif:'Noto Serif KR',serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--night);color:var(--char);font-family:'Noto Sans KR',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow:hidden;word-break:keep-all}
+button,input{font:inherit;color:inherit}
+
+/* 들어가는 화면 — 홈페이지 대문과 같은 말투: Sky 면, 가는 글자, 밑줄 하나짜리 링크.
+   상자·굵은 버튼·그림자는 쓰지 않습니다 (home.css 의 .hero · .say · .lnk · .kicker 를 따름) */
+#intro{position:fixed;inset:0;z-index:5;background:var(--sky);color:var(--night);display:flex;flex-direction:column;justify-content:space-between;gap:40px;
+  padding:clamp(26px,5vh,56px) var(--pad) calc(clamp(36px,8vh,84px) + env(safe-area-inset-bottom));overflow:auto;transition:opacity .6s;line-height:1.85}
+#intro.out{opacity:0;pointer-events:none}
+.in-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.75;text-align:right}
+.mark{display:inline-flex;flex-direction:column;width:fit-content;text-decoration:none}
+.mark b{font-family:Poppins,sans-serif;font-weight:800;font-size:22px;letter-spacing:-.028em;line-height:1;color:var(--banana)}
+.mark i{font-style:normal;display:flex;justify-content:space-between;font-family:Poppins,sans-serif;font-weight:800;font-size:9.2px;margin-top:3.5px;color:var(--night)}
+.in-wrap{width:100%;max-width:620px}
+#intro h1{font-family:var(--serif);font-weight:300;font-size:clamp(42px,7.4vw,88px);line-height:1.22;letter-spacing:-.035em}
+#intro .lead{margin-top:clamp(16px,2.6vh,26px);font-size:16px}
+.names{margin-top:clamp(34px,6vh,60px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,44px);max-width:440px}
+.names label{display:block;font-size:11px;letter-spacing:.2em;opacity:.75}
+.names input{width:100%;height:50px;padding:0;border:0;border-bottom:1px solid rgba(15,42,51,.45);border-radius:0;background:transparent;font-family:var(--serif);font-weight:300;font-size:26px;letter-spacing:-.02em;color:var(--night);outline:none;transition:border-color .3s}
+.names input::placeholder{color:rgba(15,42,51,.4)}
+.names input:focus{border-bottom-color:var(--night);box-shadow:0 1px 0 var(--night)}
+.go{margin-top:clamp(30px,5vh,48px);display:inline-flex;align-items:baseline;gap:.5em;padding:0 0 6px;border:0;border-bottom:1px solid rgba(15,42,51,.4);background:none;font-size:16px;letter-spacing:.02em;color:var(--night);cursor:pointer;transition:border-color .35s}
+.go i{font-style:normal;font-size:.92em;transition:transform .35s}
+.go:hover{border-bottom-color:var(--night)}.go:hover i{transform:translateX(4px)}
+.hint{margin-top:20px;font-size:13px;opacity:.75}
+
+/* 예식장 */
+#hall{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding-top:30px;padding-bottom:env(safe-area-inset-bottom)}
+@media (min-width:1180px){#hall{padding-top:0}}
+#frame{position:relative;line-height:0}
+#view{display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+#banner{position:absolute;left:50%;transform:translateX(-50%);font-family:Galmuri11,monospace;line-height:1;white-space:nowrap;background:var(--ivory);color:var(--night);border:1px solid var(--night);opacity:0;transition:opacity 1.2s}
+#banner.on{opacity:1}
+#wm{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;background:var(--sky);padding:6px 8px 6px;border:1px solid var(--night);line-height:1;pointer-events:none}
+.embed #wm{display:none}   /* 홈페이지 안에서는 이미 Everafter 지면 위 */
+#wm b{font-family:Poppins,sans-serif;font-weight:800;font-size:13px;letter-spacing:-.028em;line-height:1;color:var(--banana)}
+#wm i{font-style:normal;display:flex;justify-content:space-between;font-family:Poppins,sans-serif;font-weight:800;font-size:5.5px;margin-top:2.2px;color:var(--ivory)}
+@media (min-width:900px){#wm{padding:8px 11px}#wm b{font-size:18px}#wm i{font-size:7.6px;margin-top:3px}}
+#skip{position:absolute;right:8px;bottom:8px;height:30px;padding:0 10px;border:1px solid var(--night);background:var(--ivory);color:var(--night);font-family:Galmuri11,monospace;font-size:12px;line-height:1;cursor:pointer}
+#skip[hidden]{display:none}
+#mute{position:absolute;top:8px;right:8px;width:34px;height:34px;border:1px solid var(--night);background:var(--ivory);color:var(--night);font-family:Galmuri11,monospace;font-size:13px;line-height:1;cursor:pointer}
+
+/* 대사 상자 — 사회자가 주인공 */
+#dlg{position:relative;display:flex;gap:12px;align-items:flex-start;background:var(--ivory);border:1px solid var(--night);padding:10px;cursor:pointer;opacity:0;transition:opacity .4s}
+#dlg.on{opacity:1}
+#face{flex:none;image-rendering:pixelated;image-rendering:crisp-edges;background:var(--banana);border:1px solid var(--night)}
+#dlg .who{font-family:Galmuri11,monospace;font-size:12px;line-height:1;color:var(--ink);margin:4px 0 8px}
+#line{font-family:Galmuri11,monospace;font-size:15px;line-height:1.65}
+@media (min-width:900px){#dlg{gap:18px;padding:14px}#dlg .who{font-size:14px;margin:8px 0 12px}#line{font-size:20px}}
+
+/* 끝 화면 · 소리 안내 — 아이보리 종이 한 장, 밑줄 링크 */
+#end{position:fixed;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,42,51,.62);opacity:0;pointer-events:none;transition:opacity .8s;line-height:normal}
+#end.on{opacity:1;pointer-events:auto}
+.card{width:100%;max-width:340px;background:var(--ivory);padding:clamp(26px,5vw,36px) clamp(22px,5vw,32px) clamp(24px,5vw,32px)}
+.card{max-height:100%;overflow:auto}
+#photo{display:block;width:100%;max-height:min(46vh,360px);object-fit:contain;object-position:left top;margin-bottom:18px}
+#photo:not([src]){display:none}
+.card .tip{margin-top:14px;font-size:12px;color:#6E6A64}
+.card p{font-size:15px;line-height:1.85}
+.card .big{font-family:var(--serif);font-weight:300;font-size:25px;line-height:1.45;letter-spacing:-.03em;margin-bottom:12px}
+.card .acts{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:22px}
+.card a,.card button{display:inline-flex;align-items:baseline;gap:.5em;padding:6px 0 5px;border:0;border-bottom:1px solid rgba(34,34,34,.2);background:none;font-size:14px;letter-spacing:.02em;color:var(--ink);text-decoration:none;cursor:pointer}
+.card .pri{color:var(--char);border-bottom-color:var(--char)}
+#snd{position:fixed;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(15,42,51,.5);opacity:0;pointer-events:none;transition:opacity .25s}
+#snd.on{opacity:1;pointer-events:auto}
+
+/* 식순 — 휴대폰은 예식장 위에 한 줄, 넓은 화면은 왼쪽에 세로로 */
+#steps{position:absolute;left:0;right:0;bottom:calc(100% + 6px);display:flex;justify-content:center;gap:4px;list-style:none;line-height:1}
+#steps button{border:0;border-bottom:1px solid transparent;background:none;margin:0 6px;padding:6px 0 4px;font-family:'Noto Sans KR',sans-serif;font-weight:300;font-size:12px;letter-spacing:.06em;line-height:1;color:rgba(255,253,245,.45);cursor:pointer;white-space:nowrap}
+#steps .done button{color:var(--ivory)}
+#steps .now button{color:var(--banana);border-bottom-color:rgba(255,235,176,.55)}
+@media (min-width:1180px){#steps{left:auto;right:calc(100% + 28px);bottom:auto;top:8px;flex-direction:column;align-items:flex-end;gap:12px}#steps button{font-size:13px;margin:0}}
+/* 홈페이지 Voice 구간 안에 품겼을 때 — 들어가는 화면은 홈페이지가 대신합니다 */
+.embed #intro{display:none}
+@media (min-width:481px){.embed #steps{justify-content:flex-start}.embed #steps li:first-child button{margin-left:0}}
+</style>
+</head>
+<body>
+<script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed')</script>
+
+<section id="intro">
+  <div class="in-top">
+    <a class="mark" href="../" aria-label="Everafter Youngae 홈으로"><b>EVERAFTER</b><i><span>Y</span><span>O</span><span>U</span><span>N</span><span>G</span><span>A</span><span>E</span></i></a>
+    <p class="kicker">Simulation<br>1 min · Sound on</p>
+  </div>
+  <div class="in-wrap">
+    <h1>사회자 시뮬레이션</h1>
+    <p class="lead">두 분의 이름을 넣어 주세요.<br>사회자가 그 이름으로 예식을 엽니다.</p>
+    <form id="form" autocomplete="off">
+      <div class="names">
+        <div><label for="g">신랑</label><input id="g" maxlength="8" placeholder="민수" enterkeyhint="next"></div>
+        <div><label for="b">신부</label><input id="b" maxlength="8" placeholder="지영" enterkeyhint="go"></div>
+      </div>
+      <button class="go" type="submit">입장하기 <i aria-hidden="true">→</i></button>
+    </form>
+    <p class="hint">실제 사회자의 목소리로 진행됩니다.</p>
+  </div>
+</section>
+
+<div id="snd" role="dialog" aria-labelledby="sndT">
+  <div class="card">
+    <p class="big" id="sndT">소리를 켜 주세요</p>
+    <p>사회자의 실제 목소리와 음악으로 진행됩니다. 무음 모드라면 잠시 풀어 주세요.</p>
+    <div class="acts"><button class="pri" id="sndOn" type="button">소리 켜고 입장 →</button>
+    <button id="sndOff" type="button">소리 없이 보기</button></div>
+  </div>
+</div>
+
+<section id="hall" aria-live="polite">
+  <div id="frame">
+    <ol id="steps" aria-label="식순"></ol>
+    <canvas id="view" width="200" height="300" aria-label="픽셀 예식장"></canvas>
+    <div id="banner"></div>
+    <div id="wm" aria-label="Everafter Youngae"><b>EVERAFTER</b><i><span>Y</span><span>O</span><span>U</span><span>N</span><span>G</span><span>A</span><span>E</span></i></div>
+    <button id="mute" type="button" aria-label="소리 끄기">♪</button>
+    <button id="skip" type="button" hidden>건너뛰기 ›</button>
+    <div id="end">
+      <div class="card">
+        <img id="photo" alt="두 분의 이름이 적힌 기념사진">
+        <p class="big">실제 예식에서는<br>두 분의 이야기로 채웁니다.</p>
+        <div class="acts"><a class="pri" href="../ask.html" target="_top">두 분의 이야기를 들려주세요 →</a>
+        <button id="save" type="button">사진 저장</button>
+        <button id="again" type="button">다시 보기</button></div>
+        <p class="tip">사진을 길게 눌러 저장할 수도 있습니다.</p>
+      </div>
+    </div>
+  </div>
+  <div id="dlg">
+    <canvas id="face" width="54" height="54"></canvas>
+    <div><p class="who">사회자 · EVERAFTER</p><p id="line"></p></div>
+  </div>
+</section>
+
+<script>
+/* ───────── 대본 ─────────
+   say  = 사회자가 실제로 소리 내어 말하는 문장. 이름이 들어가지 않습니다 — 녹음은 이 문장 그대로.
+   show = 그 이름의 녹음이 있을 때 뜨는 글 (개식 선언만). 자막은 언제나 들리는 말과 같습니다.
+   녹음 파일: assets/audio/taste/<id>.m4a  (없으면 소리 없이 글만) */
+const SCRIPT={
+  wait :{say:'잠시 후 예식이 시작됩니다. 하객 여러분께서는 자리에 앉아 주시기 바랍니다.'},
+  open :{say:'지금부터, 두 사람의 결혼식을 시작하겠습니다.',show:'지금부터, {g}님과 {b}님의 결혼식을 시작하겠습니다.'},
+  groom:{say:'먼저, 신랑 입장이 있겠습니다. 큰 박수로 맞아 주십시오.'},
+  bride:{say:'이어서, 오늘 가장 아름다운 신부가 입장합니다.'},
+  march:{say:'이제 부부로서 첫걸음을 내딛는 두 사람에게, 가장 큰 박수를 보내 주십시오. 신랑 신부, 행진!'}
+};
+const AUDIO_DIR='../assets/audio/taste/';
+/* 이름 녹음 (있을 때만): names/g_<신랑이름>.m4a = "지금부터, ○○님과"  ·  names/b_<신부이름>.m4a = "○○님의 결혼식을 시작하겠습니다."
+   둘 다 있으면 개식 선언을 이 두 조각으로 이어 말하고, 하나라도 없으면 open.m4a 로 말합니다. */
+const STEPS=[['wait','착석 안내'],['open','개식 선언'],['groom','신랑 입장'],['bride','신부 입장'],['march','행진']];
+
+/* ───────── 색 ───────── */
+const C={sky:'#64AAC3',skyL:'#8FC6D8',ink:'#357289',deep:'#2C5E70',banana:'#FFEBB0',ivory:'#FFFDF5',soft:'#FFF8E4',char:'#222222',
+  tileA:'#FFFDF5',tileB:'#F6F0E0',wall:'#FFF8E4',wain:'#F4EBD4',stage:'#FBF4E2',plank:'#F2E8D0',edge:'#EADFC4',edge2:'#D6C8A6',leaf:'#86B08F',leaf2:'#5F8A6C'};
+const SKIN='#FCE2C8',SKIN_SH='#F0C3A2',BLUSH='#F8AFA6',MOUTH='#D07A6C',EYE='#2B2228',WHITE='#FFFFFF',DRESS_SH='#DCE8EF',VEIL='#F1F7FA';
+function mix(a,b,t){const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),A=p(a),B=p(b);return'#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')}
+
+/* ───────── 점 찍는 도구 ─────────
+   칸마다 색을 적어 두었다가 캔버스로 옮깁니다. 테두리는 검정 한 가지가 아니라
+   '맞닿은 색을 어둡게 한 색' — 옛 아바타 게임의 부드러운 윤곽이 여기서 나옵니다. */
+function Grid(w,h,oy=0){const a=new Array(w*h).fill(null),G={w,h,
+  set(x,y,c){x=Math.floor(x);y=Math.floor(y)+oy;if(x>=0&&x<w&&y>=0&&y<h)a[y*w+x]=c},
+  get(x,y){x=Math.floor(x);y=Math.floor(y)+oy;return x>=0&&x<w&&y>=0&&y<h?a[y*w+x]:null},
+  rect(x,y,rw,rh,c){for(let j=0;j<rh;j++)for(let i=0;i<rw;i++)G.set(x+i,y+j,c)},
+  ell(cx,cy,rx,ry,c,clip){for(let y=Math.floor(cy-ry);y<=Math.ceil(cy+ry);y++)for(let x=Math.floor(cx-rx);x<=Math.ceil(cx+rx);x++){
+    const dx=(x+.5-cx)/rx,dy=(y+.5-cy)/ry;if(dx*dx+dy*dy<=1&&(!clip||clip(x,y)))G.set(x,y,c)}},
+  map(x,y,rows,pal){rows.forEach((r,j)=>[...r].forEach((ch,i)=>{if(ch!=='.')G.set(x+i,y+j,pal[ch])}))},
+  swap(y0,y1,from,to){for(let y=y0;y<=y1;y++)for(let x=0;x<w;x++)if(G.get(x,y)===from)G.set(x,y,to)},
+  under(top,from,to){for(let y=-oy+1;y<h-oy;y++)for(let x=0;x<w;x++)if(G.get(x,y)===from&&G.get(x,y-1)===top)G.set(x,y,to)},
+  canvas(){const cv=document.createElement('canvas');cv.width=w+2;cv.height=h+2;const x=cv.getContext('2d'),at=(i,j)=>i>=0&&i<w&&j>=0&&j<h?a[j*w+i]:null;
+    for(let j=-1;j<=h;j++)for(let i=-1;i<=w;i++){let c=at(i,j);
+      if(!c){const n=at(i,j-1)||at(i-1,j)||at(i+1,j)||at(i,j+1);if(n)c=mix(n,'#1A1420',.5)}
+      if(c){x.fillStyle=c;x.fillRect(i+1,j+1,1,1)}}
+    return cv}};return G}
+
+/* 눈 — 위는 짙게, 아래는 홍채색으로 밝아지고, 흰 점 하나 */
+function eye(g,x,y,iris,blink){const P={K:EYE,W:WHITE,I:iris,i:mix(iris,'#FFFFFF',.35)};
+  g.map(x,y,blink?['...','...','KKK','...']:['KKK','WKK','KII','iIi'],P)}
+
+/* ───────── 인물 (26×37칸, 발끝이 y=33) ─────────
+   머리가 키의 절반 — 큰 머리, 큰 눈, 볼터치. */
+const chibiCache={};
+function chibi(o){const key=JSON.stringify(o);if(chibiCache[key])return chibiCache[key];
+  const g=Grid(26,37,3),F=o.view==='f',st=o.style,{hair,top,bottom=top,shoe='#2A2226',acc=C.banana,iris='#6B4A36',role}=o;
+  const hl=mix(hair,'#FFFFFF',.3),hd=mix(hair,'#000000',.28),ts=mix(top,'#000000',.2),bride=role==='bride';
+  // 뒤에 깔리는 것
+  if(bride&&F)g.ell(13,15,11.5,13,VEIL,(x,y)=>y>=4);
+  if(F&&st==='bob')g.ell(13,12,10.5,8.5,hair);
+  if(F&&st==='long'){g.ell(13,12,10.5,9,hair);g.ell(13,19,9.5,6,hair)}
+  // 몸
+  if(bride){
+    g.rect(7,20,2,5,SKIN);g.rect(17,20,2,5,SKIN);g.rect(9,19,8,5,WHITE);if(F){g.set(12,19,SKIN);g.set(13,19,SKIN)}
+    g.ell(13,30,10.5,8,WHITE,(x,y)=>y>=23&&y<=32);g.swap(31,32,WHITE,DRESS_SH);
+    for(let y=26;y<=32;y++){g.set(8,y,DRESS_SH);g.set(17,y,DRESS_SH)}g.rect(9,23,8,1,DRESS_SH);
+    if(F){g.ell(13,24.5,3.2,2.6,C.leaf);g.set(12,23,C.banana);g.set(14,24,C.ivory);g.set(13,25,C.banana);g.set(11,24,C.ivory);g.set(15,25,C.skyL);g.set(13,23,C.ivory)}
+  }else{const up=o.walk?1:0;
+    g.rect(9,27,3,4-up,bottom);g.rect(8,31-up,4,2,shoe);g.rect(14,27,3,4,bottom);g.rect(14,31,4,2,shoe);
+    g.rect(8,19,10,9,top);g.rect(6,20,2,6,top);g.rect(18,20,2,6,top);g.rect(6,26,2,1,SKIN);g.rect(18,26,2,1,SKIN);
+    g.rect(16,21,2,7,ts);g.rect(8,27,10,1,ts);g.rect(6,24,1,2,ts);
+    if(F&&(role==='groom'||role==='mc')){g.rect(12,19,2,5,role==='mc'?C.ivory:WHITE);for(let y=19;y<=23;y++){g.set(11,y,ts);g.set(14,y,ts)}
+      if(role==='groom'){g.set(12,19,acc);g.set(13,19,acc);g.set(9,21,acc);g.set(9,22,C.leaf)}else{g.rect(10,19,6,1,WHITE);g.rect(12,19,2,7,WHITE);g.set(11,20,WHITE);g.set(14,20,WHITE)}}
+  }
+  g.rect(12,18,2,1,SKIN_SH);
+  // 머리
+  g.ell(13,11,8.6,7.6,SKIN);
+  if(F){
+    const cut=role==='groom'?(x,y)=>y<=(x>15?8:7):st==='tied'?(x,y)=>{const d=Math.abs(x-12.5);return y<=(d<1?5:d<4?6:d<7?7:8)}:(x,y)=>y<=8;
+    g.ell(13,9,9.6,8,hair,cut);
+    if(st==='bob'||st==='long'){g.rect(4,8,2,7,hair);g.rect(20,8,2,7,hair);[6,7,18,19].forEach(x=>g.set(x,9,hair))}
+    else if(st==='tied'){g.rect(4,8,1,4,hair);g.rect(21,8,1,4,hair);[[5,9],[5,10],[5,11],[5,12],[20,9],[20,10],[20,11],[20,12]].forEach(([x,y])=>g.set(x,y,hair))}
+    else{g.rect(4,8,1,3,hair);g.rect(21,8,1,3,hair);if(role==='groom')[5,6,7].forEach(x=>g.set(x,8,hair))}
+    if(st==='up'){g.ell(13,0,3.8,3,hair);g.set(12,-2,hl);g.set(13,-2,hl);g.rect(4,8,1,4,hair);g.rect(21,8,1,4,hair)}
+    g.ell(13,4.6,6.5,1.6,hl,(x,y)=>g.get(x,y)===hair);
+    g.under(hair,SKIN,SKIN_SH);
+    eye(g,8,10,iris,o.blink);eye(g,15,10,iris,o.blink);
+    g.rect(6,14,2,1,BLUSH);g.rect(18,14,2,1,BLUSH);
+    if(o.talk)g.rect(12,15,2,2,'#B4534A');else{g.set(12,15,MOUTH);g.set(13,15,MOUTH)}
+    if(bride){g.set(11,3,acc);g.set(13,2,acc);g.set(15,3,acc);g.set(12,3,WHITE);g.set(14,3,WHITE)}
+    if(role==='mc'){g.set(4,13,WHITE);g.set(21,13,WHITE);g.rect(19,15,3,3,'#8A8A96');g.set(19,15,'#D5D5DF');g.rect(20,18,1,3,'#55555F');g.rect(19,20,3,2,SKIN);g.rect(18,22,3,4,top)}
+  }else{
+    g.ell(13,10,9.6,9,hair,(x,y)=>y<=16);
+    if(st==='bob')g.ell(13,11,10.5,9.5,hair);
+    if(st==='long'){g.ell(13,11,10.5,9.5,hair);g.ell(13,19,9.5,6.5,hair);g.swap(22,26,hair,hd)}
+    if(st==='pony'){g.rect(12,12,3,11,hd);g.rect(12,13,3,1,acc);g.set(13,23,hd)}
+    if(st==='up'||st==='bun'){g.ell(13,4,4.4,3.8,hd);g.ell(13,4,3.3,2.7,hair);g.set(12,2,hl);g.set(13,2,hl)}
+    else g.ell(13,5,6.5,1.7,hl,(x,y)=>g.get(x,y)===hair);
+    g.swap(st==='bob'?18:15,st==='bob'?20:16,hair,hd);
+    if(bride){g.ell(13,17,11.5,14,VEIL,(x,y)=>y>=8);for(let y=12;y<=28;y+=1){if(y%3)continue;g.set(6,y,DRESS_SH);g.set(19,y,DRESS_SH)}g.swap(29,31,VEIL,DRESS_SH)}
+  }
+  return chibiCache[key]=g.canvas();
+}
+
+/* ───────── 사회자 얼굴 (대사 상자, 52×52칸) ───────── */
+function bust(talk,blink){const g=Grid(52,52),hair='#1E1B22',hl=mix(hair,'#FFFFFF',.32),BLK='#26262C',BLK2='#17171B',iris='#3A3038',LIP='#D9626C',PEARL='#FFFFFF';
+  // 뒤로 하나로 묶은 머리 — 목 뒤로 살짝 보이는 꼬리
+  // 검정 옷 + 흰 타이 카라
+  g.ell(26,57,22,14,BLK,(x,y)=>y<=51);g.ell(26,61,22,14,BLK2,(x,y)=>y<=51);
+  g.rect(23,37,6,6,SKIN_SH);
+  for(let j=0;j<5;j++){g.rect(19+j,42+j,4,1,WHITE);g.rect(29-j,42+j,4,1,WHITE)}
+  g.rect(23,45,6,3,WHITE);g.rect(24,48,4,4,WHITE);g.rect(26,48,1,4,'#DCE2E8');g.set(23,47,'#DCE2E8');g.set(28,47,'#DCE2E8');
+  // 머리 — 가르마를 타서 깔끔하게 넘김
+  g.ell(26,24,17,16.5,hair,(x,y)=>y<=29);
+  g.ell(10.3,30,1.9,2.7,SKIN);g.ell(41.7,30,1.9,2.7,SKIN);g.set(10,30,SKIN_SH);g.set(42,30,SKIN_SH);
+  g.ell(26,25,15,14,SKIN);
+  g.ell(26,17,17.5,13,hair,(x,y)=>{const d=Math.abs(x-25.5);return y<=(d<1?9:Math.min(18,10.5+d*.5))});
+  g.under(hair,SKIN,SKIN_SH);
+  // 애교머리 — 관자놀이에서 턱선까지 가늘게 한 가닥씩
+  for(let y=17;y<=30;y++){const o=y<25?0:1;g.set(13-o,y,hair);g.set(38+o,y,hair)}
+  g.ell(26,10,12,3,hl,(x,y)=>y<=9&&Math.abs(x-25.5)>2&&g.get(x,y)===hair);
+  // 진주 귀걸이
+  for(const ex of [10,42]){g.ell(ex,34.5,1.6,1.6,PEARL);g.set(ex,35,'#DDE1EA')}
+  // 눈썹 · 눈
+  const brow=mix(hair,SKIN,.5);g.rect(15,20,5,1,brow);g.rect(32,20,5,1,brow);
+  const P={K:EYE,W:WHITE,I:iris,i:mix(iris,'#FFFFFF',.3)};
+  const E=blink?['......','......','......','......','KKKKKK','.K..K.','......','......']
+               :['.KKKK.','KKKKKK','KWWKKK','KWWKKK','KKKKIK','KIIIWK','.IiiI.','..ii..'];
+  g.map(15,22,E,P);g.map(31,22,E,P);if(!blink){g.set(14,23,EYE);g.set(13,22,EYE);g.set(37,23,EYE);g.set(38,22,EYE)}
+  g.ell(16,32.5,3.2,1.7,'#F9BDB4',(x,y)=>g.get(x,y)===SKIN);g.ell(36,32.5,3.2,1.7,'#F9BDB4',(x,y)=>g.get(x,y)===SKIN);
+  g.set(26,31,SKIN_SH);
+  if(talk){g.ell(26,35,2.4,2,'#B4434E');g.rect(25,36,2,1,'#EE9AA0')}else{g.set(24,34,LIP);g.set(25,35,LIP);g.set(26,35,LIP);g.set(27,34,LIP);g.set(25,34,LIP);g.set(26,34,LIP)}
+  g.rect(40,42,3,9,'#55555F');g.ell(41.5,39.5,3.6,3.6,'#8A8A96');g.set(40,38,'#E0E0EA');g.set(41,38,'#E0E0EA');g.set(39,39,'#E0E0EA');
+  g.ell(41.5,47,4.6,3,SKIN);g.rect(38,48,7,1,SKIN_SH);
+  return g.canvas();
+}
+
+/* ───────── 난수 (매번 같은 하객석) ───────── */
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+/* ───────── 화면과 배치 ─────────
+   고정된 한 장이 아니라, 기기 크기에 맞춰 예식장을 새로 짓습니다.
+   휴대폰은 세로로 긴 홀, PC 는 가로로 넓은 홀 — 하객석 줄·칸 수가 그에 따라 달라집니다. */
+let W=200,H=300,S=2,cx=100,mcx=36;
+const WALL=46,STAGE=104,CY=94,MCY=93;   // 벽 끝 · 단상 끝 · 신랑신부 발 · 사회자 발
+const view=document.getElementById('view'),vx=view.getContext('2d');
+const world=document.createElement('canvas'),wx=world.getContext('2d');
+const light=document.createElement('canvas'),lx=light.getContext('2d');
+const bg=document.createElement('canvas');
+let guests=[],seats=[];
+const HAIR=['#33262A','#3F2D24','#57392A','#22202A','#7A5236','#8E8F98','#2E2623','#A0683C'];
+const CLOTH=[C.ink,'#8FB3A0','#C9B79C','#5D6B7A','#EBD489','#A98274','#DDD5C2','#6E5A7E','#7C9CB0','#B9C7A5','#33383F'];
+const STYLES=['short','short','short','bob','bob','long','long','pony','bun'];
+
+function E(x,cx_,cy_,rx,ry,col,clip){x.fillStyle=col;for(let j=Math.floor(cy_-ry);j<=Math.ceil(cy_+ry);j++)for(let i=Math.floor(cx_-rx);i<=Math.ceil(cx_+rx);i++){
+  const dx=(i+.5-cx_)/rx,dy=(j+.5-cy_)/ry;if(dx*dx+dy*dy<=1&&(!clip||clip(i,j)))x.fillRect(i,j,1,1)}}
+
+function buildBg(){bg.width=W;bg.height=H;const x=bg.getContext('2d'),R=(c,a,b,w,h)=>{x.fillStyle=c;x.fillRect(a,b,w,h)};
+  // 바닥
+  for(let j=0;j<H;j+=16)for(let i=-((cx%16)+16)%16-16;i<W;i+=16)R((((i+1600)/16|0)+(j/16|0))%2?C.tileB:C.tileA,i,j,16,16);
+  // 뒷벽
+  R(C.wall,0,0,W,WALL);R(C.wain,0,36,W,10);R(C.edge,0,36,W,1);R(C.sky,0,43,W,3);R(C.ink,0,46,W,1);
+  for(let k=0;k<6;k++)for(const sg of [-1,1]){
+    const px=cx+sg*(40+k*48);R(C.ivory,px-3,0,6,43);R(C.edge,px+2,0,1,43);R(C.edge,px-4,9,8,2);R(C.edge,px-4,34,8,2);
+    const wxx=cx+sg*(64+k*48);E(x,wxx,17,6.5,6.5,C.ink);R(C.ink,wxx-6,17,13,17);E(x,wxx,17,5,5,C.banana);R(C.banana,wxx-5,17,10,16);
+    R(C.ink,wxx,12,1,21);R(C.ink,wxx-5,23,10,1);R(C.ivory,wxx-3,15,1,2);R(C.ivory,wxx-4,17,1,2);R(C.ink,wxx-7,33,15,2)}
+  // 가운데 큰 창과 아치
+  const ay=40;
+  E(x,cx,ay,28,28,C.ink,(i,j)=>j<ay);E(x,cx,ay,27,27,C.sky,(i,j)=>j<ay);E(x,cx,ay,25.5,25.5,C.skyL,(i,j)=>j<ay);E(x,cx,ay,24.5,24.5,C.sky,(i,j)=>j<ay);
+  E(x,cx,ay,23,23,C.ink,(i,j)=>j<ay);E(x,cx,ay,22,22,C.banana,(i,j)=>j<ay);R(C.banana,cx-22,ay,44,3);
+  E(x,cx,ay,15,15,'#FFF4CF',(i,j)=>j<ay);R('#FFF4CF',cx-15,ay,30,3);
+  R(C.ink,cx,18,1,25);R(C.ink,cx-22,30,44,1);
+  // 커튼 (맨 위 물결)
+  for(let i=-((cx%16)+16)%16-8;i<W+16;i+=16){E(x,i,0,8.5,10,C.ink,(a,b)=>b>=0);E(x,i,0,8,9,C.sky,(a,b)=>b>=0);E(x,i,0,5,6,C.skyL,(a,b)=>b>=0);E(x,i,0,4,5,C.sky,(a,b)=>b>=0);R(C.banana,i+7,7,2,3);R(C.ink,i+7,10,2,1)}
+  // 단상
+  R(C.stage,0,47,W,STAGE-47);for(let j=58;j<STAGE;j+=12)R(C.plank,0,j,W,1);
+  R(C.edge,0,STAGE,W,2);R(C.edge2,0,STAGE+2,W,2);R('#C2B38E',0,STAGE+4,W,1);
+  // 아치 기둥 + 잎
+  for(const sg of [-1,1]){const lx_=cx+sg*25.5;R(C.ink,lx_-3,ay,6,CY-ay+2);R(C.sky,lx_-2,ay,4,CY-ay+1);R(C.skyL,lx_-1,ay,1,CY-ay+1);R(C.ink,lx_-4,CY,8,3);R(C.skyL,lx_-3,CY,6,2)}
+  const leaf=(a,b,f)=>{E(x,a,b,3.2,2.2,C.leaf);E(x,a+1,b+1,2,1.2,C.leaf2);if(f){R(f,a-1,b-1,2,2);R('#FFF4CF',a,b-1,1,1)}};
+  for(const d of [200,225,250,270,290,315,340]){const r=d*Math.PI/180;leaf(cx+Math.cos(r)*26,ay+Math.sin(r)*26,d%50?null:(d===250?C.ivory:C.banana))}
+  for(const sg of [-1,1])[[50,C.ivory],[62,null],[76,C.banana]].forEach(([yy,f])=>leaf(cx+sg*26,yy,f));
+  // 화분
+  for(const sg of [-1,1]){const px=cx+sg*41;E(x,px,84,6,6,C.leaf);E(x,px+1,86,4.5,4,C.leaf2);E(x,px-1,80,3.5,3,C.leaf);R(C.ivory,px-2,81,1,1);R(C.banana,px+2,84,1,1);
+    R(mix(C.ink,'#000000',.4),px-5,89,10,8);R(C.ink,px-4,90,8,6);R(C.skyL,px-4,90,8,1)}
+  // 버진로드
+  R(C.ink,cx-16,STAGE-8,32,H);R(C.sky,cx-15,STAGE-8,30,H);R(C.skyL,cx-13,STAGE-8,1,H);R(C.skyL,cx+12,STAGE-8,1,H);
+  R(mix(C.sky,'#000000',.12),cx-15,STAGE,30,2);R(mix(C.sky,'#000000',.22),cx-15,STAGE+2,30,2);
+  const r=rng(7);for(let n=0;n<H/5;n++){const px=cx-11+(r()*22|0),py=STAGE+8+(r()*(H-STAGE-20)|0);R(r()<.5?C.banana:C.ivory,px,py,2,1);if(r()<.4)R(C.ivory,px+1,py+1,1,1)}
+  // 문
+  R(mix(C.deep,'#000000',.4),cx-19,H-10,38,10);R(C.deep,cx-18,H-9,36,9);R(C.ink,cx-17,H-8,16,8);R(C.ink,cx+1,H-8,16,8);R(C.banana,cx-3,H-5,2,2);R(C.banana,cx+1,H-5,2,2);
+}
+function podium(x){const R=(c,a,b,w,h)=>{x.fillStyle=c;x.fillRect(a,b,w,h)},d=mix(C.ink,'#000000',.45);
+  R(d,mcx-14,83,28,18);R(C.ink,mcx-13,84,26,16);R(C.deep,mcx+9,84,4,16);R(C.banana,mcx-13,89,26,2);R(C.deep,mcx-13,98,26,2);
+  R(d,mcx-16,80,32,4);R(C.skyL,mcx-15,81,30,1);R(C.sky,mcx-15,82,30,1);
+  [-4,0,4].forEach(o=>R(C.ivory,mcx+o-1,94,1,1))}
+const chair=(()=>{const g=Grid(20,13);g.rect(1,0,18,13,C.ivory);g.set(1,0,null);g.set(18,0,null);g.rect(1,10,18,3,'#EDE5D0');g.rect(1,4,18,2,C.sky);g.rect(8,3,4,4,C.skyL);g.set(9,4,C.ink);g.set(10,4,C.ink);g.rect(8,7,1,2,C.sky);g.rect(11,7,1,2,C.sky);return g.canvas()})();
+
+const EMBED=document.documentElement.classList.contains('embed');
+function layout(){
+  const pc=innerWidth>=900&&innerWidth>innerHeight,dlgH=pc?190:132,aw=innerWidth-(pc?48:0),side=pc&&innerWidth>=1180,ah=innerHeight-dlgH-(pc?48:16)-(side?0:30);
+  const raw=Math.min(aw/170,ah/190);S=raw>=2?Math.floor(raw):raw>=1.5?1.5:1;S=Math.min(S,4);
+  W=Math.min(Math.floor(aw/S),pc?400:EMBED?320:250);H=Math.min(Math.floor(ah/S),pc?300:350);
+  for(const c of [view,world,light]){c.width=W;c.height=H}
+  view.style.width=W*S+'px';view.style.height=H*S+'px';
+  const ps=pc?3:2,face=document.getElementById('face'),dl=document.getElementById('dlg');
+  face.style.width=face.style.height=54*ps+'px';dl.style.width=(EMBED?Math.min(W*S,innerWidth):Math.min(W*S,innerWidth-16,pc?760:999))+'px';dl.style.minHeight=54*ps+26+'px';
+  const bn=document.getElementById('banner');bn.style.top=Math.round(2*S)+'px';bn.style.fontSize=Math.round(6*S)+'px';bn.style.padding=`${Math.round(1.5*S)}px ${Math.round(4*S)}px`;
+  const ocx=cx;cx=W>>1;mcx=Math.round(cx-Math.max(63,Math.min(W*.3,112)));mc.x=mcx;
+  groom.x+=cx-ocx;bride.x+=cx-ocx;
+  buildBg();
+  // 하객석
+  const per=Math.min(8,Math.floor((cx-19)/20)),rows=Math.max(1,Math.floor((H-10-136)/30)+1),r=rng(20261123);
+  guests=[];seats=[];
+  for(let row=0;row<rows;row++)for(const sg of [-1,1])for(let k=per-1;k>=0;k--){
+    const x=cx+sg*(29+k*20),y=136+row*30;seats.push({x,y});
+    const empty=r()<.08,hair=HAIR[r()*HAIR.length|0],top=CLOTH[r()*CLOTH.length|0],style=STYLES[r()*STYLES.length|0],acc=r()<.5?C.banana:C.skyL,ph=r()*6.28;
+    if(!empty)guests.push({x,y,ph,hop:0,sp:chibi({view:'b',role:'guest',hair,top,style,acc})});
+  }
+  seats.sort((a,b)=>a.y-b.y||a.x-b.x);guests.sort((a,b)=>a.y-b.y||a.x-b.x);
+  if(camT.z===1){camT.x=W/2;camT.y=H/2}else{camT.x=cam.x=mcx;camT.y=cam.y=76}
+}
+
+/* ───────── 무대 위 인물 ───────── */
+const mc={x:36,y:MCY,talk:false};
+const groom={x:100,y:999,dir:'b',walk:false,bow:0,show:false,kind:'groom'};
+const bride={x:100,y:999,dir:'b',walk:false,bow:0,show:false,kind:'bride'};
+const MCO={view:'f',role:'mc',hair:'#1E1B22',top:'#26262C',bottom:'#26262C',style:'tied',iris:'#3A3038'};
+const GRO={role:'groom',hair:'#2A2226',top:'#30353F',style:'short',iris:'#5A4636'};
+const BRO={role:'bride',hair:'#4A3026',top:WHITE,style:'up',iris:'#7A5236'};
+function actorSprite(a,f){return a.kind==='groom'?chibi({...GRO,view:a.dir,walk:a.walk&&f?1:0}):chibi({...BRO,view:a.dir})}
+function drawActor(x,sp,fx,fy,bow){const dx=Math.round(fx)-14,dy=Math.round(fy)-38;
+  if(!bow){x.drawImage(sp,dx,dy);return}
+  x.drawImage(sp,0,22,28,17,dx,dy+22,28,17);x.drawImage(sp,0,0,28,22,dx,dy+bow,28,22)}   // 인사: 머리 쪽을 내려 그림
+
+/* 시작 전에는 불을 낮추고 사회자에게만 조명 — 홀 전체가 보이는 대기 장면 */
+const cam={x:100,y:150,z:1},camT={...cam};
+let dim=.52,dimT=.52,tick=0,parts=[],lights=[];
+/* 시계는 화면이 보일 때만 갑니다. 기다림(wait)·걸음·자막이 모두 이 시계를 봅니다. */
+let still=[];   // 기념사진 장면의 멈춘 꽃가루
+let clock=0,paused=false,lastT=0;const waiters=[];
+const wait=ms=>new Promise(r=>waiters.push({t:clock+ms,r}));
+const later=(ms,fn)=>wait(ms).then(fn);
+const maskCache={};
+function mask(r){if(maskCache[r])return maskCache[r];const n=r+4,cv=document.createElement('canvas');cv.width=cv.height=n*2+1;const x=cv.getContext('2d');x.fillStyle='#000';
+  for(let j=-n;j<=n;j++)for(let i=-n;i<=n;i++){const d=Math.hypot(i,j);if(d<=r||(d<=r+2&&(i+j)&1)||(d<=r+4&&!(i&1)&&!(j&1)))x.fillRect(i+n,j+n,1,1)}
+  return maskCache[r]=cv}
+
+function frame(now){
+  requestAnimationFrame(frame);if(paused){lastT=0;return}
+  clock+=lastT?Math.min(100,now-lastT):16;lastT=now;
+  for(let i=waiters.length-1;i>=0;i--)if(waiters[i].t<=clock)waiters.splice(i,1)[0].r();
+  tick++;
+  cam.x+=(camT.x-cam.x)*.035;cam.y+=(camT.y-cam.y)*.035;cam.z+=(camT.z-cam.z)*.035;dim+=(dimT-dim)*.04;
+  wx.drawImage(bg,0,0);
+  // 하객과 의자 — 뒷줄부터. 박수 칠 때 들썩
+  let gi=0;for(const s of seats){const g=guests[gi];
+    if(g&&g.x===s.x&&g.y===s.y){gi++;const hop=g.hop>0&&Math.sin(tick*.45+g.ph)>0?1:0;wx.drawImage(g.sp,0,0,28,30,g.x-14,g.y-38-hop,28,30)}
+    wx.drawImage(chair,s.x-11,s.y-13)}
+  // 사회자 + 단상
+  const blink=tick%230<7;
+  drawActor(wx,chibi({...MCO,talk:mc.talk&&(tick>>3)%2?1:0,blink:blink?1:0}),mc.x,mc.y,0);podium(wx);
+  // 신랑 신부 (아래에 있는 사람이 앞)
+  for(const a of [groom,bride].filter(a=>a.show).sort((p,q)=>p.y-q.y)){
+    const f=a.walk?(tick>>3)%2:0;wx.fillStyle='rgba(40,60,70,.22)';wx.fillRect(Math.round(a.x)-8,Math.round(a.y)-2,16,3);wx.fillRect(Math.round(a.x)-6,Math.round(a.y)+1,12,1);
+    drawActor(wx,actorSprite(a,f),a.x,a.y-(a.walk&&f?1:0),a.bow)}
+  // 하트·꽃가루
+  parts=parts.filter(p=>p.life>0);
+  for(const p of parts){p.life--;p.x+=p.vx;p.y+=p.vy;
+    if(p.kind==='heart'){p.vy*=.98;if(p.life>8||(tick&1))wx.drawImage(p.sp,Math.round(p.x),Math.round(p.y))}
+    else{p.vy=Math.min(p.vy+.01,.6);p.x+=Math.sin((tick+p.ph)*.08)*.3;wx.fillStyle=p.c;wx.fillRect(Math.round(p.x),Math.round(p.y),p.w,p.w>1?1:2)}}
+  for(const p of still){wx.fillStyle=p.c;wx.fillRect(p.x,p.y,p.w,p.w>1?1:2)}
+  // 조명
+  if(dim>.01){lx.globalCompositeOperation='source-over';lx.clearRect(0,0,W,H);lx.fillStyle=`rgba(12,34,48,${dim.toFixed(3)})`;lx.fillRect(0,0,W,H);
+    lx.globalCompositeOperation='destination-out';
+    const cut=(x,y,r)=>{const m=mask(r);lx.drawImage(m,Math.round(x)-(m.width>>1),Math.round(y)-(m.width>>1))};
+    cut(mcx,78,24);for(const l of lights)cut(l.x,l.y,l.r);
+    wx.drawImage(light,0,0)}
+  // 카메라
+  const sw=W/cam.z,sh=H/cam.z,sx=Math.max(0,Math.min(W-sw,cam.x-sw/2)),sy=Math.max(0,Math.min(H-sh,cam.y-sh/2));
+  vx.imageSmoothingEnabled=false;vx.drawImage(world,sx,sy,sw,sh,0,0,W,H);
+}
+setInterval(()=>{lights=[];const up=a=>a.show&&a.y<STAGE+6;
+  for(const a of [groom,bride])if(a.show&&!up(a))lights.push({x:a.x,y:a.y-16,r:20});
+  if(up(groom)||up(bride))lights.push({x:cx,y:78,r:34})},50);
+
+const heartSp=[C.banana,C.ivory,C.skyL].map(c=>{const g=Grid(7,6);g.map(0,0,['.y...y.','yyy.yyy','yyyyyyy','.yyyyy.','..yyy..','...y...'],{y:c});g.set(1,1,WHITE);return g.canvas()});
+function hearts(n){for(let i=0;i<n;i++){const g=guests[Math.random()*guests.length|0];if(!g)return;
+  later(Math.random()*2600,()=>parts.push({kind:'heart',sp:heartSp[Math.random()*3|0],x:g.x-4,y:g.y-44,vx:(Math.random()-.5)*.15,vy:-.4,life:55}))}}
+function clapGuests(ms){for(const g of guests)g.hop=1;later(ms,()=>{for(const g of guests)g.hop=0})}
+function confetti(n){const cs=[C.banana,C.sky,C.ivory,C.skyL];for(let i=0;i<n;i++)later(Math.random()*3500,()=>parts.push({kind:'c',c:cs[i%4],x:Math.random()*W,y:-4,vx:0,vy:.2+Math.random()*.3,w:1+(Math.random()*2|0),ph:Math.random()*100,life:520}))}
+
+/* ───────── 소리 ─────────
+   모두 이 자리에서 합성. 사회자 목소리만 녹음 파일. */
+let AC,master,amb,bus,muted=false,ambLvl=.6;
+function audioStart(){
+  AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.connect(AC.destination);
+  amb=AC.createGain();amb.gain.value=0;amb.connect(master);
+  murmur().then(buf=>{const src=AC.createBufferSource();src.buffer=buf;src.loop=true;src.connect(amb);src.start();
+    amb.gain.linearRampToValueAtTime(ambLvl,AC.currentTime+1.5)}).catch(()=>{});
+}
+/* 웅성임 — 사람 목소리를 흉내 낸 합성음 열여덟 줄기.
+   목청(톱니파) → 모음 울림통 두 개(음절마다 바뀜) → 음절 단위로 켜졌다 꺼짐. 여럿이 겹치면 말소리는 안 들리고 웅성임만 남습니다.
+   실제 사람의 녹음이 아니므로 누구의 목소리도 담기지 않습니다. */
+async function murmur(){const sr=AC.sampleRate,dur=9,OC=window.OfflineAudioContext||window.webkitOfflineAudioContext,oc=new OC(2,sr*dur,sr),R=Math.random;
+  const out=oc.createGain();out.gain.value=2.2;
+  // 홀의 울림: 말소리를 뭉개 '멀리서 들리는' 느낌으로
+  const n=Math.floor(sr*.9),ir=oc.createBuffer(2,n,sr);for(let c=0;c<2;c++){const d=ir.getChannelData(c);let lp=0;for(let k=0;k<n;k++){lp+=(R()*2-1-lp)*.35;d[k]=lp*Math.pow(1-k/n,2.2)}}
+  const cv=oc.createConvolver();cv.buffer=ir;const wet=oc.createGain();wet.gain.value=.55;out.connect(oc.destination);out.connect(cv).connect(wet).connect(oc.destination);
+  for(let v=0;v<18;v++){const low=R()<.5,f0=low?95+R()*45:175+R()*70;
+    const o=oc.createOscillator();o.type='sawtooth';o.frequency.value=f0;
+    const f1=oc.createBiquadFilter(),f2=oc.createBiquadFilter();f1.type=f2.type='bandpass';f1.Q.value=5;f2.Q.value=7;
+    const g=oc.createGain();g.gain.value=0;const lp=oc.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2800+R()*1400;
+    const g2=oc.createGain();g2.gain.value=.55;o.connect(f1).connect(g);o.connect(f2).connect(g2).connect(g);g.connect(lp);
+    let last=lp;if(oc.createStereoPanner){const pn=oc.createStereoPanner();pn.pan.value=R()*1.6-.8;lp.connect(pn);last=pn}last.connect(out);
+    const vol=.05+R()*.07;let t=R()*1.2;
+    while(t<dur-.3){                                   // 한 마디: 음절 3~9개, 그리고 숨 고르기
+      const syl=3+Math.floor(R()*7);
+      for(let k=0;k<syl&&t<dur-.3;k++){const len=.11+R()*.13,a=vol*(.6+R()*.6);
+        f1.frequency.setValueAtTime(280+R()*520,t);f2.frequency.setValueAtTime(900+R()*1400,t);
+        o.frequency.setValueAtTime(f0*(.92+R()*.2),t);o.frequency.linearRampToValueAtTime(f0*(.88+R()*.2),t+len);
+        g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(a,t+.03);g.gain.setValueAtTime(a,t+len*.7);g.gain.linearRampToValueAtTime(0,t+len);
+        t+=len+.02+R()*.05}
+      t+=.25+R()*1.3}
+    o.start(0)}
+  // 낮은 공간음 조금 — 완전한 정적이 되지 않게
+  const nb=oc.createBuffer(1,sr*dur,sr),nd=nb.getChannelData(0);let l=0;for(let k=0;k<nd.length;k++){l=(l+.02*(R()*2-1))/1.02;nd[k]=l*.5}
+  const ns=oc.createBufferSource();ns.buffer=nb;const nf=oc.createBiquadFilter();nf.type='lowpass';nf.frequency.value=300;ns.connect(nf).connect(oc.destination);ns.start(0);
+  const buf=await oc.startRendering();
+  // 이음매: 앞뒤 0.15초를 줄였다 키워 되풀이할 때 툭 끊기지 않게
+  const f=Math.floor(sr*.15);for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let k=0;k<f;k++){d[k]*=k/f;d[d.length-1-k]*=k/f}}
+  return buf}
+function ambTo(v,s){if(!amb)return;const t=AC.currentTime;amb.gain.cancelScheduledValues(t);amb.gain.setValueAtTime(amb.gain.value,t);amb.gain.linearRampToValueAtTime(v,t+s)}
+/* 박수 — 손뼉 한 번은 '짧은 터짐 셋 + 꼬리'. 스무 사람이 저마다의 빠르기로 칩니다. */
+let clapBuf;
+function claps(sec,peak=1){if(!AC)return;const sr=AC.sampleRate;
+  if(!clapBuf){clapBuf=AC.createBuffer(1,sr*.16,sr);const d=clapBuf.getChannelData(0);
+    for(let i=0;i<d.length;i++){const t=i/sr;let e=0;for(const o of [0,.009,.019])if(t>=o)e+=Math.exp(-(t-o)/.0035)*.7;if(t>=.019)e+=Math.exp(-(t-.019)/.045)*.55;d[i]=(Math.random()*2-1)*e}}
+  const t0=AC.currentTime+.05;
+  for(let p=0;p<22;p++){const rate=2.7+Math.random()*1.7,f=1000+Math.random()*1300,pan=Math.random()*2-1,vol=.1+Math.random()*.12,start=Math.random()*.8,stop=sec-Math.random()*sec*.25;
+    const flt=AC.createBiquadFilter();flt.type='bandpass';flt.frequency.value=f;flt.Q.value=1.6;const g=AC.createGain();g.gain.value=vol*peak;
+    let out=g;if(AC.createStereoPanner){const pn=AC.createStereoPanner();pn.pan.value=pan;g.connect(pn);out=pn}
+    flt.connect(g);out.connect(bus);
+    for(let t=start;t<stop;t+=1/rate+(Math.random()-.5)*.03){const s=AC.createBufferSource();s.buffer=clapBuf;s.playbackRate.value=.9+Math.random()*.2;s.connect(flt);s.start(t0+t)}}}
+/* 음악 — 세 곡 모두 이 페이지를 위해 새로 지은 선율입니다. 기존 곡의 가락을 옮기지 않습니다. */
+const NOTE=(()=>{const n={},names=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];for(let o=2;o<=6;o++)names.forEach((k,i)=>n[k+o]=440*2**((i-9)/12+o-4));return n})();
+function tune(q,parts){if(!AC)return;for(const [seq,type,vol] of parts){let t=AC.currentTime+.1;for(const [n,b] of seq){if(n){const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=NOTE[n];
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.02);g.gain.setValueAtTime(vol,t+b*q*.75);g.gain.linearRampToValueAtTime(0,t+b*q*.98);o.connect(g).connect(bus);o.start(t);o.stop(t+b*q)}t+=b*q}}}
+const GROOM_MEL=[['G4',.5],['B4',.5],['D5',.5],['B4',.5],['E5',1],['D5',1],['C5',.5],['E5',.5],['G5',.5],['E5',.5],['D5',1],['B4',1],['A4',.5],['C5',.5],['E5',.5],['C5',.5],['D5',.5],['F#5',.5],['G5',2]];
+/* 결혼행진곡 — 멘델스존 「한여름 밤의 꿈」 Op.61 (1842). 작곡가 사후 170년이 넘은 퍼블릭 도메인 곡의 주제 8마디를 직접 합성. */
+const MARCH_MEL=[['C6',2],['B5',1.5],['B5',.5],['A5',1],['G5',1],['F5',1],['D5',1],['C5',2],['D5',1],['G4',.75],['D5',.25],['E5',1],[null,1.5],['C5',.5],['E5',.5],['G5',.5],
+  ['C6',2],['B5',1.5],['B5',.5],['A5',1],['G5',1],['F5',1],['D5',1],['C5',2],['E5',1],['D5',.75],['E5',.25],['D5',2],['C5',2]];
+const MARCH_BASS=[['A2',2],['B2',1.5],['B2',.5],['E3',2],['F3',1],['F3',1],['G2',2],['G3',2],['C3',1],[null,3],['A2',2],['B2',1.5],['B2',.5],['E3',2],['F3',1],['F3',1],['G2',2],['G3',1],['G2',1],['G2',2],['C3',2]];
+const MUSIC={
+  // 신랑 입장 — 담담하고 따뜻하게 (새로 지은 곡)
+  groom:()=>tune(.56,[[GROOM_MEL,'triangle',.07],[GROOM_MEL,'sine',.04],[[['G2',2],['G2',2],['C3',2],['G2',2],['A2',2],['D3',1],['G2',2]],'triangle',.07]]),
+  // 신부 입장 — 느린 6/8, 잔잔한 분산화음 (새로 지은 곡)
+  bride:()=>{const bar=(a,b,c,d)=>[[a,1],[b,1],[c,1],[d,1],[b,1],[c,1]];
+    tune(.3,[[[...bar('C4','G4','C5','E5'),...bar('A3','E4','A4','C5'),...bar('F3','C4','F4','A4'),...bar('G3','D4','G4','B4'),...bar('C4','G4','C5','E5'),['C4',6]],'triangle',.06],
+    [[[null,3],['G5',3],['E5',4],['C5',2],['A5',4],['F5',2],['G5',3],['D5',3],['E5',6],['C5',6]],'sine',.06]])},
+  march:()=>tune(.4,[[MARCH_MEL,'square',.028],[MARCH_MEL,'triangle',.07],[MARCH_BASS,'triangle',.085]])
+};
+/* 사회자 목소리: 녹음 파일. 아직 없으면 소리 없이 글만 — 읽는 시간만큼 기다립니다 (기계 음성은 쓰지 않습니다) */
+
+const clips={};
+async function loadClip(id){try{const r=await fetch(AUDIO_DIR+id+'.m4a');if(!r.ok)throw 0;clips[id]=await AC.decodeAudioData(await r.arrayBuffer())}catch(e){clips[id]=null}}
+const silent=text=>wait(1500+text.length*110);
+/* 예식장 울림 — 마른 녹음에 홀의 잔향과 스피커 되울림을 그 자리에서 입힙니다. 숫자만 바꾸면 느낌이 달라집니다. */
+const HALL={wet:.1,sec:.95,echo:.03,echoMs:95,voice:1.2};   // 실제 예식 영상 기준: 울림이 짧은 홀, 낮은 음이 두툼한 스피커
+let hallIn;
+function hallChain(){if(hallIn)return hallIn;const sr=AC.sampleRate,n=Math.floor(sr*HALL.sec),ir=AC.createBuffer(2,n,sr);
+  for(let c=0;c<2;c++){const d=ir.getChannelData(c);let lp=0;for(let i=0;i<n;i++){const t=i/n;lp+=(Math.random()*2-1-lp)*(.55-.4*t);d[i]=lp*Math.pow(1-t,2.6)*(i<sr*.012?i/(sr*.012):1)}
+    for(const [ms,g] of [[23,.5],[41,.38],[67,.3],[89,.22]]){const k=Math.floor(sr*(ms+c*5)/1000);if(k<n)d[k]+=g}}
+  hallIn=AC.createGain();hallIn.gain.value=HALL.voice;
+  const hp=AC.createBiquadFilter();hp.type='highpass';hp.frequency.value=80;
+  const pres=AC.createBiquadFilter();pres.type='peaking';pres.frequency.value=220;pres.Q.value=.7;pres.gain.value=4.5;
+  const cv=AC.createConvolver();cv.buffer=ir;const wet=AC.createGain();wet.gain.value=HALL.wet;
+  const dl=AC.createDelay(.5);dl.delayTime.value=HALL.echoMs/1000;const eg=AC.createGain();eg.gain.value=HALL.echo;const elp=AC.createBiquadFilter();elp.type='lowpass';elp.frequency.value=3200;
+  const comp=AC.createDynamicsCompressor();comp.threshold.value=-16;comp.ratio.value=3;
+  hallIn.connect(hp).connect(pres);pres.connect(comp);pres.connect(cv).connect(wet).connect(comp);pres.connect(dl).connect(elp).connect(eg).connect(comp);comp.connect(master);
+  return hallIn}
+let voiceSrc=null;
+function playClip(buf){return new Promise(res=>{const s=AC.createBufferSource();s.buffer=buf;s.connect(hallChain());s.onended=()=>{if(voiceSrc===s)voiceSrc=null;res()};voiceSrc=s;s.start()})}
+
+/* ───────── 대사 상자 ───────── */
+const dlg=document.getElementById('dlg'),lineEl=document.getElementById('line'),fx=document.getElementById('face').getContext('2d');
+const FACE={idle:bust(0,0),talk:bust(1,0),blink:bust(0,1)};
+let typing=null,talking=false;
+function drawFace(k){fx.clearRect(0,0,54,54);fx.drawImage(FACE[k],0,0)}
+setInterval(()=>drawFace(talking?((Date.now()>>7)%2?'talk':'idle'):(Date.now()%3800<140?'blink':'idle')),70);
+function type(text){return new Promise(res=>{let i=0;lineEl.textContent='';
+  typing={done(){i=text.length;lineEl.textContent=text}};
+  const me=run,step=()=>{if(me!==run)return;if(i>=text.length){typing=null;res();return}lineEl.textContent=text.slice(0,++i);later(48,step)};step()})}
+dlg.addEventListener('click',()=>typing&&typing.done());
+let G='민수',B='지영';
+/* 녹음해 둔 이름. 여기 없는 이름은 파일을 찾으러 가지도 않습니다 — 입력한 이름이 요청 주소에 실려 서버 기록에 남는 일을 막기 위해서입니다.
+   이름을 추가로 녹음하면 파일을 넣고 이 목록에도 적어야 합니다. */
+const NAMES={g:'지훈 현우 성민 준호 민수 동현 상현 민재 승현 준영 성현 재현 현준 우진 태현 진호 영훈 정훈 민혁 도현'.split(' '),
+             b:'지은 수진 지혜 유진 민지 지현 은지 혜진 수빈 지영 예진 민정 소영 은영 하나 수연 서연 지원 은비 다은'.split(' ')};
+const nameClip={};
+async function loadName(k,n){if(!NAMES[k].includes(n)){nameClip[k]=null;return}try{const r=await fetch(AUDIO_DIR+'names/'+k+'_'+encodeURIComponent(n)+'.m4a');if(!r.ok)throw 0;nameClip[k]=await AC.decodeAudioData(await r.arrayBuffer())}catch(e){nameClip[k]=null}}
+async function say(id){const L=SCRIPT[id],named=id==='open'&&nameClip.g&&nameClip.b,text=named?L.show.replace(/\{g\}/g,G).replace(/\{b\}/g,B):L.say;
+  mc.talk=talking=true;ambTo(Math.min(ambLvl,.3),.4);
+  await Promise.all([type(text),named?playClip(nameClip.g).then(()=>playClip(nameClip.b)):clips[id]?playClip(clips[id]):silent(L.say)]);
+  mc.talk=talking=false;ambTo(ambLvl,.8);
+}
+function move(a,tx,ty,ms){a.walk=true;return new Promise(res=>{const t0=clock,x0=a.x-cx,y0=a.y;
+  const me=run,go=()=>{if(me!==run){a.walk=false;return}const p=Math.min(1,(clock-t0)/ms);a.x=cx+x0+(tx-x0)*p;a.y=y0+(ty-y0)*p;if(p<1)requestAnimationFrame(go);else{a.walk=false;res()}};go()})}
+
+/* ───────── 예식 순서 ───────── */
+let run=0;
+const stepsEl=document.getElementById('steps');
+STEPS.forEach(([id,label],i)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',()=>ceremony(i));const li=document.createElement('li');li.appendChild(b);stepsEl.appendChild(li)});
+function mark(i){[...stepsEl.children].forEach((li,k)=>{li.className=k<i?'done':k===i?'now':''})}
+function cut(){run++;if(voiceSrc){try{voiceSrc.onended=null;voiceSrc.stop()}catch(e){}voiceSrc=null}if(bus){try{bus.disconnect()}catch(e){}}if(AC){bus=AC.createGain();bus.connect(master)}typing=null;mc.talk=talking=false;for(const g of guests)g.hop=0}
+function finish(){live=false;if(hush)hush.pause();mark(STEPS.length);document.getElementById('skip').hidden=true;
+  pose();const me=run;later(200,async()=>{if(me!==run)return;await makePhoto();if(me===run)document.getElementById('end').classList.add('on')})}
+/* 기념사진 — 두 사람이 단상에 나란히 서고 불이 다 켜진 장면을 한 장으로.
+   아이보리 종이 위에 예식장, 그 아래 두 분의 이름과 날짜. 이름은 이 기기 안에서만 그려지고 어디에도 보내지 않습니다. */
+function pose(){for(const [a,dx] of [[groom,-11],[bride,11]]){a.show=true;a.walk=false;a.bow=0;a.x=cx+dx;a.y=CY;a.dir='f'}
+  Object.assign(camT,{x:W/2,y:H/2,z:1});Object.assign(cam,camT);dim=dimT=0;parts=[];
+  const cs=[C.banana,C.sky,C.ivory,C.skyL];still=[];for(let i=0;i<W*.45;i++)still.push({x:Math.random()*W|0,y:Math.random()*H*.82|0,c:cs[i%4],w:1+(Math.random()*2|0)})}
+let photoFile=null,photoURL=null;
+async function makePhoto(){
+  try{await Promise.all([document.fonts.load('300 64px "Noto Serif KR"',G+B+' ·'),document.fonts.load('800 30px Poppins','EVERAFTER'),document.fonts.load('300 23px "Noto Sans KR"','사회자 시뮬레이션에서 0123456789.')])}catch(e){}
+  const sc=Math.max(2,Math.floor(1000/W)),hw=W*sc,hh=H*sc,pad=44,c=document.createElement('canvas');c.width=hw+pad*2;c.height=pad+hh+240;const x=c.getContext('2d');
+  x.fillStyle='#FFFDF5';x.fillRect(0,0,c.width,c.height);x.imageSmoothingEnabled=false;x.drawImage(world,0,0,W,H,pad,pad,hw,hh);
+  x.strokeStyle='#0F2A33';x.lineWidth=2;x.strokeRect(pad-1,pad-1,hw+2,hh+2);
+  const y0=pad+hh,names=`${G} · ${B}`;x.textBaseline='alphabetic';x.fillStyle='#0F2A33';
+  let fs=64;x.font=`300 ${fs}px "Noto Serif KR"`;while(x.measureText(names).width>hw&&fs>28){fs-=2;x.font=`300 ${fs}px "Noto Serif KR"`}
+  x.fillText(names,pad,y0+98);
+  const d=new Date();x.fillStyle='#6E6A64';x.font='300 23px "Noto Sans KR"';x.fillText(`${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}.  사회자 시뮬레이션에서`,pad,y0+146);
+  x.font='800 30px Poppins';const ww=x.measureText('EVERAFTER').width,x0=c.width-pad-ww;x.fillStyle='#357289';x.fillText('EVERAFTER',x0,y0+196);
+  x.fillStyle='#222222';x.font='800 12px Poppins';const L=[...'YOUNGAE'],lw=L.map(ch=>x.measureText(ch).width),gap=(ww-lw.reduce((a,b)=>a+b))/(L.length-1);let px=x0;L.forEach((ch,i)=>{x.fillText(ch,px,y0+216);px+=lw[i]+gap});
+  const blob=await new Promise(r=>c.toBlob(r,'image/png'));if(!blob)return;
+  if(photoURL)URL.revokeObjectURL(photoURL);photoURL=URL.createObjectURL(blob);photoFile=new File([blob],'everafter-simulation.png',{type:'image/png'});
+  document.getElementById('photo').src=photoURL}
+/* 저장: 휴대폰은 공유 창(사진 저장·카카오톡 보내기)으로, 그게 안 되는 곳은 파일로 내려받기 */
+async function savePhoto(){if(!photoFile)return;
+  if(navigator.canShare&&navigator.canShare({files:[photoFile]})){try{await navigator.share({files:[photoFile],title:'사회자 시뮬레이션'});return}catch(e){if(e&&e.name==='AbortError')return}}
+  const a=document.createElement('a');a.href=photoURL;a.download='everafter-simulation.png';document.body.appendChild(a);a.click();a.remove()}
+/* i 단계가 시작되는 순간의 무대를 차려 놓습니다 */
+function prep(i){parts=[];still=[];const bn=document.getElementById('banner');
+  if(i<=1){Object.assign(camT,{x:mcx,y:76,z:2.2});dimT=0;bn.classList.remove('on')}          // 대기 장면에서 사회자에게로 천천히 다가감
+  else{Object.assign(cam,{x:W/2,y:H/2,z:1});Object.assign(camT,cam);dim=dimT=.3;bn.classList.add('on')}
+  const put=(a,on,dx)=>{a.walk=false;a.bow=0;a.show=on;a.x=cx+(on?dx:0);a.y=on?CY:H+24;a.dir=on?'f':'b'};
+  put(groom,i>=3,-11);put(bride,i>=4,11)}
+const SCENE={
+  async wait(st){await st(wait(1700));await st(say('wait'))},
+  async open(st){ambLvl=.17;ambTo(ambLvl,2);dimT=.3;Object.assign(camT,{x:W/2,y:H/2,z:1});await st(wait(2600));document.getElementById('banner').classList.add('on');await st(say('open'))},
+  async groom(st){await st(say('groom'));groom.show=true;MUSIC.groom();claps(7);clapGuests(7000);hearts(14);
+    await st(move(groom,0,CY,7000));await st(move(groom,-11,CY,400));groom.dir='f';await st(wait(500))},
+  async bride(st){await st(say('bride'));bride.show=true;MUSIC.bride();hearts(10);
+    await st(move(bride,0,CY,11000));await st(move(bride,11,CY,400));bride.dir='f';claps(3,.7);clapGuests(3000);await st(wait(1600))},
+  async march(st){await st(say('march'));dimT=.08;MUSIC.march();confetti(Math.round(W*1.1));claps(12);clapGuests(12000);hearts(30);ambLvl=.32;ambTo(ambLvl,2);
+    await st(Promise.all([move(groom,-11,H+30,12000),move(bride,11,H+30,12000)]));await st(wait(1200))}
+};
+async function ceremony(from=0){cut();live=true;if(hush&&!paused)hush.play().catch(()=>{});const me=run,st=async p=>{const v=await p;if(me!==run)throw 0;return v};
+  prep(from);document.getElementById('end').classList.remove('on');document.getElementById('skip').hidden=false;
+  dlg.classList.add('on');lineEl.textContent='';ambLvl=from>1?.17:.6;ambTo(ambLvl,1);
+  try{
+    if(from)await st(wait(500));
+    for(let i=from;i<STEPS.length;i++){mark(i);await SCENE[STEPS[i][0]](st)}
+    finish();
+  }catch(e){if(e!==0)throw e}
+}
+
+/* ───────── 시작 ───────── */
+layout();Object.assign(cam,camT);let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(layout,120)});
+const clean=v=>v.normalize('NFC').replace(/[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z]/g,'').slice(0,8);   // 한글·영문만. 이모지·기호·숫자는 버림
+const snd=document.getElementById('snd');
+function setNames(g,b){G=clean(g||'')||'민수';B=clean(b||'')||'지영';document.getElementById('banner').textContent=`${G} · ${B}`}
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();
+  setNames(document.getElementById('g').value,document.getElementById('b').value);
+  document.activeElement&&document.activeElement.blur();snd.classList.add('on')});
+/* 홈페이지가 부르는 문 — tasteStart 는 누르는 그 순간에 불려야 소리가 열립니다 */
+window.tasteStart=(g,b)=>{setNames(g,b);enter(false)};
+window.tasteAsk=(g,b)=>{setNames(g,b);snd.classList.add('on')};
+window.tasteReady=true;
+function setMute(m){muted=m;if(master)master.gain.value=m?0:1;const b=document.getElementById('mute');b.textContent=m?'×':'♪';b.setAttribute('aria-label',m?'소리 켜기':'소리 끄기')}
+/* 아이폰은 옆의 무음 스위치가 켜져 있으면 Web Audio 가 통째로 조용해집니다.
+   '재생 중인 미디어'가 하나 있으면 풀리므로, 소리 없는 짧은 음원을 되풀이해 틀어 둡니다. */
+let hush,live=false;
+function unlockIOS(){try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
+  if(!hush){const n=4000,b=new Uint8Array(44+n),v=new DataView(b.buffer);[['RIFF',0],['WAVEfmt ',8],['data',36]].forEach(([t,o])=>[...t].forEach((c,i)=>b[o+i]=c.charCodeAt(0)));
+    v.setUint32(4,36+n,true);v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,8000,true);v.setUint16(32,1,true);v.setUint16(34,8,true);v.setUint32(40,n,true);b.fill(128,44);
+    hush=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));hush.loop=true;hush.setAttribute('playsinline','')}
+  hush.play().catch(()=>{})}
+/* 화면 밖으로 밀려나거나 다른 앱으로 넘어가면 그림·소리·순서를 함께 멈춥니다 */
+let seen=true;
+function setPaused(p){if(p===paused)return;paused=p;if(AC){p?AC.suspend():AC.resume()}if(hush){p?hush.pause():live&&hush.play().catch(()=>{})}}
+const watch=()=>setPaused(document.hidden||!seen);
+if('IntersectionObserver' in window)new IntersectionObserver(es=>{seen=es[es.length-1].isIntersecting;watch()},{threshold:.12}).observe(document.getElementById('frame'));
+document.addEventListener('visibilitychange',watch);
+async function enter(quiet){
+  // 휴대폰은 손가락이 닿은 그 순간에만 소리를 열어 줍니다
+  unlockIOS();if(!AC)audioStart();else AC.resume();setMute(quiet);
+  snd.classList.remove('on');document.getElementById('intro').classList.add('out');
+  dlg.classList.add('on');lineEl.textContent='잠시만 기다려 주세요…';     // 느린 통신에서 녹음을 받는 동안
+  await Promise.all([...STEPS.map(s=>s[0]).filter(k=>!(k in clips)).map(loadClip),loadName('g',G),loadName('b',B)]);
+  layout();ceremony();
+}
+document.getElementById('sndOn').addEventListener('click',()=>enter(false));
+document.getElementById('sndOff').addEventListener('click',()=>enter(true));
+document.getElementById('again').addEventListener('click',()=>ceremony());
+document.getElementById('skip').addEventListener('click',()=>{cut();ambLvl=.17;ambTo(ambLvl,1);for(const a of [groom,bride])a.show=false;finish()});
+document.getElementById('save').addEventListener('click',savePhoto);
+document.getElementById('mute').addEventListener('click',()=>setMute(!muted));
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

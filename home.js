@@ -327,3 +327,28 @@
     select(first > -1 ? first : 0, false);
   }
 })();
+
+/* ── 사회자 시뮬레이션 ────────────────────────────────────────────────────────
+   이름을 받아 오른쪽 틀(taste/?embed=1) 안의 예식을 엽니다. 같은 출처의 틀이라
+   누르는 그 순간에 안쪽 함수를 바로 불러야 휴대폰에서 소리가 열립니다.
+   틀이 아직 덜 불러와졌으면, 다 불러온 뒤 틀 안에서 '소리 켜기'를 한 번 더 묻습니다. */
+(function () {
+  var form = document.getElementById('tasteForm');
+  var frame = document.getElementById('tasteFrame');
+  if (!form || !frame) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var g = document.getElementById('tasteG').value;
+    var b = document.getElementById('tasteB').value;
+    var voice = document.getElementById('vxAudio');
+    if (voice && !voice.paused) voice.pause();
+    if (document.activeElement) document.activeElement.blur();
+    var w = frame.contentWindow;
+    if (w && w.tasteReady) w.tasteStart(g, b);
+    else {
+      frame.addEventListener('load', function () { frame.contentWindow.tasteAsk(g, b); }, { once: true });
+      frame.loading = 'eager';
+    }
+    if (window.matchMedia('(max-width:1024px)').matches) frame.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
